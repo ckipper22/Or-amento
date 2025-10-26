@@ -57,10 +57,60 @@
         .calculated-field { background-color: #e8f5e9; font-weight: bold; color: #388e3c; } 
         #observacoes { resize: vertical; }
         
-        /* Estilo para o campo de URL da Imagem */
-        .image-url-input { padding: 4px; font-size: 0.75em; margin-bottom: 5px; height: 30px;}
-        .item-image-preview { max-width: 40px; max-height: 40px; margin: 5px auto 0; display: block; border: 1px solid #ccc; border-radius: 4px; object-fit: contain;}
-        .image-container { text-align: center; padding: 5px 2px; }
+        /* Estilos para a célula de imagem (NOVO) */
+        .image-container { 
+            position: relative; 
+            padding: 5px 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-inputs-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 3px; /* Espaçamento entre os inputs/botão */
+        }
+        .item-image-url-input { 
+            padding: 4px; 
+            font-size: 0.75em; 
+            height: 25px; /* Altura ajustada para o input de link */
+            box-sizing: border-box; /* Para incluir padding na largura */
+        }
+        .file-input-label {
+            display: inline-block;
+            background-color: #009688; /* Cor para o botão de upload */
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7em;
+            text-align: center;
+            line-height: 1;
+            box-sizing: border-box;
+            white-space: nowrap; /* Evita quebra de linha */
+            width: 100%; /* Ocupa a largura total disponível */
+        }
+        .file-input-label:hover {
+            background-color: #00796b;
+        }
+        .item-image-preview { 
+            max-width: 50px; /* Aumentado para melhor visualização */
+            max-height: 50px;
+            margin-top: 5px; 
+            display: block; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            object-fit: contain;
+        }
+        .image-feedback {
+            margin-top: 5px !important;
+            font-size: 0.65em !important;
+            color: #777 !important;
+            text-align: center;
+            word-break: break-all; /* Para quebrar textos longos como URLs */
+        }
+
 
         /* Estilos para Tabela do Simples Nacional - OCULTAR NO FORMULÁRIO */
         #simplesTable { display: none; }
@@ -208,16 +258,18 @@
         <table id="itemsTable">
             <thead>
                 <tr>
-                    <th style="width: 5%;">Img.</th>
-                    <th style="width: 25%;">Produto/Descrição</th>
-                    <th style="width: 8%;" class="text-right">Qtd.</th> <th style="width: 9%;" class="text-right">Custo Unit. (R$)</th>
+                    <th style="width: 10%;">Img.</th> <!-- Ajustado para 10% -->
+                    <th style="width: 20%;">Produto/Descrição</th> <!-- Ajustado para 20% -->
+                    <th style="width: 5%;" class="text-right">Qtd.</th> <!-- Ajustado para 5% -->
+                    <th style="width: 8%;" class="text-right">Custo Unit. (R$)</th> <!-- Ajustado para 8% -->
                     <th style="width: 5%;" class="text-right">Margem (%)</th>
-                    <th style="width: 9%;" class="text-right">Valor Unit. (R$)</th>
+                    <th style="width: 8%;" class="text-right">Valor Unit. (R$)</th> <!-- Ajustado para 8% -->
                     <th style="width: 5%;" class="text-right">Desc. (%)</th>
-                    <th style="width: 9%;" class="text-right">Custo Total (R$)</th> 
-                    <th style="width: 9%;" class="text-right">Lucro Bruto (R$)</th>
-                    <th style="width: 9%;" class="text-right">Lucro Líquido (R$)</th> <th style="width: 9%;" class="text-right">Total Item (R$)</th>
-                    <th style="width: 5%;" class="text-center">Ações</th>
+                    <th style="width: 8%;" class="text-right">Custo Total (R$)</th> <!-- Ajustado para 8% -->
+                    <th style="width: 8%;" class="text-right">Lucro Bruto (R$)</th> <!-- Ajustado para 8% -->
+                    <th style="width: 8%;" class="text-right">Lucro Líquido (R$)</th> <!-- Ajustado para 8% -->
+                    <th style="width: 8%;" class="text-right">Total Item (R$)</th> <!-- Ajustado para 8% -->
+                    <th style="width: 7%;" class="text-center">Ações</th> <!-- Ajustado para 7% -->
                 </tr>
             </thead>
             <tbody>
@@ -277,6 +329,8 @@
     };
 
     let itemCounter = 0;
+    // NOVO: Objeto para armazenar dados de imagem por linha (file e URL)
+    let itemAttachments = {}; // Stores { rowId: { file: FileObject|null, url: string|null, previewSrc: string|null } }
     
     /**
      * Limpa e formata a entrada de texto para um padrão numérico brasileiro (R$).
@@ -532,20 +586,84 @@
         calculateTotal(); 
     }
 
+    // NOVO: Funções para manipulação de imagem por item
     /**
-     * Atualiza a imagem de preview lendo a URL/Base64 do campo de texto.
+     * Dispara o input de arquivo oculto quando o label "Upload" é clicado.
+     * @param {HTMLElement} buttonElement - O botão "Upload" clicado.
      */
-    function updateImagePreview(input) {
-        const imageUrl = input.value.trim();
-        const rowId = input.closest('tr').id;
-        const imagePreview = document.getElementById(`preview-${rowId}`); 
+    function triggerFileInput(buttonElement) {
+        const fileInput = buttonElement.previousElementSibling; // Pega o input[type="file"] antes do label
+        fileInput.click();
+    }
 
-        if (imageUrl) {
-            imagePreview.src = imageUrl;
+    /**
+     * Manipula a seleção de arquivo do dispositivo.
+     * @param {HTMLInputElement} fileInput - O input de arquivo.
+     */
+    function handleImageFileChange(fileInput) {
+        const row = fileInput.closest('tr');
+        const rowId = row.id;
+        const imageUrlInput = row.querySelector('.item-image-url-input');
+        const imagePreview = row.querySelector('.item-image-preview');
+        const imageFeedback = row.querySelector('.image-feedback');
+
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const previewSrc = e.target.result; // Data URL ou Base64
+                itemAttachments[rowId] = { file: file, url: null, previewSrc: previewSrc };
+                imageFeedback.textContent = `Arquivo: ${file.name}`;
+                imageUrlInput.value = ''; // Limpa o campo de URL
+
+                imagePreview.src = previewSrc;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file); // Lê o arquivo como Data URL para preview
+        } else {
+            // Se o arquivo foi deselecionado (e.g., cancelou o diálogo)
+            itemAttachments[rowId].file = null;
+            if (!itemAttachments[rowId].url) {
+                itemAttachments[rowId].previewSrc = null;
+                imageFeedback.textContent = 'Nenhum anexo.';
+                imagePreview.style.display = 'none';
+            } else {
+                imageFeedback.textContent = `Link: ${itemAttachments[rowId].url}`;
+                imagePreview.src = itemAttachments[rowId].url;
+            }
+        }
+    }
+
+    /**
+     * Manipula a entrada de URL da imagem.
+     * @param {HTMLInputElement} urlInput - O input de texto da URL.
+     */
+    function handleImageUrlChange(urlInput) {
+        const row = urlInput.closest('tr');
+        const rowId = row.id;
+        const fileInput = row.querySelector('.item-image-file-input');
+        const imagePreview = row.querySelector('.item-image-preview');
+        const imageFeedback = row.querySelector('.image-feedback');
+        const url = urlInput.value.trim();
+
+        if (url !== '') {
+            itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
+            imageFeedback.textContent = `Link: ${url}`;
+            fileInput.value = ''; // Limpa a seleção do input file
+            imagePreview.src = url;
             imagePreview.style.display = 'block';
         } else {
-            imagePreview.src = '';
-            imagePreview.style.display = 'none';
+            // Se o URL foi limpo
+            itemAttachments[rowId].url = null;
+            if (!itemAttachments[rowId].file) {
+                itemAttachments[rowId].previewSrc = null;
+                imageFeedback.textContent = 'Nenhum anexo.';
+                imagePreview.style.display = 'none';
+            } else {
+                imageFeedback.textContent = `Arquivo: ${itemAttachments[rowId].file.name}`;
+                imagePreview.src = itemAttachments[rowId].previewSrc; // Restaura o preview do arquivo se houver
+            }
         }
     }
 
@@ -559,10 +677,18 @@
         const newRow = tableBody.insertRow();
         newRow.id = 'row-' + itemCounter;
 
+        // NOVO: Inicializa o objeto de anexo para a nova linha
+        itemAttachments[newRow.id] = { file: null, url: null, previewSrc: null };
+
         newRow.innerHTML = `
             <td class="image-container">
-                <input type="text" placeholder="URL ou Base64" class="image-url-input" oninput="updateImagePreview(this)">
-                <img id="preview-${newRow.id}" src="" alt="Preview da Imagem" class="item-image-preview" style="display: none;">
+                <div class="image-inputs-wrapper">
+                    <input type="file" class="item-image-file-input" accept="image/*" style="display:none;" onchange="handleImageFileChange(this)">
+                    <span class="file-input-label" onclick="triggerFileInput(this)">Upload</span>
+                    <input type="text" placeholder="Link da Imagem" class="item-image-url-input" oninput="handleImageUrlChange(this)">
+                </div>
+                <p class="image-feedback text-xs text-muted-text-color mt-1 italic">Nenhum anexo.</p>
+                <img id="preview-${newRow.id}" src="" alt="Preview" class="item-image-preview" style="display: none;">
             </td>
             <td>
                 <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" oninput="updateTotals()">
@@ -598,6 +724,7 @@
      */
     function removeItemRow(rowId) {
         document.getElementById(rowId).remove();
+        delete itemAttachments[rowId]; // NOVO: Remove os dados da imagem ao remover a linha
         updateTotals(); // Recalcula após remover
     }
     
@@ -677,7 +804,7 @@
         // Validações de campos
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            const nomeProduto = row.cells[1].getElementsByTagName('input')[0].value.trim();
+            const nomeProduto = row.cells[1].querySelector('.item-name-input').value.trim();
             const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value);
             const unitValueText = row.cells[5].getElementsByTagName('input')[0].value.replace(/\./g, '').replace(',', '.');
             const unitValue = parseFloat(unitValueText);
@@ -714,13 +841,15 @@
         // Geração da tabela de itens (índices limpos para o cliente)
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
+            const rowId = row.id;
             
-            const imageUrlInput = row.cells[0].querySelector('input.image-url-input');
-            const imageUrlOrBase64 = imageUrlInput ? imageUrlInput.value.trim() : null;
+            // NOVO: Obtém a source da imagem do itemAttachments
+            const itemAttachment = itemAttachments[rowId];
+            const imageUrlToPrint = itemAttachment && itemAttachment.previewSrc ? itemAttachment.previewSrc : '';
             
             // CORREÇÃO APLICADA: Adição de estilos inline para garantir a exibição da imagem no PDF.
-            const imageHtml = imageUrlOrBase64 
-                ? `<img src="${imageUrlOrBase64}" alt="Produto" class="item-image-print" style="max-width: 50px; max-height: 50px; display: block; margin: 0 auto; object-fit: contain;">` 
+            const imageHtml = imageUrlToPrint 
+                ? `<img src="${imageUrlToPrint}" alt="Produto" class="item-image-print" style="max-width: 50px; max-height: 50px; display: block; margin: 0 auto; object-fit: contain;">` 
                 : ''; 
 
             const nomeProduto = row.cells[1].querySelector('.item-name-input').value; 
