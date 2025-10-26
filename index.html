@@ -29,6 +29,16 @@
         #itemsTable th { background-color: #e3f2fd; color: #1e88e5; font-weight: 700; border-bottom: 2px solid #1e88e5; }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
+
+        /* NOVO: Estilo específico para o campo de Quantidade */
+        .input-quantidade {
+            text-align: right;
+            font-weight: bold; /* Deixa o número em negrito */
+            padding: 2px 5px; 
+            font-size: 0.9em !important; /* Aumenta o tamanho da fonte para melhor leitura */
+            height: 25px; /* Altura suficiente para o número */
+            width: calc(100% - 2px); /* Garante que preencha a célula */
+        }
         
         /* Botões */
         .btn-base { border: none; padding: 8px 16px; cursor: pointer; border-radius: 6px; font-size: 0.9em; transition: all 0.3s ease; font-weight: bold; }
@@ -39,7 +49,6 @@
         .btn-group { display: flex; gap: 15px; margin-top: 30px; }
         .btn-action { background-color: #1e88e5; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; flex-grow: 1; font-weight: bold; }
         .btn-action:hover { background-color: #1565c0; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        .btn-txt { background-color: #00bcd4; }
         .btn-txt:hover { background-color: #00acc1; }
 
         /* Estilos de Campos Especiais */
@@ -53,38 +62,10 @@
         .item-image-preview { max-width: 40px; max-height: 40px; margin: 5px auto 0; display: block; border: 1px solid #ccc; border-radius: 4px; object-fit: contain;}
         .image-container { text-align: center; padding: 5px 2px; }
 
-        /* Estilos para Tabela do Simples Nacional */
-        #simplesTable th, #simplesTable td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-        }
-        #simplesTable th {
-            background-color: #fff3e0;
-            color: #ff9800;
-            font-weight: 700;
-        }
-        #simplesTable tbody td:nth-child(1) {
-            font-weight: bold;
-            color: #d32f2f; 
-            background-color: #ffebee;
-            cursor: pointer; 
-        }
-        #simplesTable input[type="radio"] { 
-            display: none; 
-        }
-        #simplesTable input[type="radio"] + label {
-            display: block;
-            padding: 8px;
-            margin: -8px; 
-            cursor: pointer;
-            line-height: 1;
-        }
-        #simplesTable input[type="radio"]:checked + label {
-            background-color: #ffcc80; 
-            color: #333;
-            font-weight: bold;
-        }
+        /* Estilos para Tabela do Simples Nacional - OCULTAR NO FORMULÁRIO */
+        #simplesTable { display: none; }
+        #simples-nacional-section h3 { display: none; }
+
 
         /* Estilos para o novo resumo financeiro */
         .finance-summary {
@@ -129,7 +110,7 @@
             body { background: none; margin: 0; padding: 0; }
             .container { box-shadow: none; border: none; padding: 10mm; max-width: 100%; }
             /* Oculta o formulário principal, botões e o resumo financeiro na impressão */
-            .form-section, .btn-group, h1, #message-box, .finance-summary { display: none !important; } 
+            .form-section, .btn-group, h1, #message-box, .finance-summary, .orcamento-footer .info-fiscal { display: none !important; } 
             
             /* Mostra apenas a pré-visualização para impressão */
             .preview-area { display: block !important; border: none !important; padding: 0 !important; margin: 0 !important; }
@@ -143,12 +124,25 @@
             .total-box .total-final { border-top: 1px solid #000 !important; background-color: #f0f0f0 !important; }
 
             /* Garante que as imagens dos itens fiquem visíveis na impressão e não quebrem o layout */
+            /* Este CSS externo é importante, mas o fix foi aplicar um estilo inline no HTML gerado */
             .orcamento-body img.item-image-print {
                 max-width: 50px; 
                 max-height: 50px;
                 display: block;
                 margin: 0 auto;
                 object-fit: contain;
+            }
+            .clearfix::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+            .item-description-print {
+                font-size: 0.8em;
+                color: #555;
+                display: block;
+                margin-top: 3px;
+                white-space: pre-wrap; /* Para respeitar as quebras de linha */
             }
         }
     </style>
@@ -160,7 +154,7 @@
 
     <div id="message-box" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: bold; text-align: center;"></div>
 
-    <div class="form-section">
+    <div class="form-section" style="display: none;">
         <h2>Seus Dados (Emissor do Orçamento)</h2>
         <div class="two-cols">
             <div><label>Razão Social:</label><input type="text" id="empresa_razao" value="Carlos Kipper Ltda" class="read-only-field" readonly></div>
@@ -190,55 +184,24 @@
 
     <div class="form-section" id="simples-nacional-section">
         <h2>Cálculo Simples Nacional (Anexo I - Comércio)</h2>
-        <p style="font-size: 0.85em; color: #a0522d;">**Instrução:** **Selecione a sua faixa fiscal** (Anexo I) e, em seguida, insira sua RBT12 para calcular a alíquota efetiva (AE).</p>
+        <p style="font-size: 0.85em; color: #a0522d;">**Instrução:** Insira sua RBT12 para que a faixa fiscal seja identificada e a alíquota efetiva (AE) calculada.</p>
         
         <label for="rbt12">Receita Bruta em 12 Meses (RBT12 - R$):</label>
-        <input type="text" id="rbt12" value="960.000,00" placeholder="Ex: 300.000,00" oninput="this.value = formatNumericInput(this.value); updateSimplesNacional();">
+        <input type="text" id="rbt12" value="960.000,00" placeholder="Ex: 300.000,00" oninput="this.value = formatNumericInput(this.value); updateSimplesNacional(true);">
 
+        <div style="margin-top: 15px;">
+            <label>Faixa Identificada:</label>
+            <input type="text" id="faixa_identificada" value="N/A" class="read-only-field" readonly>
+        </div>
         <div style="margin-top: 15px;">
             <label>Alíquota Efetiva (AE) - % de Imposto sobre a Receita:</label>
             <input type="text" id="aliquota_efetiva" value="0,00%" class="read-only-field" readonly>
             <input type="hidden" id="aliquota_efetiva_decimal" value="0.00">
         </div>
         
-        <h3 style="margin-top: 20px; font-size: 1.2em; border-left: 5px solid #ff9800; padding-left: 10px;">Selecione sua Faixa:</h3>
-        <table id="simplesTable" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em;">
-            <thead>
-                <tr>
-                    <th style="width: 5%;">Faixa</th>
-                    <th style="width: 45%;">Receita Bruta em 12 Meses (R$)</th>
-                    <th style="width: 15%;">Alíquota Nominal</th>
-                    <th style="width: 20%;">Parcela a Deduzir (R$)</th>
-                    <th style="width: 15%;">Selecionar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1ª</td><td>Até 180.000,00</td><td>4,00%</td><td>R$ 0,00</td>
-                    <td><input type="radio" name="faixa_simples" id="faixa-select-1" value="0" onchange="updateSimplesNacional()"><label for="faixa-select-1">Escolher</label></td>
-                </tr>
-                <tr>
-                    <td>2ª</td><td>De 180.000,01 a 360.000,00</td><td>7,30%</td><td>R$ 5.940,00</td>
-                    <td><input type="radio" name="faixa_simples" id="faixa-select-2" value="1" onchange="updateSimplesNacional()"><label for="faixa-select-2">Escolher</label></td>
-                </tr>
-                <tr>
-                    <td>3ª</td><td>De 360.000,01 a 720.000,00</td><td>9,50%</td><td>R$ 13.860,00</td>
-                    <td><input type="radio" name="faixa_simples" id="faixa-select-3" value="2" onchange="updateSimplesNacional()"><label for="faixa-select-3">Escolher</label></td>
-                </tr>
-                <tr>
-                    <td>4ª</td><td>De 720.000,01 a 1.800.000,00</td><td>10,70%</td><td>R$ 22.500,00</td>
-                    <td><input type="radio" name="faixa_simples" id="faixa-select-4" value="3" onchange="updateSimplesNacional()" checked><label for="faixa-select-4">Escolher</label></td>
-                </tr>
-                <tr>
-                    <td>5ª</td><td>De 1.800.000,01 a 3.600.000,00</td><td>14,30%</td><td>R$ 87.300,00</td>
-                    <td><input type="radio" name="faixa_simples" id="faixa-select-5" value="4" onchange="updateSimplesNacional()"><label for="faixa-select-5">Escolher</label></td>
-                </tr>
-                <tr>
-                    <td>6ª</td><td>De 3.600.000,01 a 4.800.000,00</td><td>19,00%</td><td>R$ 378.000,00</td>
-                    <td><input type="radio" name="faixa_simples" id="faixa-select-6" value="5" onchange="updateSimplesNacional()"><label for="faixa-select-6">Escolher</label></td>
-                </tr>
-            </tbody>
-        </table>
+        <table id="simplesTable" style="display: none;">
+            </table>
+        <input type="hidden" name="faixa_simples" id="faixa-select-hidden" value="3">
     </div>
     <div class="form-section">
         <h2>Itens da Proposta (Custo, Margem, Venda e Lucro por Produto)</h2>
@@ -246,9 +209,8 @@
             <thead>
                 <tr>
                     <th style="width: 5%;">Img.</th>
-                    <th style="width: 18%;">Descrição do Produto/Serviço</th>
-                    <th style="width: 5%;" class="text-right">Qtd.</th>
-                    <th style="width: 9%;" class="text-right">Custo Unit. (R$)</th>
+                    <th style="width: 25%;">Produto/Descrição</th>
+                    <th style="width: 8%;" class="text-right">Qtd.</th> <th style="width: 9%;" class="text-right">Custo Unit. (R$)</th>
                     <th style="width: 5%;" class="text-right">Margem (%)</th>
                     <th style="width: 9%;" class="text-right">Valor Unit. (R$)</th>
                     <th style="width: 5%;" class="text-right">Desc. (%)</th>
@@ -280,7 +242,7 @@
             <div class="summary-item"><strong>Imposto Total (AE):</strong><span class="value imposto-value" id="resumo-imposto">R$ 0,00</span></div>
         </div>
         <div class="final-profit summary-item"><strong>LUCRO LÍQUIDO FINAL:</strong><span class="value" id="resumo-lucro-liquido">R$ 0,00</span></div>
-        <p style="font-size: 0.75em; color: #43a047; text-align: right; margin-top: 5px;">*O Imposto (AE) é calculado com base na Faixa Selecionada e na RBT12 informada acima.</p>
+        <p style="font-size: 0.75em; color: #43a047; text-align: right; margin-top: 5px;">*O Imposto (AE) é calculado com base na Faixa e na RBT12 informada acima.</p>
     </div>
     <div class="btn-group">
         <button class="btn-action" onclick="saveAsPDF()">Gerar e Imprimir/Salvar PDF</button>
@@ -293,12 +255,12 @@
 <script>
     // Dados do Simples Nacional (Anexo I - Comércio)
     const TAX_BRACKETS = [
-        { min: 0.00, max: 180000.00, aliquota: 0.0400, deducao: 0.00 },
-        { min: 180000.01, max: 360000.00, aliquota: 0.0730, deducao: 5940.00 },
-        { min: 360000.01, max: 720000.00, aliquota: 0.0950, deducao: 13860.00 },
-        { min: 720000.01, max: 1800000.00, aliquota: 0.1070, deducao: 22500.00 },
-        { min: 1800000.01, max: 3600000.00, aliquota: 0.1430, deducao: 87300.00 },
-        { min: 3600000.01, max: 4800000.00, aliquota: 0.1900, deducao: 378000.00 }
+        { min: 0.00, max: 180000.00, aliquota: 0.0400, deducao: 0.00, faixa: '1ª (Até R$ 180.000,00)' },
+        { min: 180000.01, max: 360000.00, aliquota: 0.0730, deducao: 5940.00, faixa: '2ª (R$ 180.000,01 a R$ 360.000,00)' },
+        { min: 360000.01, max: 720000.00, aliquota: 0.0950, deducao: 13860.00, faixa: '3ª (R$ 360.000,01 a R$ 720.000,00)' },
+        { min: 720000.01, max: 1800000.00, aliquota: 0.1070, deducao: 22500.00, faixa: '4ª (R$ 720.000,01 a R$ 1.800.000,00)' },
+        { min: 1800000.01, max: 3600000.00, aliquota: 0.1430, deducao: 87300.00, faixa: '5ª (R$ 1.800.000,01 a R$ 3.600.000,00)' },
+        { min: 3600000.01, max: 4800000.00, aliquota: 0.1900, deducao: 378000.00, faixa: '6ª (R$ 3.600.000,01 a R$ 4.800.000,00)' }
     ];
     let currentEffectiveTaxRate = 0.00; // Variável global para armazenar a AE em decimal
     
@@ -348,49 +310,67 @@
             box.style.display = 'none';
         }, 10000);
     }
+    
+    /**
+     * Identifica a faixa correta do Simples Nacional com base no RBT12.
+     * @param {number} rbt12 - Receita Bruta em 12 Meses.
+     * @returns {number} O índice (0-5) da faixa ou -1 se não encontrado.
+     */
+    function identifyTaxBracket(rbt12) {
+        for (let i = 0; i < TAX_BRACKETS.length; i++) {
+            const bracket = TAX_BRACKETS[i];
+            if (rbt12 > bracket.min && rbt12 <= bracket.max) {
+                return i;
+            }
+        }
+        // Faixa 1 (até 180.000,00)
+        if (rbt12 > 0 && rbt12 <= TAX_BRACKETS[0].max) {
+             return 0;
+        }
+        // Se for maior que o máximo (4.800.000), usa a última faixa
+        if (rbt12 > TAX_BRACKETS[TAX_BRACKETS.length - 1].max) {
+            return TAX_BRACKETS.length - 1;
+        }
+        return -1; // RBT12 inválida (ex: 0)
+    }
 
     /**
-     * Calcula a Alíquota Efetiva com base na faixa selecionada manualmente e na RBT12.
+     * Calcula a Alíquota Efetiva com base na faixa identificada e na RBT12.
      */
-    function updateSimplesNacional() {
-        // Agora, se o RBT12 estiver vazio, ele será preenchido com "0,00" após cleanCurrency
+    function updateSimplesNacional(showAlert = false) {
         const rbt12Input = document.getElementById('rbt12').value;
         const rbt12 = cleanCurrency(rbt12Input);
         const aliquotaEfetivaField = document.getElementById('aliquota_efetiva');
         const aliquotaEfetivaDecimalField = document.getElementById('aliquota_efetiva_decimal');
+        const faixaIdentificadaField = document.getElementById('faixa_identificada');
+        const faixaSelectHidden = document.getElementById('faixa-select-hidden');
         
         let effectiveTaxRate = 0;
         
-        const selectedRadio = document.querySelector('input[name="faixa_simples"]:checked');
+        const selectedBracketIndex = identifyTaxBracket(rbt12);
 
-        if (!selectedRadio) {
-            aliquotaEfetivaField.value = "Selecione a Faixa";
-            aliquotaEfetivaDecimalField.value = "0.00";
-            currentEffectiveTaxRate = 0.00;
-            updateTotals();
-            return;
-        }
-
-        const selectedBracketIndex = parseInt(selectedRadio.value);
-        const bracket = TAX_BRACKETS[selectedBracketIndex];
-        
-        if (rbt12 <= 0) {
+        if (selectedBracketIndex === -1 || rbt12 <= 0) {
             aliquotaEfetivaField.value = "RBT12 Inválida";
             aliquotaEfetivaDecimalField.value = "0.00";
+            faixaIdentificadaField.value = "Nenhuma Faixa Aplicável (RBT12 = 0)";
+            faixaSelectHidden.value = "-1";
             currentEffectiveTaxRate = 0.00;
         } else {
+            const bracket = TAX_BRACKETS[selectedBracketIndex];
             const ALIQ = bracket.aliquota;
             const PD = bracket.deducao;
 
             effectiveTaxRate = ((rbt12 * ALIQ) - PD) / rbt12;
 
-            if (rbt12 < bracket.min || rbt12 > bracket.max) {
-                 showMessage(`Atenção: A RBT12 informada (R$ ${rbt12Input}) está FORA do range da Faixa ${selectedBracketIndex + 1} (${bracket.min.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} a ${bracket.max.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}). O cálculo da AE pode ser inválido.`, true);
+            if(showAlert) {
+                showMessage(`Faixa fiscal identificada: **${bracket.faixa}**! Alíquota Efetiva calculada.`, false);
             }
-
+            
             const formattedAE = (effectiveTaxRate * 100).toFixed(2).replace('.', ',');
             aliquotaEfetivaField.value = `${formattedAE}%`;
             aliquotaEfetivaDecimalField.value = effectiveTaxRate.toFixed(4); 
+            faixaIdentificadaField.value = bracket.faixa;
+            faixaSelectHidden.value = selectedBracketIndex; // Salva o índice para uso posterior
             currentEffectiveTaxRate = effectiveTaxRate;
         }
 
@@ -487,6 +467,7 @@
             const row = tableBody.rows[i];
             
             // ÍNDICES DOS CAMPOS DE ENTRADA/CÁLCULO PRINCIPAL
+            // A descrição detalhada está no índice 1 (Description/Service Name), que agora contém o Nome e a Descrição.
             const unitCost = cleanCurrency(row.cells[3].getElementsByTagName('input')[0].value); // Custo Unitário (3)
             const unitPrice = cleanCurrency(row.cells[5].getElementsByTagName('input')[0].value); // Valor Unitário (5)
             const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value) || 0; // Qtd (2)
@@ -583,8 +564,11 @@
                 <input type="text" placeholder="URL ou Base64" class="image-url-input" oninput="updateImagePreview(this)">
                 <img id="preview-${newRow.id}" src="" alt="Preview da Imagem" class="item-image-preview" style="display: none;">
             </td>
-            <td><input type="text" placeholder="Ex: Paracetamol 500mg c/ 20" oninput="updateTotals()"></td>
-            <td><input type="number" value="1" min="1" class="text-right" oninput="calculateItemPrice(this)"></td>
+            <td>
+                <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" oninput="updateTotals()">
+                <textarea rows="2" placeholder="Descrição Detalhada do Item/Serviço" class="item-description-input" oninput="updateTotals()" style="margin-top: 5px; font-size: 0.9em;"></textarea>
+            </td>
+            <td><input type="number" value="1" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td> 
             
             <td><input type="text" value="0,00" class="text-right" onblur="formatCurrencyInput(this)"></td>
 
@@ -628,8 +612,8 @@
             addItemRow();
         }
         
-        // Recalcula a alíquota com os valores padrões preenchidos
-        updateSimplesNacional();
+        // Recalcula a alíquota com os valores padrões preenchidos, sem exibir o alerta de faixa
+        updateSimplesNacional(false);
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
@@ -693,13 +677,13 @@
         // Validações de campos
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            const descricao = row.cells[1].getElementsByTagName('input')[0].value.trim();
+            const nomeProduto = row.cells[1].getElementsByTagName('input')[0].value.trim();
             const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value);
             const unitValueText = row.cells[5].getElementsByTagName('input')[0].value.replace(/\./g, '').replace(',', '.');
             const unitValue = parseFloat(unitValueText);
 
-            if (descricao === '' || isNaN(qtd) || qtd <= 0 || isNaN(unitValue) || unitValue <= 0) {
-                showMessage(`ERRO: O item ${i + 1} deve ter uma Descrição e Quantidade válida (> 0), e o Valor Unitário de Venda deve ser calculado (> 0). Verifique o Custo/Margem.`, true);
+            if (nomeProduto === '' || isNaN(qtd) || qtd <= 0 || isNaN(unitValue) || unitValue <= 0) {
+                showMessage(`ERRO: O item ${i + 1} deve ter um Nome (Produto/Serviço) e Quantidade válida (> 0), e o Valor Unitário de Venda deve ser calculado (> 0). Verifique o Custo/Margem.`, true);
                 return null;
             }
         }
@@ -715,7 +699,7 @@
         const formaPagamento = document.getElementById('forma_pagamento').value;
         const observacoes = document.getElementById('observacoes').value;
         
-        // DADOS FISCAIS PARA O RODAPÉ
+        // DADOS FISCAIS - MANTIDOS PARA O TXT, MAS NÃO INCLUÍDOS NO HTML DA IMPRESSÃO
         const aliquotaEfetivaText = document.getElementById('aliquota_efetiva').value;
         const rbt12Value = document.getElementById('rbt12').value;
 
@@ -733,18 +717,27 @@
             
             const imageUrlInput = row.cells[0].querySelector('input.image-url-input');
             const imageUrlOrBase64 = imageUrlInput ? imageUrlInput.value.trim() : null;
-            const imageHtml = imageUrlOrBase64 ? `<img src="${imageUrlOrBase64}" alt="Produto" class="item-image-print">` : '';
+            
+            // CORREÇÃO APLICADA: Adição de estilos inline para garantir a exibição da imagem no PDF.
+            const imageHtml = imageUrlOrBase64 
+                ? `<img src="${imageUrlOrBase64}" alt="Produto" class="item-image-print" style="max-width: 50px; max-height: 50px; display: block; margin: 0 auto; object-fit: contain;">` 
+                : ''; 
 
-            const descricao = row.cells[1].getElementsByTagName('input')[0].value; 
+            const nomeProduto = row.cells[1].querySelector('.item-name-input').value; 
+            const descricaoDetalhada = row.cells[1].querySelector('.item-description-input').value; 
             const qtd = row.cells[2].getElementsByTagName('input')[0].value; 
             const unitValue = row.cells[5].getElementsByTagName('input')[0].value; 
             const discountPercent = row.cells[6].getElementsByTagName('input')[0].value; 
             const totalItemText = row.cells[10].textContent; // Índice 10: Total Item (Venda Líquida)
 
+            const descricaoCompleta = descricaoDetalhada 
+                ? `${nomeProduto} <span class="item-description-print">${descricaoDetalhada.replace(/\n/g, '<br>')}</span>`
+                : nomeProduto;
+
             itemsHtml += `
                 <tr>
                     <td style="width: 5%; border: 1px solid #000; text-align: center;">${imageHtml}</td> 
-                    <td style="width: 35%; border: 1px solid #000;">${descricao}</td>
+                    <td style="width: 35%; border: 1px solid #000;">${descricaoCompleta}</td>
                     <td class="text-right" style="width: 8%; border: 1px solid #000;">${qtd}</td>
                     <td class="text-right" style="width: 15%; border: 1px solid #000;">R$ ${unitValue}</td>
                     <td class="text-right" style="width: 12%; border: 1px solid #000;">${discountPercent}%</td>
@@ -798,17 +791,17 @@
 
                 <div class="clearfix">
                     <div class="total-box">
-                        <table>
-                            <tr><td>Subtotal (Bruto):</td><td class="text-right">${formatCurrency(subtotal)}</td></tr>
-                            <tr><td>Desconto Total Aplicado:</td><td class="text-right">(-) ${formatCurrency(desconto)}</td></tr>
-                            <tr class="total-final"><td style="color: #1e88e5;">TOTAL GERAL:</td><td class="text-right" style="color: #1e88e5;">${formatCurrency(totalGeral)}</td></tr>
+                        <table style="width: 100%;">
+                            <tr><td style="padding: 5px; border: none;">Subtotal (Bruto):</td><td class="text-right" style="padding: 5px; border: none;">${formatCurrency(subtotal)}</td></tr>
+                            <tr><td style="padding: 5px; border: none;">Desconto Total Aplicado:</td><td class="text-right" style="padding: 5px; border: none;">(-) ${formatCurrency(desconto)}</td></tr>
+                            <tr class="total-final"><td style="color: #1e88e5; padding: 5px; border: 1px solid #000; background-color: #f0f0f0;">TOTAL GERAL:</td><td class="text-right" style="color: #1e88e5; padding: 5px; border: 1px solid #000; background-color: #f0f0f0;">${formatCurrency(totalGeral)}</td></tr>
                         </table>
                     </div>
                 </div>
             </div>
 
             <div class="orcamento-footer">
-                <p style="font-size: 0.75em; margin: 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px;">
+                <p class="info-fiscal" style="font-size: 0.75em; margin: 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px; display: none !important;">
                     **Informação Fiscal (Simples Nacional - Anexo I):** RBT12 utilizada: R$ ${rbt12Value} | Alíquota Efetiva (AE) aplicada: ${aliquotaEfetivaText}
                 </p>
                 
@@ -846,14 +839,18 @@
         // Geração da lista de itens no TXT com os valores por produto (Índices Corrigidos)
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            const descricao = row.cells[1].getElementsByTagName('input')[0].value; 
+            const nomeProduto = row.cells[1].querySelector('.item-name-input').value; 
+            const descricaoDetalhada = row.cells[1].querySelector('.item-description-input').value; 
             const qtd = row.cells[2].getElementsByTagName('input')[0].value; 
             const custoItemText = rows[i].cells[7].getElementsByTagName('input')[0].value; 
             const lucroBrutoItemText = rows[i].cells[8].getElementsByTagName('input')[0].value; 
             const lucroLiquidoItemText = rows[i].cells[9].getElementsByTagName('input')[0].value; 
             const totalItemText = row.cells[10].textContent.replace('R$ ', ''); 
             
-            content += `- ${qtd}x ${descricao}\n`;
+            content += `- ${qtd}x ${nomeProduto}\n`;
+            if (descricaoDetalhada) {
+                content += `  [Descrição: ${descricaoDetalhada}]\n`;
+            }
             content += `  [Custo: R$ ${custoItemText} | Lucro Bruto: R$ ${lucroBrutoItemText} | Lucro Líquido: R$ ${lucroLiquidoItemText} | Venda: R$ ${totalItemText}]\n`;
         }
         
