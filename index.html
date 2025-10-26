@@ -8,7 +8,7 @@
     <style>
         /* Estilos Base para Visualização e Impressão */
         body { font-family: 'Inter', Arial, sans-serif; margin: 20px; background-color: #f8f8f8; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
         h1 { color: #1e88e5; text-align: center; font-size: 2em; margin-bottom: 25px; border-bottom: 3px solid #1e88e5; padding-bottom: 10px; }
         h2 { color: #333; padding-bottom: 5px; margin-top: 25px; font-size: 1.4em; border-left: 5px solid #1e88e5; padding-left: 10px; }
         label { display: block; margin-top: 10px; font-weight: 600; color: #444; }
@@ -24,78 +24,112 @@
 
         /* Estilos Tabela de Itens */
         #itemsTable { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 20px; border-radius: 8px; overflow: hidden; }
-        #itemsTable th, #itemsTable td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: middle; }
+        /* Ajuste para 12 colunas */
+        #itemsTable th, #itemsTable td { border: 1px solid #ddd; padding: 10px 5px; text-align: left; vertical-align: middle; font-size: 0.7em; } 
         #itemsTable th { background-color: #e3f2fd; color: #1e88e5; font-weight: 700; border-bottom: 2px solid #1e88e5; }
-        #itemsTable td:last-child { border-right: none; }
         .text-right { text-align: right; }
+        .text-center { text-align: center; }
         
         /* Botões */
         .btn-base { border: none; padding: 8px 16px; cursor: pointer; border-radius: 6px; font-size: 0.9em; transition: all 0.3s ease; font-weight: bold; }
         .btn-add { background-color: #43a047; color: white; margin-top: 15px; }
-        .btn-remove { background-color: #d32f2f; color: white; margin: 0; padding: 6px 12px; }
-        .btn-image { background-color: #ff9800; color: white; margin-top: 0; padding: 6px 10px; display: block; width: 100%; text-align: center; }
-        
+        .btn-remove { background-color: #d32f2f; color: white; margin: 0; padding: 6px 10px; }
         .btn-add:hover { background-color: #388e3c; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
         .btn-remove:hover { background-color: #b71c1c; }
-        .btn-image:hover { background-color: #fb8c00; }
-        
         .btn-group { display: flex; gap: 15px; margin-top: 30px; }
         .btn-action { background-color: #1e88e5; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; flex-grow: 1; font-weight: bold; }
         .btn-action:hover { background-color: #1565c0; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
         .btn-txt { background-color: #00bcd4; }
         .btn-txt:hover { background-color: #00acc1; }
 
-
         /* Estilos de Campos Especiais */
         .read-only-field { background-color: #eceff1; color: #666; font-size: 0.9em; border: 1px dashed #cfd8dc; }
+        /* Campo de Valor Unitário, Lucro/Custo Total do Item e Lucro Líquido */
+        .calculated-field { background-color: #e8f5e9; font-weight: bold; color: #388e3c; } 
         #observacoes { resize: vertical; }
-
-        /* Caixa de Mensagem (Substitui alert()) */
-        #message-box {
-            display: none; 
-            padding: 15px; 
-            margin-bottom: 20px; 
-            border-radius: 6px; 
-            font-weight: bold;
-            text-align: center;
-        }
-
-        /* Pré-visualização do Orçamento (Pronto para PDF) */
-        .preview-area { display: none; margin-top: 30px; padding: 20px; border: 1px solid #1e88e5; border-radius: 8px; background-color: #fff; }
-        .orcamento-header { border-bottom: 4px solid #1e88e5; padding-bottom: 10px; text-align: center; }
-        .orcamento-footer { border-top: 1px solid #ccc; margin-top: 50px; padding-top: 15px; }
-        .total-box { float: right; width: 45%; margin-top: 15px; }
-        .total-box table { width: 100%; border-collapse: collapse; }
-        .total-box td { padding: 8px; border: none; font-size: 1em; }
-        .total-box .total-final { font-size: 1.3em; font-weight: bold; background-color: #e3f2fd; border-top: 2px solid #1e88e5; color: #1e88e5; }
-        .clearfix::after { content: ""; clear: both; display: table; }
         
-        /* Estilos para Imagem do Item */
-        .item-image-preview { 
-            max-width: 40px; 
-            max-height: 40px; 
-            margin: 5px auto 0; 
-            display: block; 
-            border: 1px solid #ccc; 
-            border-radius: 4px;
-            object-fit: contain;
-        }
+        /* Estilo para o campo de URL da Imagem */
+        .image-url-input { padding: 4px; font-size: 0.75em; margin-bottom: 5px; height: 30px;}
+        .item-image-preview { max-width: 40px; max-height: 40px; margin: 5px auto 0; display: block; border: 1px solid #ccc; border-radius: 4px; object-fit: contain;}
         .image-container { text-align: center; padding: 5px 2px; }
 
-        /* Estilos Responsivos */
-        @media (max-width: 600px) {
-            .two-cols { grid-template-columns: 1fr; }
-            .total-box { width: 100%; float: none; }
-            .btn-action { padding: 12px 20px; }
-            .btn-group { flex-direction: column; }
+        /* Estilos para Tabela do Simples Nacional */
+        #simplesTable th, #simplesTable td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        #simplesTable th {
+            background-color: #fff3e0;
+            color: #ff9800;
+            font-weight: 700;
+        }
+        #simplesTable tbody td:nth-child(1) {
+            font-weight: bold;
+            color: #d32f2f; 
+            background-color: #ffebee;
+            cursor: pointer; 
+        }
+        #simplesTable input[type="radio"] { 
+            display: none; 
+        }
+        #simplesTable input[type="radio"] + label {
+            display: block;
+            padding: 8px;
+            margin: -8px; 
+            cursor: pointer;
+            line-height: 1;
+        }
+        #simplesTable input[type="radio"]:checked + label {
+            background-color: #ffcc80; 
+            color: #333;
+            font-weight: bold;
         }
 
-        /* Estilos Específicos de Impressão (PDF) */
+        /* Estilos para o novo resumo financeiro */
+        .finance-summary {
+            margin-top: 30px;
+            padding: 15px;
+            border: 2px solid #43a047; 
+            border-radius: 8px;
+            background-color: #e8f5e9; 
+        }
+        .finance-summary h3 {
+            color: #43a047;
+            margin-top: 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #c8e6c9;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 20px;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1em;
+            padding: 5px 0;
+            border-bottom: 1px dashed #c8e6c9;
+        }
+        .summary-item strong { color: #333; }
+        .summary-item .value { font-weight: 700; }
+        .final-profit {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1e88e5; 
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #1e88e5;
+        }
+        .imposto-value { color: #d32f2f; } 
+        
+        /* Estilos de impressão (Para PDF) */
         @media print {
             body { background: none; margin: 0; padding: 0; }
             .container { box-shadow: none; border: none; padding: 10mm; max-width: 100%; }
-            /* Oculta o formulário principal e botões na impressão */
-            .form-section, .btn-group, h1, #message-box { display: none !important; } 
+            /* Oculta o formulário principal, botões e o resumo financeiro na impressão */
+            .form-section, .btn-group, h1, #message-box, .finance-summary { display: none !important; } 
             
             /* Mostra apenas a pré-visualização para impressão */
             .preview-area { display: block !important; border: none !important; padding: 0 !important; margin: 0 !important; }
@@ -124,7 +158,6 @@
 <div class="container">
     <h1>Gerador de Proposta Comercial (Orçamento)</h1>
 
-    <!-- Caixa de Mensagem para validações -->
     <div id="message-box" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: bold; text-align: center;"></div>
 
     <div class="form-section">
@@ -155,18 +188,74 @@
         <label for="contato_email">E-mail de Contato do Cliente:</label><input type="email" id="contato_email">
     </div>
 
+    <div class="form-section" id="simples-nacional-section">
+        <h2>Cálculo Simples Nacional (Anexo I - Comércio)</h2>
+        <p style="font-size: 0.85em; color: #a0522d;">**Instrução:** **Selecione a sua faixa fiscal** (Anexo I) e, em seguida, insira sua RBT12 para calcular a alíquota efetiva (AE).</p>
+        
+        <label for="rbt12">Receita Bruta em 12 Meses (RBT12 - R$):</label>
+        <input type="text" id="rbt12" value="960.000,00" placeholder="Ex: 300.000,00" oninput="this.value = formatNumericInput(this.value); updateSimplesNacional();">
+
+        <div style="margin-top: 15px;">
+            <label>Alíquota Efetiva (AE) - % de Imposto sobre a Receita:</label>
+            <input type="text" id="aliquota_efetiva" value="0,00%" class="read-only-field" readonly>
+            <input type="hidden" id="aliquota_efetiva_decimal" value="0.00">
+        </div>
+        
+        <h3 style="margin-top: 20px; font-size: 1.2em; border-left: 5px solid #ff9800; padding-left: 10px;">Selecione sua Faixa:</h3>
+        <table id="simplesTable" style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em;">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">Faixa</th>
+                    <th style="width: 45%;">Receita Bruta em 12 Meses (R$)</th>
+                    <th style="width: 15%;">Alíquota Nominal</th>
+                    <th style="width: 20%;">Parcela a Deduzir (R$)</th>
+                    <th style="width: 15%;">Selecionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1ª</td><td>Até 180.000,00</td><td>4,00%</td><td>R$ 0,00</td>
+                    <td><input type="radio" name="faixa_simples" id="faixa-select-1" value="0" onchange="updateSimplesNacional()"><label for="faixa-select-1">Escolher</label></td>
+                </tr>
+                <tr>
+                    <td>2ª</td><td>De 180.000,01 a 360.000,00</td><td>7,30%</td><td>R$ 5.940,00</td>
+                    <td><input type="radio" name="faixa_simples" id="faixa-select-2" value="1" onchange="updateSimplesNacional()"><label for="faixa-select-2">Escolher</label></td>
+                </tr>
+                <tr>
+                    <td>3ª</td><td>De 360.000,01 a 720.000,00</td><td>9,50%</td><td>R$ 13.860,00</td>
+                    <td><input type="radio" name="faixa_simples" id="faixa-select-3" value="2" onchange="updateSimplesNacional()"><label for="faixa-select-3">Escolher</label></td>
+                </tr>
+                <tr>
+                    <td>4ª</td><td>De 720.000,01 a 1.800.000,00</td><td>10,70%</td><td>R$ 22.500,00</td>
+                    <td><input type="radio" name="faixa_simples" id="faixa-select-4" value="3" onchange="updateSimplesNacional()" checked><label for="faixa-select-4">Escolher</label></td>
+                </tr>
+                <tr>
+                    <td>5ª</td><td>De 1.800.000,01 a 3.600.000,00</td><td>14,30%</td><td>R$ 87.300,00</td>
+                    <td><input type="radio" name="faixa_simples" id="faixa-select-5" value="4" onchange="updateSimplesNacional()"><label for="faixa-select-5">Escolher</label></td>
+                </tr>
+                <tr>
+                    <td>6ª</td><td>De 3.600.000,01 a 4.800.000,00</td><td>19,00%</td><td>R$ 378.000,00</td>
+                    <td><input type="radio" name="faixa_simples" id="faixa-select-6" value="5" onchange="updateSimplesNacional()"><label for="faixa-select-6">Escolher</label></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="form-section">
-        <h2>Itens da Proposta (Obrigatório)</h2>
+        <h2>Itens da Proposta (Custo, Margem, Venda e Lucro por Produto)</h2>
         <table id="itemsTable">
             <thead>
                 <tr>
                     <th style="width: 5%;">Img.</th>
-                    <th style="width: 35%;">Descrição do Produto/Serviço</th>
-                    <th style="width: 8%;" class="text-right">Qtd.</th>
-                    <th style="width: 15%;" class="text-right">Valor Unit. (R$)</th>
-                    <th style="width: 12%;" class="text-right">Desc. (%)</th>
-                    <th style="width: 18%;" class="text-right">Total Item (R$)</th>
-                    <th style="width: 7%;"></th>
+                    <th style="width: 18%;">Descrição do Produto/Serviço</th>
+                    <th style="width: 5%;" class="text-right">Qtd.</th>
+                    <th style="width: 9%;" class="text-right">Custo Unit. (R$)</th>
+                    <th style="width: 5%;" class="text-right">Margem (%)</th>
+                    <th style="width: 9%;" class="text-right">Valor Unit. (R$)</th>
+                    <th style="width: 5%;" class="text-right">Desc. (%)</th>
+                    <th style="width: 9%;" class="text-right">Custo Total (R$)</th> 
+                    <th style="width: 9%;" class="text-right">Lucro Bruto (R$)</th>
+                    <th style="width: 9%;" class="text-right">Lucro Líquido (R$)</th> <th style="width: 9%;" class="text-right">Total Item (R$)</th>
+                    <th style="width: 5%;" class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -182,18 +271,37 @@
         <textarea id="observacoes" rows="3">Preços válidos pela data de validade estipulada. O prazo de entrega/disponibilidade será informado no momento da confirmação do pedido.</textarea>
     </div>
 
-    <!-- Novo grupo de botões -->
+    <div class="finance-summary">
+        <h3>Resumo Financeiro da Proposta (Lucro Líquido)</h3>
+        <div class="summary-grid">
+            <div class="summary-item"><strong>Custo Total (CPV):</strong><span class="value" id="resumo-custo">R$ 0,00</span></div>
+            <div class="summary-item"><strong>Receita Total (Venda Líquida):</strong><span class="value" id="resumo-receita">R$ 0,00</span></div>
+            <div class="summary-item"><strong>Lucro Bruto Total:</strong><span class="value" id="resumo-lucro-bruto">R$ 0,00</span></div>
+            <div class="summary-item"><strong>Imposto Total (AE):</strong><span class="value imposto-value" id="resumo-imposto">R$ 0,00</span></div>
+        </div>
+        <div class="final-profit summary-item"><strong>LUCRO LÍQUIDO FINAL:</strong><span class="value" id="resumo-lucro-liquido">R$ 0,00</span></div>
+        <p style="font-size: 0.75em; color: #43a047; text-align: right; margin-top: 5px;">*O Imposto (AE) é calculado com base na Faixa Selecionada e na RBT12 informada acima.</p>
+    </div>
     <div class="btn-group">
         <button class="btn-action" onclick="saveAsPDF()">Gerar e Imprimir/Salvar PDF</button>
         <button class="btn-action btn-txt" onclick="triggerDownloadTxt()">Baixar Proposta como Arquivo TXT</button>
     </div>
-    <!-- Fim do novo grupo de botões -->
-
     <div class="preview-area" id="preview-area">
     </div>
 </div>
 
 <script>
+    // Dados do Simples Nacional (Anexo I - Comércio)
+    const TAX_BRACKETS = [
+        { min: 0.00, max: 180000.00, aliquota: 0.0400, deducao: 0.00 },
+        { min: 180000.01, max: 360000.00, aliquota: 0.0730, deducao: 5940.00 },
+        { min: 360000.01, max: 720000.00, aliquota: 0.0950, deducao: 13860.00 },
+        { min: 720000.01, max: 1800000.00, aliquota: 0.1070, deducao: 22500.00 },
+        { min: 1800000.01, max: 3600000.00, aliquota: 0.1430, deducao: 87300.00 },
+        { min: 3600000.01, max: 4800000.00, aliquota: 0.1900, deducao: 378000.00 }
+    ];
+    let currentEffectiveTaxRate = 0.00; // Variável global para armazenar a AE em decimal
+    
     // Seus dados pré-preenchidos (do usuário)
     const DADOS_EMPRESA = {
         razao: document.getElementById('empresa_razao').value,
@@ -207,76 +315,233 @@
     };
 
     let itemCounter = 0;
+    
+    /**
+     * Limpa e formata a entrada de texto para um padrão numérico brasileiro (R$).
+     */
+    function formatNumericInput(value) {
+        let cleaned = value.replace(/[^\d,\.]/g, '');
+        return cleaned;
+    }
 
     /**
-     * Exibe uma mensagem de feedback no topo da tela (substitui alert()).
-     * @param {string} message - A mensagem a ser exibida.
-     * @param {boolean} isError - Se true, usa cores de erro (laranja/vermelho).
+     * Limpa o valor monetário do input, convertendo a string em float.
+     * @param {string} valueString - O valor em string (ex: "1.200.000,00").
+     * @returns {number} O valor numérico (ex: 1200000.00).
+     */
+    function cleanCurrency(valueString) {
+        if (!valueString) return 0;
+        return parseFloat(valueString.replace(/\./g, '').replace(',', '.')) || 0;
+    }
+
+    /**
+     * Exibe uma mensagem de feedback no topo da tela.
      */
     function showMessage(message, isError = true) {
         const box = document.getElementById('message-box');
-        box.textContent = message;
+        box.innerHTML = message; 
         box.style.display = 'block';
-        box.style.backgroundColor = isError ? '#ffe0b2' : '#e3f2fd'; // Light Orange/Light Blue
-        box.style.color = isError ? '#e65100' : '#1e88e5'; // Dark Orange/Blue
+        box.style.backgroundColor = isError ? '#ffe0b2' : '#e3f2fd'; 
+        box.style.color = isError ? '#e65100' : '#1e88e5'; 
         
-        // Esconde a mensagem após 10 segundos (aumentado para dar tempo de copiar o nome do PDF)
         setTimeout(() => {
             box.style.display = 'none';
         }, 10000);
     }
 
     /**
+     * Calcula a Alíquota Efetiva com base na faixa selecionada manualmente e na RBT12.
+     */
+    function updateSimplesNacional() {
+        // Agora, se o RBT12 estiver vazio, ele será preenchido com "0,00" após cleanCurrency
+        const rbt12Input = document.getElementById('rbt12').value;
+        const rbt12 = cleanCurrency(rbt12Input);
+        const aliquotaEfetivaField = document.getElementById('aliquota_efetiva');
+        const aliquotaEfetivaDecimalField = document.getElementById('aliquota_efetiva_decimal');
+        
+        let effectiveTaxRate = 0;
+        
+        const selectedRadio = document.querySelector('input[name="faixa_simples"]:checked');
+
+        if (!selectedRadio) {
+            aliquotaEfetivaField.value = "Selecione a Faixa";
+            aliquotaEfetivaDecimalField.value = "0.00";
+            currentEffectiveTaxRate = 0.00;
+            updateTotals();
+            return;
+        }
+
+        const selectedBracketIndex = parseInt(selectedRadio.value);
+        const bracket = TAX_BRACKETS[selectedBracketIndex];
+        
+        if (rbt12 <= 0) {
+            aliquotaEfetivaField.value = "RBT12 Inválida";
+            aliquotaEfetivaDecimalField.value = "0.00";
+            currentEffectiveTaxRate = 0.00;
+        } else {
+            const ALIQ = bracket.aliquota;
+            const PD = bracket.deducao;
+
+            effectiveTaxRate = ((rbt12 * ALIQ) - PD) / rbt12;
+
+            if (rbt12 < bracket.min || rbt12 > bracket.max) {
+                 showMessage(`Atenção: A RBT12 informada (R$ ${rbt12Input}) está FORA do range da Faixa ${selectedBracketIndex + 1} (${bracket.min.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} a ${bracket.max.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}). O cálculo da AE pode ser inválido.`, true);
+            }
+
+            const formattedAE = (effectiveTaxRate * 100).toFixed(2).replace('.', ',');
+            aliquotaEfetivaField.value = `${formattedAE}%`;
+            aliquotaEfetivaDecimalField.value = effectiveTaxRate.toFixed(4); 
+            currentEffectiveTaxRate = effectiveTaxRate;
+        }
+
+        updateTotals(); 
+    }
+
+
+    /**
      * Formata um número para o padrão monetário brasileiro (R$ X.XXX,XX).
-     * @param {number} value - O valor numérico.
-     * @returns {string} O valor formatado.
      */
     function formatCurrency(value) {
         const num = parseFloat(value);
         if (isNaN(num)) return 'R$ 0,00';
         return `R$ ${num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     }
+    
+    /**
+     * Função auxiliar para formatar inputs monetários (Custo Unitário) no evento blur.
+     */
+    function formatCurrencyInput(inputElement) {
+        let value = inputElement.value.replace(/\./g, '').replace(',', '.');
+        if (!isNaN(parseFloat(value))) {
+            inputElement.value = parseFloat(value).toFixed(2).replace('.', ',');
+        } else {
+            inputElement.value = "0,00"; 
+        }
+        calculateItemPrice(inputElement); 
+    }
 
     /**
-     * Calcula o total de cada item e os totais gerais (Subtotal, Desconto, Total Geral).
-     * @returns {Object} Objeto com os totais calculados.
+     * Função auxiliar para formatar inputs percentuais (Margem e Desconto) e disparar cálculo.
+     */
+    function formatPercentInput(inputElement) {
+        let value = cleanCurrency(inputElement.value);
+        
+        if (value < 0) value = 0;
+        if (value > 100) value = 100;
+
+        inputElement.value = value.toFixed(2).replace('.', ',');
+        
+        calculateItemPrice(inputElement); 
+    }
+
+    /**
+     * Calcula o Preço de Venda Unitário com base no Custo e na Margem, e então atualiza os totais.
+     * @param {HTMLInputElement} inputElement - O input (Custo, Margem, Qtd ou Desconto) que disparou o evento.
+     */
+    function calculateItemPrice(inputElement) {
+        const row = inputElement.closest('tr');
+        
+        // Célula 3: Custo Unitário
+        const costInput = row.cells[3].getElementsByTagName('input')[0];
+        const unitCost = cleanCurrency(costInput.value);
+
+        // Célula 4: Margem (%)
+        const marginInput = row.cells[4].getElementsByTagName('input')[0];
+        const marginPercent = cleanCurrency(marginInput.value);
+        
+        // Célula 5: Valor Unitário (será atualizado)
+        const priceOutput = row.cells[5].getElementsByTagName('input')[0];
+        
+        let unitPrice = 0;
+        
+        // CÁLCULO DO PREÇO DE VENTA UNITÁRIO (MARKUP)
+        const marginDecimal = marginPercent / 100;
+        
+        if (marginDecimal >= 1) { 
+            priceOutput.value = unitCost.toFixed(2).replace('.', ','); 
+            showMessage("Margem de 100% ou mais: O preço de venda tende ao infinito. Defina uma margem menor que 100%.", true);
+        } else if (unitCost > 0 && marginDecimal >= 0) {
+            unitPrice = unitCost / (1 - marginDecimal);
+            priceOutput.value = unitPrice.toFixed(2).replace('.', ','); 
+        } else {
+            priceOutput.value = "0,00";
+        }
+        
+        updateTotals(); 
+    }
+
+    /**
+     * Calcula o total de cada item e os totais gerais (Receita, Custo, Lucro Bruto, Imposto, Lucro Líquido).
+     * Esta função agora atualiza as novas colunas de Custo Total Item, Lucro Bruto Item e Lucro Líquido Item.
      */
     function calculateTotal() {
-        let subtotalSemDesconto = 0;
+        const AE = currentEffectiveTaxRate; // Alíquota Efetiva (decimal)
+        let totalReceitaLiquida = 0; 
+        let subtotalBruto = 0; 
+        let totalCusto = 0;
         let totalDescontoAplicado = 0;
-        let totalGeral = 0;
+        let totalImposto = 0;
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
         
         for (let i = 0; i < tableBody.rows.length; i++) {
             const row = tableBody.rows[i];
             
-            // Valor Unitário (Célula 3). Limpa vírgulas para cálculo.
-            // Permite que o usuário digite '1.000,00' e o sistema entenda como 1000.00
-            const unitValueText = row.cells[3].getElementsByTagName('input')[0].value.replace(/\./g, '').replace(',', '.');
-            const unitValue = parseFloat(unitValueText) || 0;
+            // ÍNDICES DOS CAMPOS DE ENTRADA/CÁLCULO PRINCIPAL
+            const unitCost = cleanCurrency(row.cells[3].getElementsByTagName('input')[0].value); // Custo Unitário (3)
+            const unitPrice = cleanCurrency(row.cells[5].getElementsByTagName('input')[0].value); // Valor Unitário (5)
+            const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value) || 0; // Qtd (2)
+            const discountPercent = cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value); // Desconto % (6)
             
-            // Qtd (Célula 2)
-            const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value) || 0;
+            // ÍNDICES DOS CAMPOS DE SAÍDA NOVO/TOTAL
+            const custoTotalItemCell = row.cells[7].getElementsByTagName('input')[0]; // Custo Total Item (7)
+            const lucroBrutoItemCell = row.cells[8].getElementsByTagName('input')[0]; // Lucro Bruto Item (8)
+            const lucroLiquidoItemCell = row.cells[9].getElementsByTagName('input')[0]; // Lucro Líquido Item (9) 
+            const totalCell = row.cells[10]; // Total Venda Líquida Item (10) 
             
-            // Desconto em % (Célula 4)
-            const discountPercent = parseFloat(row.cells[4].getElementsByTagName('input')[0].value) || 0;
+            const totalBrutoItem = qtd * unitPrice;
             
-            const totalCell = row.cells[5]; // Célula do Total do Item (Célula 5)
-            
-            const totalBrutoItem = qtd * unitValue;
-            
-            // Calcula o desconto e o total líquido
+            // Cálculos para o item:
             const valorDesconto = (totalBrutoItem * discountPercent) / 100;
-            const totalLiquidoItem = totalBrutoItem - valorDesconto;
+            const totalReceitaItem = totalBrutoItem - valorDesconto; // Venda Líquida
+            const totalCustoItem = qtd * unitCost; // Custo Total Item
+            const lucroBrutoItem = totalReceitaItem - totalCustoItem; // Lucro Bruto Item
+            const impostoItem = totalReceitaItem * AE;
+            const lucroLiquidoItem = lucroBrutoItem - impostoItem; // Lucro Líquido Item 
 
-            subtotalSemDesconto += totalBrutoItem;
+            // 1. ATUALIZAÇÃO DOS NOVOS CAMPOS DO ITEM:
+            custoTotalItemCell.value = totalCustoItem.toFixed(2).replace('.', ','); 
+            lucroBrutoItemCell.value = lucroBrutoItem.toFixed(2).replace('.', ','); 
+            lucroLiquidoItemCell.value = lucroLiquidoItem.toFixed(2).replace('.', ','); 
+            
+            // 2. Atualiza o Total de Venda Líquida do Item (Índice 10)
+            totalCell.innerHTML = formatCurrency(totalReceitaItem);
+
+            // 3. Acumula Totais Gerais
+            subtotalBruto += totalBrutoItem;
+            totalReceitaLiquida += totalReceitaItem;
+            totalCusto += totalCustoItem;
             totalDescontoAplicado += valorDesconto;
-            totalGeral += totalLiquidoItem;
-
-            totalCell.innerHTML = formatCurrency(totalLiquidoItem);
+            totalImposto += impostoItem;
         }
 
-        return { subtotal: subtotalSemDesconto, desconto: totalDescontoAplicado, totalGeral: totalGeral };
+        const totalLucroBruto = totalReceitaLiquida - totalCusto;
+        const totalLucroLiquido = totalLucroBruto - totalImposto;
+
+        // Atualiza Painel de Resumo Financeiro
+        document.getElementById('resumo-receita').textContent = formatCurrency(totalReceitaLiquida);
+        document.getElementById('resumo-custo').textContent = formatCurrency(totalCusto);
+        document.getElementById('resumo-lucro-bruto').textContent = formatCurrency(totalLucroBruto);
+        document.getElementById('resumo-imposto').textContent = formatCurrency(totalImposto);
+        document.getElementById('resumo-lucro-liquido').textContent = formatCurrency(totalLucroLiquido);
+
+        return { 
+            totalGeral: totalReceitaLiquida, 
+            subtotal: subtotalBruto,
+            custoTotal: totalCusto,
+            desconto: totalDescontoAplicado, 
+            impostoTotal: totalImposto,
+            lucroLiquido: totalLucroLiquido
+        };
     }
 
     /**
@@ -287,28 +552,22 @@
     }
 
     /**
-     * Carrega a imagem selecionada pelo usuário, exibe-a como miniatura e armazena o Base64.
-     * @param {HTMLInputElement} input - O input type="file" que disparou o evento.
+     * Atualiza a imagem de preview lendo a URL/Base64 do campo de texto.
      */
-    function loadImage(input) {
-        if (input.files && input.files[0]) {
-            const file = input.files[0];
-            const reader = new FileReader();
-            const rowId = input.closest('tr').id;
-            const imagePreview = document.getElementById(`preview-${rowId}`);
+    function updateImagePreview(input) {
+        const imageUrl = input.value.trim();
+        const rowId = input.closest('tr').id;
+        const imagePreview = document.getElementById(`preview-${rowId}`); 
 
-            reader.onload = function(e) {
-                // Atualiza o src da imagem de preview na linha
-                const base64Data = e.target.result;
-                imagePreview.src = base64Data;
-                imagePreview.style.display = 'block';
-                // Armazena a Base64 no atributo de dados do input para uso posterior na impressão
-                input.setAttribute('data-base64', base64Data);
-            };
-
-            reader.readAsDataURL(file);
+        if (imageUrl) {
+            imagePreview.src = imageUrl;
+            imagePreview.style.display = 'block';
+        } else {
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
         }
     }
+
 
     /**
      * Adiciona uma nova linha de item à tabela do formulário.
@@ -321,42 +580,37 @@
 
         newRow.innerHTML = `
             <td class="image-container">
-                <input type="file" id="img-upload-${newRow.id}" accept="image/*" style="display: none;" onchange="loadImage(this)">
-                <button class="btn-image btn-base" type="button" title="Adicionar Imagem" onclick="document.getElementById('img-upload-${newRow.id}').click()">🖼️</button>
-                <img id="preview-${newRow.id}" src="" alt="Item Image Preview" class="item-image-preview" style="display: none;">
+                <input type="text" placeholder="URL ou Base64" class="image-url-input" oninput="updateImagePreview(this)">
+                <img id="preview-${newRow.id}" src="" alt="Preview da Imagem" class="item-image-preview" style="display: none;">
             </td>
-            <td><input type="text" placeholder="Ex: Paracetamol 500mg c/ 20"></td>
-            <td><input type="number" value="1" min="1" class="text-right"></td>
-            <td><input type="text" value="0,00" class="text-right"></td>
-            <td><input type="number" value="0" min="0" max="100" class="text-right"></td>
+            <td><input type="text" placeholder="Ex: Paracetamol 500mg c/ 20" oninput="updateTotals()"></td>
+            <td><input type="number" value="1" min="1" class="text-right" oninput="calculateItemPrice(this)"></td>
+            
+            <td><input type="text" value="0,00" class="text-right" onblur="formatCurrencyInput(this)"></td>
+
+            <td><input type="text" value="30,00" class="text-right" onblur="formatPercentInput(this)"></td>
+
+            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+
+            <td><input type="text" value="0,00" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
+            
+            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+
+            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+
+            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+
             <td class="text-right total-item">${formatCurrency(0)}</td>
-            <td><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRow.id}')">X</button></td>
+            
+            <td class="text-center"><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRow.id}')">X</button></td>
         `;
-
-        // Adiciona listeners para recalcular quando qualquer campo é alterado
-        newRow.querySelectorAll('input').forEach(input => {
-            if (input.type !== 'file') {
-                input.addEventListener('input', updateTotals);
-            }
-        });
         
-        // Garante que o valor unitário use vírgula no display
-        const unitValueInput = newRow.cells[3].getElementsByTagName('input')[0];
-        unitValueInput.addEventListener('blur', function() {
-                // Limpa o valor digitado para garantir a exibição com vírgula e dois decimais
-                let value = this.value.replace(/\./g, '').replace(',', '.');
-                if (!isNaN(parseFloat(value))) {
-                    // Formata para duas casas decimais e usa vírgula
-                    this.value = parseFloat(value).toFixed(2).replace('.', ',');
-                }
-        });
-
-        updateTotals(); // Recalcula após adicionar a linha
+        // Inicializa o preço de venda e os totais
+        calculateItemPrice(newRow.cells[3].getElementsByTagName('input')[0]);
     }
 
     /**
      * Remove uma linha de item da tabela.
-     * @param {string} rowId - O ID da linha a ser removida.
      */
     function removeItemRow(rowId) {
         document.getElementById(rowId).remove();
@@ -364,44 +618,41 @@
     }
     
     /**
-     * Função que garante que o primeiro item é adicionado e a data é definida ao carregar a página.
+     * Inicializa o formulário ao carregar.
      */
     function initialize() {
-        // Define a data de hoje no formato YYYY-MM-DD
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('orcamento_data').value = today; 
         
         if (document.getElementById('itemsTable').getElementsByTagName('tbody')[0].rows.length === 0) {
             addItemRow();
         }
+        
+        // Recalcula a alíquota com os valores padrões preenchidos
+        updateSimplesNacional();
     }
 
-    // Chamada inicial
     document.addEventListener('DOMContentLoaded', initialize);
 
     /**
      * ----------------------------------------------------------------------------------
-     * FUNÇÕES DE GERAÇÃO DE SAÍDA E NOME DE ARQUIVO
+     * FUNÇÕES DE GERAÇÃO DE SAÍDA (PDF/TXT)
      * ----------------------------------------------------------------------------------
      */
-
+     
     /**
-     * Sanitiza uma string para uso em nomes de arquivo, removendo acentos e caracteres especiais.
-     * @param {string} text - O texto a ser sanitizado.
-     * @returns {string} O texto sanitizado.
+     * Sanitiza uma string para uso em nomes de arquivo.
      */
     function sanitizeFilename(text) {
         if (!text) return 'Nao-Informado';
-        let sanitized = text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
-        sanitized = sanitized.replace(/[^a-zA-Z0-9\s-]/g, ''); // Remove caracteres especiais (exceto hífens e espaços)
-        sanitized = sanitized.trim().replace(/\s+/g, '-'); // Troca espaços por hífens
+        let sanitized = text.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+        sanitized = sanitized.replace(/[^a-zA-Z0-9\s-]/g, ''); 
+        sanitized = sanitized.trim().replace(/\s+/g, '-'); 
         return sanitized.toUpperCase();
     }
-    
+
     /**
-     * Gera o nome de arquivo dinâmico no formato: PROPOSTA_[NOME CLIENTE]_[DATA EMISSAO]_[PRIMEIRO ITEM].[EXT].
-     * @param {string} extension - A extensão do arquivo (e.g., 'txt', 'pdf').
-     * @returns {string} O nome do arquivo gerado.
+     * Gera o nome de arquivo dinâmico.
      */
     function generateFilename(extension) {
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
@@ -409,16 +660,12 @@
         
         const dataEmissao = document.getElementById('orcamento_data').value;
         const clienteNome = document.getElementById('cliente_nome').value || 'CLIENTE-NAO-INFORMADO';
-
-        // Formata a data para AAAA-MM-DD (remove traços para ficar PROPOSTA_20251025)
         const formattedDate = dataEmissao.replace(/-/g, ''); 
         
-        // Tenta pegar o nome do primeiro item (se existir)
         let firstItemDescription = 'GERAL';
         if (rows.length > 0) {
             const firstItemInput = rows[0].cells[1].getElementsByTagName('input')[0].value.trim();
             if(firstItemInput) {
-                 // Pega os primeiros 10 caracteres
                 firstItemDescription = firstItemInput.substring(0, 10); 
             }
         }
@@ -426,57 +673,39 @@
         const sanitizedClientName = sanitizeFilename(clienteNome);
         const sanitizedFirst10 = sanitizeFilename(firstItemDescription);
 
-        // Formato: PROPOSTA_[NOME CLIENTE]_[DATA EMISSAO]_[10 Primeiros Caracteres do Item 1].ext
         const filename = `PROPOSTA_${sanitizedClientName}_${formattedDate}_${sanitizedFirst10}.${extension}`;
-        return filename.replace(/--+/g, '_'); // Substitui múltiplos hífens/underscores por um único underscore
+        return filename.replace(/--+/g, '_');
     }
-
-
+    
     /**
-     * Coleta todos os dados e gera o HTML da proposta para visualização ou impressão.
-     * @returns {string|null} O HTML do orçamento ou null se a validação falhar.
+     * Coleta todos os dados e gera o HTML da proposta para visualização ou impressão (PDF).
+     * O HTML gerado é limpo e não inclui campos internos como Custo e Lucro Líquido por item.
      */
     function generateProposalHTML() {
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
         const rows = tableBody.rows;
 
-        // VALIDAÇÃO 1: Pelo menos um item deve existir
         if (rows.length === 0) {
             showMessage('ERRO: É obrigatório adicionar pelo menos um item à proposta.', true);
             return null;
         }
 
-        // VALIDAÇÃO 2: Campos obrigatórios do item (Descrição, Qtd, Valor Unitário)
+        // Validações de campos
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            
-            // Célula 1: Descrição
             const descricao = row.cells[1].getElementsByTagName('input')[0].value.trim();
-            
-            // Célula 2: Quantidade
-            const qtdInput = row.cells[2].getElementsByTagName('input')[0];
-            const qtd = parseFloat(qtdInput.value);
-            
-            // Célula 3: Valor Unitário
-            const unitValueText = row.cells[3].getElementsByTagName('input')[0].value.replace(/\./g, '').replace(',', '.');
+            const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value);
+            const unitValueText = row.cells[5].getElementsByTagName('input')[0].value.replace(/\./g, '').replace(',', '.');
             const unitValue = parseFloat(unitValueText);
 
-            if (descricao === '' || isNaN(qtd) || qtd <= 0 || isNaN(unitValue) || unitValue < 0) {
-                showMessage(`ERRO: O item ${i + 1} deve ter uma Descrição, Quantidade válida (> 0) e Valor Unitário válido (>= 0). Corrija, por favor.`, true);
-                
-                // Foca no campo inválido
-                if (descricao === '') { row.cells[1].getElementsByTagName('input')[0].focus(); } 
-                else if (isNaN(qtd) || qtd <= 0) { qtdInput.focus(); }
-                else if (isNaN(unitValue) || unitValue < 0) { row.cells[3].getElementsByTagName('input')[0].focus(); }
-
+            if (descricao === '' || isNaN(qtd) || qtd <= 0 || isNaN(unitValue) || unitValue <= 0) {
+                showMessage(`ERRO: O item ${i + 1} deve ter uma Descrição e Quantidade válida (> 0), e o Valor Unitário de Venda deve ser calculado (> 0). Verifique o Custo/Margem.`, true);
                 return null;
             }
         }
 
-        // Se a validação passou, calcula os totais
-        const { subtotal, desconto, totalGeral } = calculateTotal();
+        const { subtotal, desconto, totalGeral } = calculateTotal(); 
         
-        // Coleta de Dados do Formulário
         const numOrcamento = document.getElementById('orcamento_numero').value || 'N/A';
         const dataEmissao = document.getElementById('orcamento_data').value;
         const validadeDias = document.getElementById('orcamento_validade').value || '7';
@@ -485,35 +714,32 @@
         const contatoEmail = document.getElementById('contato_email').value;
         const formaPagamento = document.getElementById('forma_pagamento').value;
         const observacoes = document.getElementById('observacoes').value;
+        
+        // DADOS FISCAIS PARA O RODAPÉ
+        const aliquotaEfetivaText = document.getElementById('aliquota_efetiva').value;
+        const rbt12Value = document.getElementById('rbt12').value;
 
-        // Calcula a data de validade (usa a data de emissão ou a data atual se não preenchida)
         const dataEmissaoObj = dataEmissao ? new Date(dataEmissao + 'T00:00:00') : new Date();
         const dataValidade = new Date(dataEmissaoObj); 
         dataValidade.setDate(dataValidade.getDate() + parseInt(validadeDias));
         const dataEmissaoFormatada = dataEmissaoObj.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
         const dataValidadeFormatada = dataValidade.toLocaleDateString('pt-BR');
 
-        // Conteúdo da Tabela de Itens para o Preview
         let itemsHtml = '';
         
+        // Geração da tabela de itens (índices limpos para o cliente)
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
             
-            // Célula 0: Imagem (Base64)
-            const imageInput = row.cells[0].querySelector('input[type="file"]');
-            const imageBase64 = imageInput ? imageInput.getAttribute('data-base64') : null;
-            const imageHtml = imageBase64 ? `<img src="${imageBase64}" alt="Produto" class="item-image-print">` : '';
+            const imageUrlInput = row.cells[0].querySelector('input.image-url-input');
+            const imageUrlOrBase64 = imageUrlInput ? imageUrlInput.value.trim() : null;
+            const imageHtml = imageUrlOrBase64 ? `<img src="${imageUrlOrBase64}" alt="Produto" class="item-image-print">` : '';
 
-            // Célula 1: Descrição
             const descricao = row.cells[1].getElementsByTagName('input')[0].value; 
-            // Célula 2: Qtd
             const qtd = row.cells[2].getElementsByTagName('input')[0].value; 
-            // Célula 3: Valor Unitário (mantém a formatação original do input, com vírgula)
-            const unitValue = row.cells[3].getElementsByTagName('input')[0].value; 
-            // Célula 4: Desconto
-            const discountPercent = row.cells[4].getElementsByTagName('input')[0].value; 
-            // Célula 5: Total Item (já formatado)
-            const totalItemText = row.cells[5].textContent; 
+            const unitValue = row.cells[5].getElementsByTagName('input')[0].value; 
+            const discountPercent = row.cells[6].getElementsByTagName('input')[0].value; 
+            const totalItemText = row.cells[10].textContent; // Índice 10: Total Item (Venda Líquida)
 
             itemsHtml += `
                 <tr>
@@ -527,7 +753,6 @@
             `;
         }
         
-        // Estrutura do Orçamento Final
         const orcamentoHtml = `
         <div style="font-family: Arial, sans-serif; padding: 10px; color: #000;">
             
@@ -583,6 +808,10 @@
             </div>
 
             <div class="orcamento-footer">
+                <p style="font-size: 0.75em; margin: 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px;">
+                    **Informação Fiscal (Simples Nacional - Anexo I):** RBT12 utilizada: R$ ${rbt12Value} | Alíquota Efetiva (AE) aplicada: ${aliquotaEfetivaText}
+                </p>
+                
                 <p style="font-size: 0.9em; margin: 5px 0;"><strong>Forma de Pagamento Sugerida:</strong> ${formaPagamento}</p>
                 <p style="font-size: 0.9em; margin: 5px 0;"><strong>Observações:</strong> ${observacoes}</p>
                 <br>
@@ -592,7 +821,6 @@
         </div>
         `;
         
-        // Insere o conteúdo no DOM para visualização
         document.getElementById('preview-area').innerHTML = orcamentoHtml;
         return orcamentoHtml;
     }
@@ -602,47 +830,42 @@
      */
     function triggerDownloadTxt() {
         const proposalHtml = generateProposalHTML();
-        if (!proposalHtml) return; // Se a validação falhar, para aqui.
+        if (!proposalHtml) return; 
 
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
         const rows = tableBody.rows;
         
-        const { subtotal, desconto, totalGeral } = calculateTotal();
+        const { subtotal, desconto, totalGeral, custoTotal, impostoTotal, lucroLiquido } = calculateTotal();
         const filename = generateFilename('txt');
-        
-        // 1. Montagem do Conteúdo TXT
         
         let content = "===== PROPOSTA COMERCIAL (ORÇAMENTO) =====\n\n";
         content += `EMPRESA: ${DADOS_EMPRESA.razao}\n`;
-        content += `CNPJ/IE: ${DADOS_EMPRESA.cnpj} / ${DADOS_EMPRESA.ie}\n`;
-        content += `ENDEREÇO: ${DADOS_EMPRESA.endereco}, ${DADOS_EMPRESA.cidade}, CEP ${DADOS_EMPRESA.cep}\n`;
-        content += `CONTATO: ${DADOS_EMPRESA.contato}\n`;
         content += "-------------------------------------------\n";
-        content += `CLIENTE: ${document.getElementById('cliente_nome').value || 'Cliente Não Informado'}\n`;
-        content += `CPF/CNPJ CLIENTE: ${document.getElementById('cliente_doc').value || 'N/A'}\n`;
-        content += `Nº ORÇAMENTO: ${document.getElementById('orcamento_numero').value || 'N/A'}\n`;
-        content += `DATA DE EMISSÃO: ${document.getElementById('orcamento_data').value}\n`;
-        content += `VALIDADE: ${document.getElementById('orcamento_validade').value || '7'} dias\n`;
-        content += "-------------------------------------------\n";
-        content += "ITENS:\n";
+        content += "ITENS (Custo Total | Lucro Bruto | Lucro Líquido | Venda Líquida):\n";
 
+        // Geração da lista de itens no TXT com os valores por produto (Índices Corrigidos)
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
             const descricao = row.cells[1].getElementsByTagName('input')[0].value; 
             const qtd = row.cells[2].getElementsByTagName('input')[0].value; 
-            const totalItemText = row.cells[5].textContent; 
-            content += `- ${qtd}x ${descricao} -> ${totalItemText}\n`;
+            const custoItemText = rows[i].cells[7].getElementsByTagName('input')[0].value; 
+            const lucroBrutoItemText = rows[i].cells[8].getElementsByTagName('input')[0].value; 
+            const lucroLiquidoItemText = rows[i].cells[9].getElementsByTagName('input')[0].value; 
+            const totalItemText = row.cells[10].textContent.replace('R$ ', ''); 
+            
+            content += `- ${qtd}x ${descricao}\n`;
+            content += `  [Custo: R$ ${custoItemText} | Lucro Bruto: R$ ${lucroBrutoItemText} | Lucro Líquido: R$ ${lucroLiquidoItemText} | Venda: R$ ${totalItemText}]\n`;
         }
         
         content += "-------------------------------------------\n";
-        content += `SUBTOTAL (BRUTO): ${formatCurrency(subtotal)}\n`;
-        content += `DESCONTO TOTAL: (-) ${formatCurrency(desconto)}\n`;
-        content += `TOTAL GERAL: ${formatCurrency(totalGeral)}\n\n`;
-        content += `FORMA DE PAGAMENTO SUGERIDA: ${document.getElementById('forma_pagamento').value}\n`;
-        content += `OBSERVAÇÕES: ${document.getElementById('observacoes').value}\n`;
+        content += `TOTAL VENDA (LÍQUIDO): ${formatCurrency(totalGeral)}\n`;
+        content += `CUSTO TOTAL (CPV): ${formatCurrency(custoTotal)}\n`;
+        
+        content += "===== RESUMO FINANCEIRO (COM IMPOSTO) =====\n";
+        content += `IMPOSTO (AE ${document.getElementById('aliquota_efetiva').value}): (-) ${formatCurrency(impostoTotal)}\n`;
+        content += `LUCRO LÍQUIDO FINAL: ${formatCurrency(lucroLiquido)}\n`;
         content += "=========================================\n";
         
-        // 2. Cria e dispara o download
         const blob = new Blob([content], { type: 'text/plain' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -650,7 +873,7 @@
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        showMessage(`Arquivo TXT gerado com sucesso! Nome do arquivo: ${filename}`, false);
+        showMessage(`Arquivo TXT gerado com sucesso! Nome do arquivo: **${filename}**`, false);
     }
     
     /**
@@ -660,21 +883,14 @@
         const proposalHtml = generateProposalHTML();
         if (!proposalHtml) return;
 
-        // 1. Gera o nome do arquivo dinâmico
         const filename = generateFilename('pdf');
         
-        // 2. Exibe o preview (necessário para o window.print capturar o estilo correto)
         document.getElementById('preview-area').style.display = 'block';
 
-        // 3. Informa o usuário sobre o nome do arquivo sugerido
-        // O navegador não permite forçar o nome do arquivo no Save As PDF,
-        // mas podemos sugerir para que o usuário copie e cole.
         showMessage(`Proposta pronta! **Ao salvar o PDF, use o nome de arquivo sugerido:** ${filename}`, false);
 
-        // 4. Dispara a janela de impressão do navegador
         window.print();
 
-        // 5. Esconde o preview após a impressão (um timeout rápido)
         setTimeout(() => {
             document.getElementById('preview-area').style.display = 'none';
         }, 100);
