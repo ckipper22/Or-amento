@@ -24,20 +24,20 @@
 
         /* Estilos Tabela de Itens */
         #itemsTable { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 20px; border-radius: 8px; overflow: hidden; }
-        /* Ajuste para 12 colunas */
         #itemsTable th, #itemsTable td { border: 1px solid #ddd; padding: 10px 5px; text-align: left; vertical-align: middle; font-size: 0.7em; } 
         #itemsTable th { background-color: #e3f2fd; color: #1e88e5; font-weight: 700; border-bottom: 2px solid #1e88e5; }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
 
-        /* NOVO: Estilo específico para o campo de Quantidade */
+        /* REVISÃO: Estilo específico para o campo de Quantidade */
         .input-quantidade {
             text-align: right;
-            font-weight: bold; /* Deixa o número em negrito */
-            padding: 2px 5px; 
-            font-size: 0.9em !important; /* Aumenta o tamanho da fonte para melhor leitura */
-            height: 25px; /* Altura suficiente para o número */
-            width: calc(100% - 2px); /* Garante que preencha a célula */
+            font-weight: bold; 
+            padding: 5px 8px; /* Aumentado o padding */
+            font-size: 1.1em !important; /* Aumentado o tamanho da fonte para melhor leitura */
+            height: 30px; /* Altura ajustada */
+            width: calc(100% - 2px); 
+            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
         }
         
         /* Botões */
@@ -50,14 +50,17 @@
         .btn-action { background-color: #1e88e5; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; flex-grow: 1; font-weight: bold; }
         .btn-action:hover { background-color: #1565c0; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
         .btn-txt:hover { background-color: #00acc1; }
+        .btn-json-export { background-color: #ff9800; } /* Cor para exportar JSON */
+        .btn-json-export:hover { background-color: #fb8c00; }
+        .btn-json-import { background-color: #8bc34a; } /* Cor para importar JSON */
+        .btn-json-import:hover { background-color: #7cb342; }
 
         /* Estilos de Campos Especiais */
         .read-only-field { background-color: #eceff1; color: #666; font-size: 0.9em; border: 1px dashed #cfd8dc; }
-        /* Campo de Valor Unitário, Lucro/Custo Total do Item e Lucro Líquido */
         .calculated-field { background-color: #e8f5e9; font-weight: bold; color: #388e3c; } 
         #observacoes { resize: vertical; }
         
-        /* Estilos para a célula de imagem (NOVO) */
+        /* Estilos para a célula de imagem (REVISÃO: pequenos ajustes para melhor alinhamento) */
         .image-container { 
             position: relative; 
             padding: 5px 2px;
@@ -69,17 +72,18 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            gap: 3px; /* Espaçamento entre os inputs/botão */
+            gap: 3px; 
+            margin-bottom: 5px; 
         }
         .item-image-url-input { 
             padding: 4px; 
             font-size: 0.75em; 
-            height: 25px; /* Altura ajustada para o input de link */
-            box-sizing: border-box; /* Para incluir padding na largura */
+            height: 25px; 
+            box-sizing: border-box; 
         }
         .file-input-label {
             display: inline-block;
-            background-color: #009688; /* Cor para o botão de upload */
+            background-color: #009688; 
             color: white;
             padding: 4px 8px;
             border-radius: 4px;
@@ -88,14 +92,14 @@
             text-align: center;
             line-height: 1;
             box-sizing: border-box;
-            white-space: nowrap; /* Evita quebra de linha */
-            width: 100%; /* Ocupa a largura total disponível */
+            white-space: nowrap; 
+            width: 100%; 
         }
         .file-input-label:hover {
             background-color: #00796b;
         }
         .item-image-preview { 
-            max-width: 50px; /* Aumentado para melhor visualização */
+            max-width: 50px; 
             max-height: 50px;
             margin-top: 5px; 
             display: block; 
@@ -104,11 +108,12 @@
             object-fit: contain;
         }
         .image-feedback {
-            margin-top: 5px !important;
-            font-size: 0.65em !important;
+            margin-top: 2px !important;
+            font-size: 0.6em !important;
             color: #777 !important;
             text-align: center;
-            word-break: break-all; /* Para quebrar textos longos como URLs */
+            word-break: break-all; 
+            line-height: 1.2;
         }
 
 
@@ -155,12 +160,13 @@
         }
         .imposto-value { color: #d32f2f; } 
         
-        /* Estilos de impressão (Para PDF) */
+        /* REVISÃO: Estilos de impressão (Para PDF) - Garante que o layout seja robusto */
         @media print {
             body { background: none; margin: 0; padding: 0; }
             .container { box-shadow: none; border: none; padding: 10mm; max-width: 100%; }
             /* Oculta o formulário principal, botões e o resumo financeiro na impressão */
-            .form-section, .btn-group, h1, #message-box, .finance-summary, .orcamento-footer .info-fiscal { display: none !important; } 
+            .form-section, .btn-group, h1, #message-box, .finance-summary { display: none !important; } 
+            .orcamento-footer .info-fiscal { display: block !important; } /* REVISÃO: Mostra info fiscal no PDF */
             
             /* Mostra apenas a pré-visualização para impressão */
             .preview-area { display: block !important; border: none !important; padding: 0 !important; margin: 0 !important; }
@@ -170,11 +176,10 @@
             .preview-area table { border-collapse: collapse; width: 100%; margin: 10px 0; }
             .preview-area th, .preview-area td { border: 1px solid #000; padding: 6px; font-size: 9pt; }
             .preview-area th { background-color: #f0f0f0 !important; }
-            .total-box { width: 50%; float: right; }
+            .total-box { width: 50%; float: right; margin-top: 10px;} 
             .total-box .total-final { border-top: 1px solid #000 !important; background-color: #f0f0f0 !important; }
 
             /* Garante que as imagens dos itens fiquem visíveis na impressão e não quebrem o layout */
-            /* Este CSS externo é importante, mas o fix foi aplicar um estilo inline no HTML gerado */
             .orcamento-body img.item-image-print {
                 max-width: 50px; 
                 max-height: 50px;
@@ -188,11 +193,15 @@
                 display: table;
             }
             .item-description-print {
-                font-size: 0.8em;
+                font-size: 0.75em; 
                 color: #555;
                 display: block;
                 margin-top: 3px;
-                white-space: pre-wrap; /* Para respeitar as quebras de linha */
+                white-space: pre-wrap; 
+            }
+            /* REVISÃO: Força quebras de página em áreas estratégicas */
+            .orcamento-footer {
+                page-break-before: auto; 
             }
         }
     </style>
@@ -202,7 +211,7 @@
 <div class="container">
     <h1>Gerador de Proposta Comercial (Orçamento)</h1>
 
-    <div id="message-box" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: bold; text-align: center;"></div>
+    <div id="message-box" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 6px; font-weight: bold; text-align: center; border: 1px solid;"></div>
 
     <div class="form-section" style="display: none;">
         <h2>Seus Dados (Emissor do Orçamento)</h2>
@@ -258,18 +267,18 @@
         <table id="itemsTable">
             <thead>
                 <tr>
-                    <th style="width: 10%;">Img.</th> <!-- Ajustado para 10% -->
-                    <th style="width: 20%;">Produto/Descrição</th> <!-- Ajustado para 20% -->
-                    <th style="width: 5%;" class="text-right">Qtd.</th> <!-- Ajustado para 5% -->
-                    <th style="width: 8%;" class="text-right">Custo Unit. (R$)</th> <!-- Ajustado para 8% -->
-                    <th style="width: 5%;" class="text-right">Margem (%)</th>
-                    <th style="width: 8%;" class="text-right">Valor Unit. (R$)</th> <!-- Ajustado para 8% -->
+                    <th style="width: 10%;">Img.</th> 
+                    <th style="width: 20%;">Produto/Descrição</th> 
+                    <th style="width: 7%;" class="text-right">Qtd.</th> 
+                    <th style="width: 8%;" class="text-right">Custo Unit. (R$)</th> 
+                    <th style="width: 5%;" class="text-right">Margem Líq. Desejada (%)</th> <!-- REVISÃO: Nome da coluna -->
+                    <th style="width: 8%;" class="text-right">Valor Unit. (R$)</th> 
                     <th style="width: 5%;" class="text-right">Desc. (%)</th>
-                    <th style="width: 8%;" class="text-right">Custo Total (R$)</th> <!-- Ajustado para 8% -->
-                    <th style="width: 8%;" class="text-right">Lucro Bruto (R$)</th> <!-- Ajustado para 8% -->
-                    <th style="width: 8%;" class="text-right">Lucro Líquido (R$)</th> <!-- Ajustado para 8% -->
-                    <th style="width: 8%;" class="text-right">Total Item (R$)</th> <!-- Ajustado para 8% -->
-                    <th style="width: 7%;" class="text-center">Ações</th> <!-- Ajustado para 7% -->
+                    <th style="width: 8%;" class="text-right">Custo Total (R$)</th> 
+                    <th style="width: 8%;" class="text-right">Lucro Bruto (R$)</th> 
+                    <th style="width: 8%;" class="text-right">Lucro Líquido (R$)</th> 
+                    <th style="width: 8%;" class="text-right">Total Item (R$)</th> 
+                    <th style="width: 5%;" class="text-center">Ações</th> 
                 </tr>
             </thead>
             <tbody>
@@ -299,6 +308,9 @@
     <div class="btn-group">
         <button class="btn-action" onclick="saveAsPDF()">Gerar e Imprimir/Salvar PDF</button>
         <button class="btn-action btn-txt" onclick="triggerDownloadTxt()">Baixar Proposta como Arquivo TXT</button>
+        <button class="btn-action btn-json-export" onclick="exportProposalAsJson()">Exportar JSON</button>
+        <button class="btn-action btn-json-import" onclick="document.getElementById('json-upload').click()">Importar JSON</button>
+        <input type="file" id="json-upload" accept="application/json" style="display:none;" onchange="handleJsonUpload(event)">
     </div>
     <div class="preview-area" id="preview-area">
     </div>
@@ -314,9 +326,8 @@
         { min: 1800000.01, max: 3600000.00, aliquota: 0.1430, deducao: 87300.00, faixa: '5ª (R$ 1.800.000,01 a R$ 3.600.000,00)' },
         { min: 3600000.01, max: 4800000.00, aliquota: 0.1900, deducao: 378000.00, faixa: '6ª (R$ 3.600.000,01 a R$ 4.800.000,00)' }
     ];
-    let currentEffectiveTaxRate = 0.00; // Variável global para armazenar a AE em decimal
+    let currentEffectiveTaxRate = 0.00; 
     
-    // Seus dados pré-preenchidos (do usuário)
     const DADOS_EMPRESA = {
         razao: document.getElementById('empresa_razao').value,
         cnpj: document.getElementById('empresa_cnpj').value,
@@ -329,14 +340,21 @@
     };
 
     let itemCounter = 0;
-    // NOVO: Objeto para armazenar dados de imagem por linha (file e URL)
-    let itemAttachments = {}; // Stores { rowId: { file: FileObject|null, url: string|null, previewSrc: string|null } }
+    let itemAttachments = {}; 
     
     /**
      * Limpa e formata a entrada de texto para um padrão numérico brasileiro (R$).
      */
     function formatNumericInput(value) {
-        let cleaned = value.replace(/[^\d,\.]/g, '');
+        if (value === null || value === undefined || value.trim() === '') {
+            return ''; 
+        }
+        let cleaned = value.replace(/[^\d,.]/g, ''); // Permite dígitos, vírgula e ponto
+        // Garante apenas uma vírgula para separar decimais
+        const parts = cleaned.split(',');
+        if (parts.length > 2) {
+            cleaned = parts[0] + ',' + parts.slice(1).join('');
+        }
         return cleaned;
     }
 
@@ -346,8 +364,9 @@
      * @returns {number} O valor numérico (ex: 1200000.00).
      */
     function cleanCurrency(valueString) {
-        if (!valueString) return 0;
-        return parseFloat(valueString.replace(/\./g, '').replace(',', '.')) || 0;
+        if (!valueString || typeof valueString !== 'string') return 0;
+        let cleaned = valueString.replace(/\./g, '').replace(',', '.'); // Remove pontos de milhar e troca vírgula por ponto decimal
+        return parseFloat(cleaned) || 0;
     }
 
     /**
@@ -359,33 +378,31 @@
         box.style.display = 'block';
         box.style.backgroundColor = isError ? '#ffe0b2' : '#e3f2fd'; 
         box.style.color = isError ? '#e65100' : '#1e88e5'; 
+        box.style.borderColor = isError ? '#e65100' : '#1e88e5'; 
         
         setTimeout(() => {
             box.style.display = 'none';
-        }, 10000);
+        }, 10000); 
     }
     
     /**
      * Identifica a faixa correta do Simples Nacional com base no RBT12.
-     * @param {number} rbt12 - Receita Bruta em 12 Meses.
-     * @returns {number} O índice (0-5) da faixa ou -1 se não encontrado.
      */
     function identifyTaxBracket(rbt12) {
+        if (rbt12 === 0) return -1; 
+        if (rbt12 > 0 && rbt12 <= TAX_BRACKETS[0].max) {
+             return 0;
+        }
         for (let i = 0; i < TAX_BRACKETS.length; i++) {
             const bracket = TAX_BRACKETS[i];
             if (rbt12 > bracket.min && rbt12 <= bracket.max) {
                 return i;
             }
         }
-        // Faixa 1 (até 180.000,00)
-        if (rbt12 > 0 && rbt12 <= TAX_BRACKETS[0].max) {
-             return 0;
-        }
-        // Se for maior que o máximo (4.800.000), usa a última faixa
         if (rbt12 > TAX_BRACKETS[TAX_BRACKETS.length - 1].max) {
             return TAX_BRACKETS.length - 1;
         }
-        return -1; // RBT12 inválida (ex: 0)
+        return -1;
     }
 
     /**
@@ -404,9 +421,9 @@
         const selectedBracketIndex = identifyTaxBracket(rbt12);
 
         if (selectedBracketIndex === -1 || rbt12 <= 0) {
-            aliquotaEfetivaField.value = "RBT12 Inválida";
+            aliquotaEfetivaField.value = "Não Aplicável / RBT12 Inválida";
             aliquotaEfetivaDecimalField.value = "0.00";
-            faixaIdentificadaField.value = "Nenhuma Faixa Aplicável (RBT12 = 0)";
+            faixaIdentificadaField.value = "Nenhuma Faixa Aplicável (RBT12 < 0 ou 0)";
             faixaSelectHidden.value = "-1";
             currentEffectiveTaxRate = 0.00;
         } else {
@@ -415,16 +432,18 @@
             const PD = bracket.deducao;
 
             effectiveTaxRate = ((rbt12 * ALIQ) - PD) / rbt12;
+            if (effectiveTaxRate < 0) effectiveTaxRate = 0; // Garante que a alíquota não seja negativa
+            if (effectiveTaxRate > 1) effectiveTaxRate = 1; // Garante que a alíquota não exceda 100%
 
             if(showAlert) {
-                showMessage(`Faixa fiscal identificada: **${bracket.faixa}**! Alíquota Efetiva calculada.`, false);
+                showMessage(`Faixa fiscal identificada: **${bracket.faixa}**. Alíquota Efetiva calculada.`, false);
             }
             
             const formattedAE = (effectiveTaxRate * 100).toFixed(2).replace('.', ',');
             aliquotaEfetivaField.value = `${formattedAE}%`;
             aliquotaEfetivaDecimalField.value = effectiveTaxRate.toFixed(4); 
             faixaIdentificadaField.value = bracket.faixa;
-            faixaSelectHidden.value = selectedBracketIndex; // Salva o índice para uso posterior
+            faixaSelectHidden.value = selectedBracketIndex; 
             currentEffectiveTaxRate = effectiveTaxRate;
         }
 
@@ -445,9 +464,12 @@
      * Função auxiliar para formatar inputs monetários (Custo Unitário) no evento blur.
      */
     function formatCurrencyInput(inputElement) {
-        let value = inputElement.value.replace(/\./g, '').replace(',', '.');
-        if (!isNaN(parseFloat(value))) {
-            inputElement.value = parseFloat(value).toFixed(2).replace('.', ',');
+        let value = inputElement.value;
+        if (value.trim() === '') value = "0";
+        let cleaned = cleanCurrency(value);
+
+        if (!isNaN(cleaned)) {
+            inputElement.value = cleaned.toFixed(2).replace('.', ',');
         } else {
             inputElement.value = "0,00"; 
         }
@@ -458,46 +480,51 @@
      * Função auxiliar para formatar inputs percentuais (Margem e Desconto) e disparar cálculo.
      */
     function formatPercentInput(inputElement) {
-        let value = cleanCurrency(inputElement.value);
+        let value = inputElement.value;
+        if (value.trim() === '') value = "0";
+        let cleaned = cleanCurrency(value);
         
-        if (value < 0) value = 0;
-        if (value > 100) value = 100;
+        if (isNaN(cleaned) || cleaned < 0) cleaned = 0;
+        if (cleaned > 1000) cleaned = 1000; // Limite superior razoável para percentual
 
-        inputElement.value = value.toFixed(2).replace('.', ',');
+        inputElement.value = cleaned.toFixed(2).replace('.', ',');
         
         calculateItemPrice(inputElement); 
     }
 
     /**
-     * Calcula o Preço de Venda Unitário com base no Custo e na Margem, e então atualiza os totais.
+     * REVISÃO CRÍTICA: Calcula o Preço de Venda Unitário com base no Custo, na Margem Líquida Desejada e na Alíquota Efetiva.
      * @param {HTMLInputElement} inputElement - O input (Custo, Margem, Qtd ou Desconto) que disparou o evento.
      */
     function calculateItemPrice(inputElement) {
         const row = inputElement.closest('tr');
-        
-        // Célula 3: Custo Unitário
+        if (!row) return;
+
         const costInput = row.cells[3].getElementsByTagName('input')[0];
         const unitCost = cleanCurrency(costInput.value);
 
-        // Célula 4: Margem (%)
         const marginInput = row.cells[4].getElementsByTagName('input')[0];
-        const marginPercent = cleanCurrency(marginInput.value);
-        
-        // Célula 5: Valor Unitário (será atualizado)
+        const targetNetMarginPercent = cleanCurrency(marginInput.value); // É a Margem Líquida Desejada
+        const targetNetMarginDecimal = targetNetMarginPercent / 100;
+
         const priceOutput = row.cells[5].getElementsByTagName('input')[0];
-        
+        const AE = currentEffectiveTaxRate; // Alíquota Efetiva global do Simples Nacional
+
         let unitPrice = 0;
+
+        // VALIDAÇÃO CHAVE: (1 - MLD - AE) deve ser maior que zero.
+        const divisor = (1 - targetNetMarginDecimal - AE);
         
-        // CÁLCULO DO PREÇO DE VENTA UNITÁRIO (MARKUP)
-        const marginDecimal = marginPercent / 100;
-        
-        if (marginDecimal >= 1) { 
-            priceOutput.value = unitCost.toFixed(2).replace('.', ','); 
-            showMessage("Margem de 100% ou mais: O preço de venda tende ao infinito. Defina uma margem menor que 100%.", true);
-        } else if (unitCost > 0 && marginDecimal >= 0) {
-            unitPrice = unitCost / (1 - marginDecimal);
+        if (divisor <= 0) { // Impossível atingir a margem desejada com custo e imposto
+            priceOutput.value = "ERRO";
+            showMessage(`ERRO no Item: A soma da Margem Líquida desejada (${targetNetMarginPercent}%) e a Alíquota Efetiva do Simples Nacional (${(AE*100).toFixed(2).replace('.', ',')}%) para este item é de ${((targetNetMarginDecimal + AE)*100).toFixed(2).replace('.', ',')}%. O ideal é que seja menor que 100%. Ajuste a margem ou o custo.`, true);
+            unitPrice = 0; // Garante que o preço seja zero para não propagar erros de cálculo
+            priceOutput.value = unitPrice.toFixed(2).replace('.', ','); 
+        } else if (unitCost >= 0) { 
+            unitPrice = unitCost / divisor;
             priceOutput.value = unitPrice.toFixed(2).replace('.', ','); 
         } else {
+            unitPrice = 0;
             priceOutput.value = "0,00";
         }
         
@@ -506,10 +533,9 @@
 
     /**
      * Calcula o total de cada item e os totais gerais (Receita, Custo, Lucro Bruto, Imposto, Lucro Líquido).
-     * Esta função agora atualiza as novas colunas de Custo Total Item, Lucro Bruto Item e Lucro Líquido Item.
      */
     function calculateTotal() {
-        const AE = currentEffectiveTaxRate; // Alíquota Efetiva (decimal)
+        const AE = currentEffectiveTaxRate; 
         let totalReceitaLiquida = 0; 
         let subtotalBruto = 0; 
         let totalCusto = 0;
@@ -520,38 +546,33 @@
         for (let i = 0; i < tableBody.rows.length; i++) {
             const row = tableBody.rows[i];
             
-            // ÍNDICES DOS CAMPOS DE ENTRADA/CÁLCULO PRINCIPAL
-            // A descrição detalhada está no índice 1 (Description/Service Name), que agora contém o Nome e a Descrição.
-            const unitCost = cleanCurrency(row.cells[3].getElementsByTagName('input')[0].value); // Custo Unitário (3)
-            const unitPrice = cleanCurrency(row.cells[5].getElementsByTagName('input')[0].value); // Valor Unitário (5)
-            const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value) || 0; // Qtd (2)
-            const discountPercent = cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value); // Desconto % (6)
+            const unitCost = cleanCurrency(row.cells[3].getElementsByTagName('input')[0].value); 
+            const unitPriceValue = row.cells[5].getElementsByTagName('input')[0].value;
+            // Se o unitPriceValue for 'ERRO', ele não é um número. Define como 0 para os cálculos.
+            const unitPrice = unitPriceValue === "ERRO" ? 0 : cleanCurrency(unitPriceValue); 
+            const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value) || 0; 
+            const discountPercent = cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value); 
             
-            // ÍNDICES DOS CAMPOS DE SAÍDA NOVO/TOTAL
-            const custoTotalItemCell = row.cells[7].getElementsByTagName('input')[0]; // Custo Total Item (7)
-            const lucroBrutoItemCell = row.cells[8].getElementsByTagName('input')[0]; // Lucro Bruto Item (8)
-            const lucroLiquidoItemCell = row.cells[9].getElementsByTagName('input')[0]; // Lucro Líquido Item (9) 
-            const totalCell = row.cells[10]; // Total Venda Líquida Item (10) 
+            const custoTotalItemCell = row.cells[7].getElementsByTagName('input')[0]; 
+            const lucroBrutoItemCell = row.cells[8].getElementsByTagName('input')[0]; 
+            const lucroLiquidoItemCell = row.cells[9].getElementsByTagName('input')[0]; 
+            const totalCell = row.cells[10]; 
             
             const totalBrutoItem = qtd * unitPrice;
             
-            // Cálculos para o item:
             const valorDesconto = (totalBrutoItem * discountPercent) / 100;
-            const totalReceitaItem = totalBrutoItem - valorDesconto; // Venda Líquida
-            const totalCustoItem = qtd * unitCost; // Custo Total Item
-            const lucroBrutoItem = totalReceitaItem - totalCustoItem; // Lucro Bruto Item
+            const totalReceitaItem = totalBrutoItem - valorDesconto; 
+            const totalCustoItem = qtd * unitCost; 
+            const lucroBrutoItem = totalReceitaItem - totalCustoItem; 
             const impostoItem = totalReceitaItem * AE;
-            const lucroLiquidoItem = lucroBrutoItem - impostoItem; // Lucro Líquido Item 
+            const lucroLiquidoItem = lucroBrutoItem - impostoItem; 
 
-            // 1. ATUALIZAÇÃO DOS NOVOS CAMPOS DO ITEM:
             custoTotalItemCell.value = totalCustoItem.toFixed(2).replace('.', ','); 
             lucroBrutoItemCell.value = lucroBrutoItem.toFixed(2).replace('.', ','); 
             lucroLiquidoItemCell.value = lucroLiquidoItem.toFixed(2).replace('.', ','); 
             
-            // 2. Atualiza o Total de Venda Líquida do Item (Índice 10)
             totalCell.innerHTML = formatCurrency(totalReceitaItem);
 
-            // 3. Acumula Totais Gerais
             subtotalBruto += totalBrutoItem;
             totalReceitaLiquida += totalReceitaItem;
             totalCusto += totalCustoItem;
@@ -562,7 +583,6 @@
         const totalLucroBruto = totalReceitaLiquida - totalCusto;
         const totalLucroLiquido = totalLucroBruto - totalImposto;
 
-        // Atualiza Painel de Resumo Financeiro
         document.getElementById('resumo-receita').textContent = formatCurrency(totalReceitaLiquida);
         document.getElementById('resumo-custo').textContent = formatCurrency(totalCusto);
         document.getElementById('resumo-lucro-bruto').textContent = formatCurrency(totalLucroBruto);
@@ -579,27 +599,15 @@
         };
     }
 
-    /**
-     * Atualiza os totais sempre que um valor em qualquer campo de item muda.
-     */
     function updateTotals() {
         calculateTotal(); 
     }
 
-    // NOVO: Funções para manipulação de imagem por item
-    /**
-     * Dispara o input de arquivo oculto quando o label "Upload" é clicado.
-     * @param {HTMLElement} buttonElement - O botão "Upload" clicado.
-     */
     function triggerFileInput(buttonElement) {
-        const fileInput = buttonElement.previousElementSibling; // Pega o input[type="file"] antes do label
+        const fileInput = buttonElement.previousElementSibling; 
         fileInput.click();
     }
 
-    /**
-     * Manipula a seleção de arquivo do dispositivo.
-     * @param {HTMLInputElement} fileInput - O input de arquivo.
-     */
     function handleImageFileChange(fileInput) {
         const row = fileInput.closest('tr');
         const rowId = row.id;
@@ -612,33 +620,39 @@
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                const previewSrc = e.target.result; // Data URL ou Base64
-                itemAttachments[rowId] = { file: file, url: null, previewSrc: previewSrc };
+                const previewSrc = e.target.result; 
+                itemAttachments[rowId] = { file: file.name, url: null, previewSrc: previewSrc }; // Guarda o nome do arquivo
                 imageFeedback.textContent = `Arquivo: ${file.name}`;
-                imageUrlInput.value = ''; // Limpa o campo de URL
+                imageUrlInput.value = ''; 
 
                 imagePreview.src = previewSrc;
                 imagePreview.style.display = 'block';
             };
-            reader.readAsDataURL(file); // Lê o arquivo como Data URL para preview
-        } else {
-            // Se o arquivo foi deselecionado (e.g., cancelou o diálogo)
-            itemAttachments[rowId].file = null;
-            if (!itemAttachments[rowId].url) {
-                itemAttachments[rowId].previewSrc = null;
+            // REVISÃO: Limitar o tamanho do arquivo para evitar PDFs gigantes. Max 500KB como exemplo.
+            if (file.size > 500 * 1024) { 
+                showMessage("ERRO: A imagem é muito grande. Use um link ou reduza o tamanho do arquivo (max 500KB).");
+                fileInput.value = ''; // Limpa o input de arquivo
                 imageFeedback.textContent = 'Nenhum anexo.';
                 imagePreview.style.display = 'none';
-            } else {
-                imageFeedback.textContent = `Link: ${itemAttachments[rowId].url}`;
-                imagePreview.src = itemAttachments[rowId].url;
+                if (itemAttachments[rowId]) delete itemAttachments[rowId];
+                return;
+            }
+            reader.readAsDataURL(file); 
+        } else {
+            if (itemAttachments[rowId]) { 
+                itemAttachments[rowId].file = null;
+                if (!itemAttachments[rowId].url) {
+                    itemAttachments[rowId].previewSrc = null;
+                    imageFeedback.textContent = 'Nenhum anexo.';
+                    imagePreview.style.display = 'none';
+                } else {
+                    imageFeedback.textContent = `Link: ${itemAttachments[rowId].url}`;
+                    imagePreview.src = itemAttachments[rowId].url;
+                }
             }
         }
     }
 
-    /**
-     * Manipula a entrada de URL da imagem.
-     * @param {HTMLInputElement} urlInput - O input de texto da URL.
-     */
     function handleImageUrlChange(urlInput) {
         const row = urlInput.closest('tr');
         const rowId = row.id;
@@ -650,19 +664,21 @@
         if (url !== '') {
             itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
             imageFeedback.textContent = `Link: ${url}`;
-            fileInput.value = ''; // Limpa a seleção do input file
+            fileInput.value = ''; 
             imagePreview.src = url;
             imagePreview.style.display = 'block';
         } else {
-            // Se o URL foi limpo
-            itemAttachments[rowId].url = null;
-            if (!itemAttachments[rowId].file) {
-                itemAttachments[rowId].previewSrc = null;
-                imageFeedback.textContent = 'Nenhum anexo.';
-                imagePreview.style.display = 'none';
-            } else {
-                imageFeedback.textContent = `Arquivo: ${itemAttachments[rowId].file.name}`;
-                imagePreview.src = itemAttachments[rowId].previewSrc; // Restaura o preview do arquivo se houver
+            if (itemAttachments[rowId]) { 
+                itemAttachments[rowId].url = null;
+                if (itemAttachments[rowId].file) {
+                    imageFeedback.textContent = `Arquivo: ${itemAttachments[rowId].file}`;
+                    imagePreview.src = itemAttachments[rowId].previewSrc; 
+                    imagePreview.style.display = 'block';
+                } else {
+                    itemAttachments[rowId].previewSrc = null;
+                    imageFeedback.textContent = 'Nenhum anexo.';
+                    imagePreview.style.display = 'none';
+                }
             }
         }
     }
@@ -670,39 +686,54 @@
 
     /**
      * Adiciona uma nova linha de item à tabela do formulário.
+     * @param {Object} [data] - Dados opcionais para pré-preencher a linha.
      */
-    function addItemRow() {
+    function addItemRow(data = {}) {
         itemCounter++;
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
         const newRow = tableBody.insertRow();
-        newRow.id = 'row-' + itemCounter;
+        const newRowId = 'row-' + itemCounter;
+        newRow.id = newRowId;
 
-        // NOVO: Inicializa o objeto de anexo para a nova linha
-        itemAttachments[newRow.id] = { file: null, url: null, previewSrc: null };
+        itemAttachments[newRowId] = { 
+            file: data.imageAttachment && data.imageAttachment.file ? data.imageAttachment.file : null, 
+            url: data.imageAttachment && data.imageAttachment.url ? data.imageAttachment.url : null, 
+            previewSrc: data.imageAttachment && data.imageAttachment.previewSrc ? data.imageAttachment.previewSrc : null 
+        };
+
+        const initialImageHtml = itemAttachments[newRowId].previewSrc 
+            ? `<img id="preview-${newRowId}" src="${itemAttachments[newRowId].previewSrc}" alt="Preview" class="item-image-preview">`
+            : `<img id="preview-${newRowId}" src="" alt="Preview" class="item-image-preview" style="display: none;">`;
+        const initialImageFeedback = itemAttachments[newRowId].file 
+            ? `Arquivo: ${itemAttachments[newRowId].file}`
+            : (itemAttachments[newRowId].url ? `Link: ${itemAttachments[newRowId].url}` : 'Nenhum anexo.');
+        const initialImageUrlValue = itemAttachments[newRowId].url || '';
+        const initialImageDisplay = itemAttachments[newRowId].previewSrc ? 'block' : 'none';
+
 
         newRow.innerHTML = `
             <td class="image-container">
                 <div class="image-inputs-wrapper">
                     <input type="file" class="item-image-file-input" accept="image/*" style="display:none;" onchange="handleImageFileChange(this)">
                     <span class="file-input-label" onclick="triggerFileInput(this)">Upload</span>
-                    <input type="text" placeholder="Link da Imagem" class="item-image-url-input" oninput="handleImageUrlChange(this)">
+                    <input type="text" placeholder="Link da Imagem" class="item-image-url-input" value="${initialImageUrlValue}" oninput="handleImageUrlChange(this)">
                 </div>
-                <p class="image-feedback text-xs text-muted-text-color mt-1 italic">Nenhum anexo.</p>
-                <img id="preview-${newRow.id}" src="" alt="Preview" class="item-image-preview" style="display: none;">
+                <p class="image-feedback text-xs text-muted-text-color mt-1 italic">${initialImageFeedback}</p>
+                <img id="preview-${newRowId}" src="${itemAttachments[newRowId].previewSrc || ''}" alt="Preview" class="item-image-preview" style="display: ${initialImageDisplay};">
             </td>
             <td>
-                <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" oninput="updateTotals()">
-                <textarea rows="2" placeholder="Descrição Detalhada do Item/Serviço" class="item-description-input" oninput="updateTotals()" style="margin-top: 5px; font-size: 0.9em;"></textarea>
+                <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" value="${data.name || ''}" oninput="updateTotals()">
+                <textarea rows="2" placeholder="Descrição Detalhada do Item/Serviço" class="item-description-input" oninput="updateTotals()" style="margin-top: 5px; font-size: 0.9em;">${data.description || ''}</textarea>
             </td>
-            <td><input type="number" value="1" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td> 
+            <td><input type="number" value="${data.quantity || 1}" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td> 
             
-            <td><input type="text" value="0,00" class="text-right" onblur="formatCurrencyInput(this)"></td>
+            <td><input type="text" value="${(data.unitCost !== undefined) ? data.unitCost.toFixed(2).replace('.', ',') : '0,00'}" class="text-right" onblur="formatCurrencyInput(this)"></td>
 
-            <td><input type="text" value="30,00" class="text-right" onblur="formatPercentInput(this)"></td>
+            <td><input type="text" value="${(data.marginPercent !== undefined) ? data.marginPercent.toFixed(2).replace('.', ',') : '30,00'}" class="text-right" onblur="formatPercentInput(this)"></td>
 
             <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
 
-            <td><input type="text" value="0,00" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
+            <td><input type="text" value="${(data.discountPercent !== undefined) ? data.discountPercent.toFixed(2).replace('.', ',') : '0,00'}" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
             
             <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
 
@@ -712,7 +743,7 @@
 
             <td class="text-right total-item">${formatCurrency(0)}</td>
             
-            <td class="text-center"><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRow.id}')">X</button></td>
+            <td class="text-center"><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRowId}')">X</button></td>
         `;
         
         // Inicializa o preço de venda e os totais
@@ -724,8 +755,8 @@
      */
     function removeItemRow(rowId) {
         document.getElementById(rowId).remove();
-        delete itemAttachments[rowId]; // NOVO: Remove os dados da imagem ao remover a linha
-        updateTotals(); // Recalcula após remover
+        delete itemAttachments[rowId]; 
+        updateTotals(); 
     }
     
     /**
@@ -739,7 +770,6 @@
             addItemRow();
         }
         
-        // Recalcula a alíquota com os valores padrões preenchidos, sem exibir o alerta de faixa
         updateSimplesNacional(false);
     }
 
@@ -747,7 +777,7 @@
 
     /**
      * ----------------------------------------------------------------------------------
-     * FUNÇÕES DE GERAÇÃO DE SAÍDA (PDF/TXT)
+     * FUNÇÕES DE GERAÇÃO DE SAÍDA (PDF/TXT/JSON)
      * ----------------------------------------------------------------------------------
      */
      
@@ -790,7 +820,6 @@
     
     /**
      * Coleta todos os dados e gera o HTML da proposta para visualização ou impressão (PDF).
-     * O HTML gerado é limpo e não inclui campos internos como Custo e Lucro Líquido por item.
      */
     function generateProposalHTML() {
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
@@ -806,11 +835,19 @@
             const row = rows[i];
             const nomeProduto = row.cells[1].querySelector('.item-name-input').value.trim();
             const qtd = parseFloat(row.cells[2].getElementsByTagName('input')[0].value);
-            const unitValueText = row.cells[5].getElementsByTagName('input')[0].value.replace(/\./g, '').replace(',', '.');
-            const unitValue = parseFloat(unitValueText);
+            const unitValueText = row.cells[5].getElementsByTagName('input')[0].value;
+            const unitValue = cleanCurrency(unitValueText);
 
-            if (nomeProduto === '' || isNaN(qtd) || qtd <= 0 || isNaN(unitValue) || unitValue <= 0) {
-                showMessage(`ERRO: O item ${i + 1} deve ter um Nome (Produto/Serviço) e Quantidade válida (> 0), e o Valor Unitário de Venda deve ser calculado (> 0). Verifique o Custo/Margem.`, true);
+            if (nomeProduto === '') {
+                showMessage(`ERRO: O item ${i + 1} deve ter um 'Nome do Produto/Serviço' preenchido.`, true);
+                return null;
+            }
+            if (isNaN(qtd) || qtd <= 0) {
+                showMessage(`ERRO: O item ${i + 1} deve ter uma 'Quantidade' válida e maior que zero.`, true);
+                return null;
+            }
+            if (unitValueText === "ERRO" || isNaN(unitValue) || unitValue <= 0) {
+                showMessage(`ERRO: O 'Valor Unitário' do item ${i + 1} está com erro de cálculo ou é inválido. Verifique o 'Custo Unit.' e a 'Margem Líq. Desejada (%)' e a 'Alíquota Efetiva'.`, true);
                 return null;
             }
         }
@@ -826,7 +863,6 @@
         const formaPagamento = document.getElementById('forma_pagamento').value;
         const observacoes = document.getElementById('observacoes').value;
         
-        // DADOS FISCAIS - MANTIDOS PARA O TXT, MAS NÃO INCLUÍDOS NO HTML DA IMPRESSÃO
         const aliquotaEfetivaText = document.getElementById('aliquota_efetiva').value;
         const rbt12Value = document.getElementById('rbt12').value;
 
@@ -838,26 +874,23 @@
 
         let itemsHtml = '';
         
-        // Geração da tabela de itens (índices limpos para o cliente)
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
             const rowId = row.id;
             
-            // NOVO: Obtém a source da imagem do itemAttachments
             const itemAttachment = itemAttachments[rowId];
             const imageUrlToPrint = itemAttachment && itemAttachment.previewSrc ? itemAttachment.previewSrc : '';
             
-            // CORREÇÃO APLICADA: Adição de estilos inline para garantir a exibição da imagem no PDF.
             const imageHtml = imageUrlToPrint 
-                ? `<img src="${imageUrlToPrint}" alt="Produto" class="item-image-print" style="max-width: 50px; max-height: 50px; display: block; margin: 0 auto; object-fit: contain;">` 
+                ? `<img src="${imageUrlToPrint}" alt="Produto" class="item-image-print" style="max-width: 50px; max-height: 50px; display: block; margin: 0 auto; object-fit: contain; vertical-align: middle;">` 
                 : ''; 
 
             const nomeProduto = row.cells[1].querySelector('.item-name-input').value; 
             const descricaoDetalhada = row.cells[1].querySelector('.item-description-input').value; 
             const qtd = row.cells[2].getElementsByTagName('input')[0].value; 
-            const unitValue = row.cells[5].getElementsByTagName('input')[0].value; 
-            const discountPercent = row.cells[6].getElementsByTagName('input')[0].value; 
-            const totalItemText = row.cells[10].textContent; // Índice 10: Total Item (Venda Líquida)
+            const unitValue = cleanCurrency(row.cells[5].getElementsByTagName('input')[0].value).toFixed(2).replace('.', ','); 
+            const discountPercent = cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value).toFixed(2).replace('.', ','); 
+            const totalItemText = row.cells[10].textContent; 
 
             const descricaoCompleta = descricaoDetalhada 
                 ? `${nomeProduto} <span class="item-description-print">${descricaoDetalhada.replace(/\n/g, '<br>')}</span>`
@@ -930,7 +963,7 @@
             </div>
 
             <div class="orcamento-footer">
-                <p class="info-fiscal" style="font-size: 0.75em; margin: 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px; display: none !important;">
+                <p class="info-fiscal" style="font-size: 0.75em; margin: 15px 0 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px;">
                     **Informação Fiscal (Simples Nacional - Anexo I):** RBT12 utilizada: R$ ${rbt12Value} | Alíquota Efetiva (AE) aplicada: ${aliquotaEfetivaText}
                 </p>
                 
@@ -959,40 +992,88 @@
         
         const { subtotal, desconto, totalGeral, custoTotal, impostoTotal, lucroLiquido } = calculateTotal();
         const filename = generateFilename('txt');
+
+        const numOrcamento = document.getElementById('orcamento_numero').value || 'N/A';
+        const dataEmissao = document.getElementById('orcamento_data').value;
+        const validadeDias = document.getElementById('orcamento_validade').value || '7';
+        const clienteNome = document.getElementById('cliente_nome').value || 'Cliente Nao Informado';
+        const clienteDoc = document.getElementById('cliente_doc').value || 'N/A';
+        const contatoEmail = document.getElementById('contato_email').value;
+        const formaPagamento = document.getElementById('forma_pagamento').value;
+        const observacoes = document.getElementById('observacoes').value;
+        const aliquotaEfetivaText = document.getElementById('aliquota_efetiva').value;
+        const rbt12Value = document.getElementById('rbt12').value;
+
+        const dataEmissaoObj = dataEmissao ? new Date(dataEmissao + 'T00:00:00') : new Date();
+        const dataValidade = new Date(dataEmissaoObj); 
+        dataValidade.setDate(dataValidade.getDate() + parseInt(validadeDias));
+        const dataEmissaoFormatada = dataEmissaoObj.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+        const dataValidadeFormatada = dataValidade.toLocaleDateString('pt-BR');
         
         let content = "===== PROPOSTA COMERCIAL (ORÇAMENTO) =====\n\n";
         content += `EMPRESA: ${DADOS_EMPRESA.razao}\n`;
+        content += `CNPJ: ${DADOS_EMPRESA.cnpj}\n`;
+        content += `IE: ${DADOS_EMPRESA.ie}\n`;
+        content += `AFE: ${DADOS_EMPRESA.afe}\n`;
+        content += `ENDERECO: ${DADOS_EMPRESA.endereco}, ${DADOS_EMPRESA.cidade}, CEP ${DADOS_EMPRESA.cep}\n`;
+        content += `CONTATO: ${DADOS_EMPRESA.contato}\n`;
         content += "-------------------------------------------\n";
-        content += "ITENS (Custo Total | Lucro Bruto | Lucro Líquido | Venda Líquida):\n";
+        content += `CLIENTE: ${clienteNome}\n`;
+        content += `CPF/CNPJ: ${clienteDoc}\n`;
+        if (contatoEmail) content += `E-MAIL: ${contatoEmail}\n`;
+        content += `ORCAMENTO No: ${numOrcamento}\n`;
+        content += `DATA DE EMISSAO: ${dataEmissaoFormatada}\n`;
+        content += `VALIDADE: ${validadeDias} dias (ate ${dataValidadeFormatada})\n`;
+        content += "-------------------------------------------\n";
+        content += "ITENS DA PROPOSTA:\n";
 
-        // Geração da lista de itens no TXT com os valores por produto (Índices Corrigidos)
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
             const nomeProduto = row.cells[1].querySelector('.item-name-input').value; 
             const descricaoDetalhada = row.cells[1].querySelector('.item-description-input').value; 
             const qtd = row.cells[2].getElementsByTagName('input')[0].value; 
-            const custoItemText = rows[i].cells[7].getElementsByTagName('input')[0].value; 
-            const lucroBrutoItemText = rows[i].cells[8].getElementsByTagName('input')[0].value; 
-            const lucroLiquidoItemText = rows[i].cells[9].getElementsByTagName('input')[0].value; 
-            const totalItemText = row.cells[10].textContent.replace('R$ ', ''); 
+            const unitValue = cleanCurrency(row.cells[5].getElementsByTagName('input')[0].value);
+            const discountPercent = cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value);
+            const custoItem = cleanCurrency(rows[i].cells[7].getElementsByTagName('input')[0].value); 
+            const lucroBrutoItem = cleanCurrency(rows[i].cells[8].getElementsByTagName('input')[0].value); 
+            const lucroLiquidoItem = cleanCurrency(rows[i].cells[9].getElementsByTagName('input')[0].value); 
+            const totalItem = cleanCurrency(row.cells[10].textContent.replace('R$ ', '')); 
             
-            content += `- ${qtd}x ${nomeProduto}\n`;
+            content += `\n- ITEM ${i + 1}:\n`;
+            content += `  PRODUTO/SERVICO: ${nomeProduto}\n`;
             if (descricaoDetalhada) {
-                content += `  [Descrição: ${descricaoDetalhada}]\n`;
+                content += `  DESCRICAO DETALHADA: ${descricaoDetalhada}\n`;
             }
-            content += `  [Custo: R$ ${custoItemText} | Lucro Bruto: R$ ${lucroBrutoItemText} | Lucro Líquido: R$ ${lucroLiquidoItemText} | Venda: R$ ${totalItemText}]\n`;
+            content += `  QUANTIDADE: ${qtd}\n`;
+            content += `  VALOR UNITARIO: ${formatCurrency(unitValue)}\n`;
+            content += `  DESCONTO APLICADO: ${discountPercent}%\n`;
+            content += `  CUSTO TOTAL DO ITEM: ${formatCurrency(custoItem)}\n`;
+            content += `  LUCRO BRUTO DO ITEM: ${formatCurrency(lucroBrutoItem)}\n`;
+            content += `  LUCRO LIQUIDO DO ITEM: ${formatCurrency(lucroLiquidoItem)}\n`;
+            content += `  TOTAL DE VENDA (LIQUIDA) DO ITEM: ${formatCurrency(totalItem)}\n`;
         }
         
         content += "-------------------------------------------\n";
-        content += `TOTAL VENDA (LÍQUIDO): ${formatCurrency(totalGeral)}\n`;
+        content += `SUBTOTAL (BRUTO ANTES DESCONTO): ${formatCurrency(subtotal)}\n`;
+        content += `DESCONTO TOTAL APLICADO: (-) ${formatCurrency(desconto)}\n`;
+        content += `TOTAL GERAL DA PROPOSTA (VENDA LIQUIDA): ${formatCurrency(totalGeral)}\n`;
+        content += `CUSTO TOTAL (CPV GERAL): ${formatCurrency(custoTotal)}\n`;
+        content += "-------------------------------------------\n";
+        content += "===== RESUMO FINANCEIRO FINAL =====\n";
+        content += `RECEITA TOTAL (VENDA LIQUIDA): ${formatCurrency(totalGeral)}\n`;
         content += `CUSTO TOTAL (CPV): ${formatCurrency(custoTotal)}\n`;
-        
-        content += "===== RESUMO FINANCEIRO (COM IMPOSTO) =====\n";
-        content += `IMPOSTO (AE ${document.getElementById('aliquota_efetiva').value}): (-) ${formatCurrency(impostoTotal)}\n`;
-        content += `LUCRO LÍQUIDO FINAL: ${formatCurrency(lucroLiquido)}\n`;
+        content += `LUCRO BRUTO TOTAL: ${formatCurrency(totalGeral - custoTotal)}\n`;
+        content += `IMPOSTO TOTAL (AE ${aliquotaEfetivaText}): (-) ${formatCurrency(impostoTotal)}\n`;
+        content += `LUCRO LIQUIDO FINAL: ${formatCurrency(lucroLiquido)}\n`;
         content += "=========================================\n";
+        content += `\nFORMA DE PAGAMENTO SUGERIDA: ${formaPagamento}\n`;
+        content += `OBSERVACOES: ${observacoes}\n`;
+        content += `\n**INFORMACAO FISCAL (SIMPLES NACIONAL - ANEXO I):**\n`;
+        content += `RBT12 utilizada: R$ ${rbt12Value} | Aliquota Efetiva (AE) aplicada: ${aliquotaEfetivaText}\n`;
+        content += "\n\n_________________________________________________\n";
+        content += `Assinatura do Responsavel (${DADOS_EMPRESA.razao})\n`;
         
-        const blob = new Blob([content], { type: 'text/plain' });
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' }); 
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = filename;
@@ -1013,13 +1094,130 @@
         
         document.getElementById('preview-area').style.display = 'block';
 
-        showMessage(`Proposta pronta! **Ao salvar o PDF, use o nome de arquivo sugerido:** ${filename}`, false);
+        showMessage(`Proposta pronta! Ao salvar o PDF, sugerimos usar o nome: **${filename}**`, false); 
 
         window.print();
 
         setTimeout(() => {
             document.getElementById('preview-area').style.display = 'none';
-        }, 100);
+        }, 500); 
+    }
+
+    /**
+     * REVISÃO: Função para exportar a proposta atual como JSON.
+     */
+    function exportProposalAsJson() {
+        const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+        const rows = tableBody.rows;
+
+        const itemsData = [];
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const rowId = row.id;
+
+            const itemData = {
+                id: rowId,
+                name: row.cells[1].querySelector('.item-name-input').value,
+                description: row.cells[1].querySelector('.item-description-input').value,
+                quantity: parseFloat(row.cells[2].getElementsByTagName('input')[0].value) || 0,
+                unitCost: cleanCurrency(row.cells[3].getElementsByTagName('input')[0].value),
+                marginPercent: cleanCurrency(row.cells[4].getElementsByTagName('input')[0].value),
+                discountPercent: cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value),
+                imageAttachment: itemAttachments[rowId] ? { 
+                    file: itemAttachments[rowId].file, // Nome do arquivo (se upload)
+                    url: itemAttachments[rowId].url,   // URL da imagem (se link)
+                    previewSrc: itemAttachments[rowId].previewSrc // Data URL ou URL para preview
+                } : null
+            };
+            itemsData.push(itemData);
+        }
+
+        const proposalData = {
+            metadata: {
+                version: "1.0",
+                generatedBy: "Gerador de Proposta Comercial v1.0"
+            },
+            proposalDetails: {
+                orcamento_numero: document.getElementById('orcamento_numero').value,
+                orcamento_data: document.getElementById('orcamento_data').value,
+                cliente_nome: document.getElementById('cliente_nome').value,
+                cliente_doc: document.getElementById('cliente_doc').value,
+                orcamento_validade: document.getElementById('orcamento_validade').value,
+                contato_email: document.getElementById('contato_email').value,
+                forma_pagamento: document.getElementById('forma_pagamento').value,
+                observacoes: document.getElementById('observacoes').value
+            },
+            taxDetails: {
+                rbt12: document.getElementById('rbt12').value 
+            },
+            items: itemsData
+        };
+
+        const filename = generateFilename('json');
+        const jsonString = JSON.stringify(proposalData, null, 2); 
+        const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showMessage(`Proposta exportada como JSON! Nome do arquivo: **${filename}**`, false);
+    }
+
+    /**
+     * REVISÃO: Função para importar uma proposta de um arquivo JSON.
+     */
+    function handleJsonUpload(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                
+                // Validação básica da estrutura do JSON
+                if (!importedData || !importedData.proposalDetails || !importedData.items) {
+                    showMessage('ERRO: O arquivo JSON não parece ser uma proposta válida.', true);
+                    return;
+                }
+
+                // Limpa todos os itens existentes
+                const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = ''; 
+                itemAttachments = {}; // Limpa os anexos também
+                itemCounter = 0; // Reseta o contador para novos IDs
+
+                // Preenche os dados da proposta
+                document.getElementById('orcamento_numero').value = importedData.proposalDetails.orcamento_numero || '';
+                document.getElementById('orcamento_data').value = importedData.proposalDetails.orcamento_data || '';
+                document.getElementById('cliente_nome').value = importedData.proposalDetails.cliente_nome || '';
+                document.getElementById('cliente_doc').value = importedData.proposalDetails.cliente_doc || '';
+                document.getElementById('orcamento_validade').value = importedData.proposalDetails.orcamento_validade || '7';
+                document.getElementById('contato_email').value = importedData.proposalDetails.contato_email || '';
+                document.getElementById('forma_pagamento').value = importedData.proposalDetails.forma_pagamento || 'À vista / Cartão de Crédito';
+                document.getElementById('observacoes').value = importedData.proposalDetails.observacoes || 'Preços válidos pela data de validade estipulada. O prazo de entrega/disponibilidade será informado no momento da confirmação do pedido.';
+
+                // Preenche os dados do Simples Nacional
+                document.getElementById('rbt12').value = importedData.taxDetails.rbt12 || '960.000,00';
+                updateSimplesNacional(false); // Recalcula a alíquota
+
+                // Adiciona os itens importados
+                importedData.items.forEach(item => addItemRow(item));
+                
+                // Força o recálculo final
+                updateTotals();
+                showMessage('Proposta importada com sucesso!', false);
+
+            } catch (error) {
+                showMessage('ERRO ao processar o arquivo JSON. Verifique se o arquivo está no formato correto. Detalhes: ' + error.message, true);
+                console.error('Erro ao importar JSON:', error);
+            }
+        };
+        reader.readAsText(file);
     }
 
 </script>
