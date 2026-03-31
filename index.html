@@ -652,51 +652,61 @@
         fileInput.click();
     }
 
-    function handleImageFileChange(fileInput) {
-        const row = fileInput.closest('tr');
-        const rowId = row.id;
-        const imageUrlInput = row.querySelector('.item-image-url-input');
-        const imagePreview = row.querySelector('.item-image-preview');
-        const imageFeedback = row.querySelector('.image-feedback');
-        
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+    async function handleImageUrlChange(urlInput) {
+    const row = urlInput.closest('tr');
+    const rowId = row.id;
+    const fileInput = row.querySelector('.item-image-file-input');
+    const imagePreview = row.querySelector('.item-image-preview');
+    const imageFeedback = row.querySelector('.image-feedback');
+    const nameInput = row.querySelector('.item-name-input');
+    const costInput = row.cells[3].getElementsByTagName('input')[0];
+    
+    let url = urlInput.value.trim();
+    if (url === '') return;
 
-            if (file.size > 500 * 1024) {
-                showMessage(`ERRO: A imagem "${file.name}" é muito grande (${(file.size / 1024).toFixed(2)} KB). Use um link ou reduza o tamanho do arquivo (máx 500KB).`, true);
-                fileInput.value = '';
-                imageFeedback.textContent = 'Nenhum anexo.';
-                imagePreview.style.display = 'none';
-                if (itemAttachments[rowId]) delete itemAttachments[rowId];
-                return;
-            }
+    // LÓGICA MERCADO LIVRE
+    if (url.includes("mercadolivre.com.br")) {
+        try {
+            // 1. Extrai o ID do item (ex: MLB123456789)
+            const match = url.match(/MLB-?(\d+)/i);
+            if (match) {
+                const itemId = "MLB" + match[1];
+                imageFeedback.textContent = "Buscando dados no Mercado Livre...";
+                
+                // 2. Chama a API oficial do Mercado Livre
+                const response = await fetch(`https://api.mercadolibre.com/items/${itemId}`);
+                const data = await response.json();
 
-            reader.onload = function(e) {
-                const previewSrc = e.target.result;
-                itemAttachments[rowId] = { file: file.name, url: null, previewSrc: previewSrc };
-                imageFeedback.textContent = `Arquivo: ${file.name}`;
-                imageUrlInput.value = '';
-
-                imagePreview.src = previewSrc;
-                imagePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            if (itemAttachments[rowId]) {
-                itemAttachments[rowId].file = null;
-                if (!itemAttachments[rowId].url) {
-                    itemAttachments[rowId].previewSrc = null;
-                    imageFeedback.textContent = 'Nenhum anexo.';
-                    imagePreview.style.display = 'none';
-                } else {
-                    imageFeedback.textContent = `Link: ${itemAttachments[rowId].url}`;
-                    imagePreview.src = itemAttachments[rowId].url;
+                if (data.title) {
+                    // 3. Preenche os campos automaticamente
+                    nameInput.value = data.title;
+                    costInput.value = data.price.toFixed(2).replace('.', ',');
+                    
+                    // 4. Atualiza a imagem (usa a versão de alta resolução)
+                    const imgUrl = data.pictures[0].url || data.thumbnail;
+                    itemAttachments[rowId] = { file: null, url: url, previewSrc: imgUrl };
+                    imagePreview.src = imgUrl;
                     imagePreview.style.display = 'block';
+                    imageFeedback.textContent = `Dados importados de MLB: ${itemId}`;
+                    
+                    // 5. Dispara o cálculo de preço de venda baseado no novo custo
+                    calculateItemPrice(costInput);
+                    return; // Sai da função pois já resolveu
                 }
             }
+        } catch (error) {
+            console.error("Erro ao buscar API ML:", error);
+            imageFeedback.textContent = "Link detectado, mas erro ao buscar dados.";
         }
     }
+
+    // LÓGICA PADRÃO (Para outros links de imagem comuns)
+    itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
+    imageFeedback.textContent = `Link: ${url}`;
+    fileInput.value = '';
+    imagePreview.src = url;
+    imagePreview.style.display = 'block';
+}
 
     function handleImageUrlChange(urlInput) {
         const row = urlInput.closest('tr');
