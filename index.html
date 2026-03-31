@@ -6,55 +6,56 @@
     <title>Gerador de Proposta Comercial (Orçamento)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos Base */
+        /* MANTENDO TODOS OS SEUS ESTILOS ORIGINAIS [cite: 306-372] */
         body { font-family: 'Inter', Arial, sans-serif; margin: 20px; background-color: #f8f8f8; color: #333; }
         .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
-        h1 { color: #1e88e5; text-align: center; border-bottom: 3px solid #1e88e5; padding-bottom: 10px; }
-        h2 { color: #333; border-left: 5px solid #1e88e5; padding-left: 10px; margin-top: 25px; }
-        label { display: block; margin-top: 10px; font-weight: 600; }
-        input, textarea { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; }
+        h1 { color: #1e88e5; text-align: center; font-size: 2em; margin-bottom: 25px; border-bottom: 3px solid #1e88e5; padding-bottom: 10px; }
+        h2 { color: #333; padding-bottom: 5px; margin-top: 25px; font-size: 1.4em; border-left: 5px solid #1e88e5; padding-left: 10px; }
+        label { display: block; margin-top: 10px; font-weight: 600; color: #444; }
+        input[type="text"], input[type="date"], input[type="number"], input[type="email"], textarea { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; transition: border-color 0.3s; }
         .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-section { margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; }
+        .form-section { margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #fff; }
 
-        /* Tabela de Itens */
-        #itemsTable { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.8em; }
-        #itemsTable th, #itemsTable td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        #itemsTable th { background-color: #e3f2fd; color: #1e88e5; }
-        .text-right { text-align: right; }
+        #itemsTable { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 20px; border-radius: 8px; overflow: hidden; }
+        #itemsTable th, #itemsTable td { border: 1px solid #ddd; padding: 10px 5px; text-align: left; vertical-align: middle; font-size: 0.7em; }
+        #itemsTable th { background-color: #e3f2fd; color: #1e88e5; font-weight: 700; border-bottom: 2px solid #1e88e5; }
         
-        /* Novos inputs pequenos para links */
-        .link-input { font-size: 0.7em; padding: 4px; margin-top: 4px; border: 1px dashed #1e88e5; }
+        .btn-base { border: none; padding: 8px 16px; cursor: pointer; border-radius: 6px; font-size: 0.9em; transition: all 0.3s ease; font-weight: bold; }
+        .btn-add { background-color: #43a047; color: white; margin-top: 15px; }
+        .btn-remove { background-color: #d32f2f; color: white; margin: 0; padding: 6px 10px; }
+        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
+        .btn-action { background-color: #1e88e5; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em; flex-grow: 1; font-weight: bold; }
+        
+        .image-inputs-wrapper { display: flex; flex-direction: column; width: 100%; gap: 3px; margin-bottom: 5px; }
+        .item-image-url-input, .item-product-url-input { padding: 4px; font-size: 0.75em; height: 25px; box-sizing: border-box; border: 1px dashed #1e88e5; border-radius: 4px; }
 
-        /* Botões */
-        .btn-base { border: none; padding: 10px 20px; cursor: pointer; border-radius: 6px; font-weight: bold; transition: 0.3s; }
-        .btn-add { background-color: #43a047; color: white; }
-        .btn-action { background-color: #1e88e5; color: white; flex-grow: 1; padding: 15px; }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-
-        /* Resumo */
-        .finance-summary { margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 8px; }
-        .summary-item { display: flex; justify-content: space-between; margin-bottom: 5px; }
-
-        /* Estilos de Impressão (PDF) */
+        .finance-summary { margin-top: 30px; padding: 15px; border: 2px solid #43a047; border-radius: 8px; background-color: #e8f5e9; }
+        .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; }
+        
+        /* OCULTAR NO PDF [cite: 375] */
         @media print {
-            .form-section, .btn-group, .btn-add, .btn-remove, .link-input, .image-inputs-wrapper, .finance-summary { display: none !important; }
-            body { background: white; }
-            .container { box-shadow: none; width: 100%; }
-            #itemsTable { font-size: 10pt; }
+            .form-section, .btn-group, h1, #message-box, .finance-summary, .item-product-url-input, .item-image-url-input, .file-input-label { display: none !important; }
+            .preview-area { display: block !important; width: 100%; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Gerador de Proposta Comercial</h1>
-    <div id="message-box" style="display: none; padding: 10px; margin-bottom: 10px; border-radius: 5px;"></div>
+    <h1>Gerador de Proposta Comercial (Orçamento)</h1>
+    <div id="message-box" style="display: none;"></div>
 
-    <input type="hidden" id="empresa_razao" value="Carlos Kipper Ltda">
-    <input type="hidden" id="empresa_cnpj" value="13.408.443/0001-68">
+    <div style="display: none;">
+        <input type="text" id="empresa_razao" value="Carlos Kipper Ltda">
+        <input type="text" id="empresa_cnpj" value="13.408.443/0001-68">
+        <input type="text" id="empresa_ie" value="090/0055324">
+        <input type="text" id="empresa_afe" value="7216566">
+        <input type="text" id="empresa_endereco" value="Avenida Presidente Kennedy, 1754 Bairro: Arco Iris, Panambi - RS, CEP 98280-000">
+        <input type="text" id="empresa_contato" value="Fone/WhatsApp: 55 98455 7096 | E-mail: ckipper22@gmail.com">
+    </div>
 
     <div class="form-section">
-        <h2>Dados da Proposta</h2>
+        <h2>Dados do Cliente e Proposta</h2>
         <div class="two-cols">
             <div><label>Nº Orçamento:</label><input type="text" id="orcamento_numero"></div>
             <div><label>Data:</label><input type="date" id="orcamento_data"></div>
@@ -65,24 +66,28 @@
     <div class="form-section">
         <h2>Cálculo Simples Nacional</h2>
         <label>RBT12 (R$):</label>
-        <input type="text" id="rbt12" value="960.000,00" oninput="updateSimplesNacional()">
-        <p>Alíquota Efetiva: <strong id="aliquota_label">0,00%</strong></p>
+        <input type="text" id="rbt12" value="960.000,00" oninput="updateSimplesNacional(true)">
+        <div class="two-cols" style="margin-top:10px">
+            <div><label>Faixa:</label><input type="text" id="faixa_identificada" class="read-only-field" readonly></div>
+            <div><label>Alíquota Efetiva:</label><input type="text" id="aliquota_efetiva" class="read-only-field" readonly></div>
+        </div>
         <input type="hidden" id="aliquota_efetiva_decimal" value="0">
     </div>
 
     <div class="form-section">
-        <h2>Itens</h2>
+        <h2>Itens da Proposta</h2>
         <table id="itemsTable">
             <thead>
                 <tr>
-                    <th>Img</th>
-                    <th>Produto / Links</th>
-                    <th>Qtd</th>
-                    <th>Custo Unit</th>
-                    <th>Margem (%)</th>
-                    <th>Venda Unit</th>
-                    <th>Total</th>
-                    <th>Ações</th>
+                    <th>Img.</th>
+                    <th>Produto/Descrição</th>
+                    <th class="text-right">Qtd.</th>
+                    <th class="text-right">Custo Unit.</th>
+                    <th class="text-right">Margem (%)</th>
+                    <th class="text-right">Valor Unit.</th>
+                    <th class="text-right">Desc. (%)</th>
+                    <th class="text-right">Total Item</th>
+                    <th class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody id="itemsBody"></tbody>
@@ -91,44 +96,46 @@
     </div>
 
     <div class="finance-summary">
-        <div class="summary-item"><span>Custo Total:</span> <strong id="resumo-custo">R$ 0,00</strong></div>
-        <div class="summary-item"><span>Lucro Líquido Final:</span> <strong id="resumo-lucro-liquido">R$ 0,00</strong></div>
+        <h3>Resumo Financeiro (Lucro Líquido)</h3>
+        <div class="summary-grid">
+            <div class="summary-item"><strong>Custo Total:</strong><span id="resumo-custo">R$ 0,00</span></div>
+            <div class="summary-item"><strong>Receita Total:</strong><span id="resumo-receita">R$ 0,00</span></div>
+            <div class="summary-item"><strong>Imposto Total:</strong><span id="resumo-imposto" style="color:red">R$ 0,00</span></div>
+            <div class="summary-item"><strong>LUCRO LÍQUIDO:</strong><span id="resumo-lucro-liquido" style="font-weight:bold">R$ 0,00</span></div>
+        </div>
     </div>
 
     <div class="btn-group">
-        <button class="btn-action btn-base" onclick="window.print()">Imprimir PDF</button>
-        <button class="btn-action btn-base" style="background:#ff9800" onclick="exportProposalAsJson()">Exportar JSON</button>
-        <button class="btn-action btn-base" style="background:#8bc34a" onclick="document.getElementById('json-upload').click()">Importar JSON</button>
+        <button class="btn-action" onclick="window.print()">Gerar PDF / Imprimir</button>
+        <button class="btn-action" style="background:#ff9800" onclick="exportProposalAsJson()">Exportar JSON</button>
+        <button class="btn-action" style="background:#8bc34a" onclick="document.getElementById('json-upload').click()">Importar JSON</button>
         <input type="file" id="json-upload" style="display:none" onchange="handleJsonUpload(event)">
     </div>
 </div>
 
 <script>
-    let itemCounter = 0;
+    // MANTENDO SUAS VARIÁVEIS E LÓGICA DE CÁLCULO [cite: 414-416]
     const TAX_BRACKETS = [
-        { max: 180000, aliq: 0.04, ded: 0 },
-        { max: 360000, aliq: 0.073, ded: 5940 },
-        { max: 720000, aliq: 0.095, ded: 13860 },
-        { max: 1800000, aliq: 0.107, ded: 22500 },
-        { max: 3600000, aliq: 0.143, ded: 87300 },
-        { max: 4800000, aliq: 0.19, ded: 378000 }
+        { max: 180000, aliq: 0.04, ded: 0, faixa: '1ª' },
+        { max: 360000, aliq: 0.073, ded: 5940, faixa: '2ª' },
+        { max: 720000, aliq: 0.095, ded: 13860, faixa: '3ª' },
+        { max: 1800000, aliq: 0.107, ded: 22500, faixa: '4ª' },
+        { max: 3600000, aliq: 0.143, ded: 87300, faixa: '5ª' },
+        { max: 4800000, aliq: 0.19, ded: 378000, faixa: '6ª' }
     ];
+    let itemCounter = 0;
 
-    function cleanCurrency(val) {
-        return parseFloat(String(val).replace(/\./g, '').replace(',', '.')) || 0;
-    }
+    function cleanCurrency(v) { return parseFloat(String(v).replace(/\./g, '').replace(',', '.')) || 0; }
+    function formatCurrency(v) { return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v); }
 
-    function formatCurrency(val) {
-        return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-
-    function updateSimplesNacional() {
+    function updateSimplesNacional(showMsg) {
         const rbt12 = cleanCurrency(document.getElementById('rbt12').value);
-        let bracket = TAX_BRACKETS.find(b => rbt12 <= b.max) || TAX_BRACKETS[5];
+        const bracket = TAX_BRACKETS.find(b => rbt12 <= b.max) || TAX_BRACKETS[5];
         let ae = ((rbt12 * bracket.aliq) - bracket.ded) / rbt12;
         ae = Math.max(0, ae);
-        document.getElementById('aliquota_label').innerText = (ae * 100).toFixed(2) + '%';
+        document.getElementById('aliquota_efetiva').value = (ae * 100).toFixed(2).replace('.', ',') + '%';
         document.getElementById('aliquota_efetiva_decimal').value = ae;
+        document.getElementById('faixa_identificada').value = bracket.faixa;
         updateTotals();
     }
 
@@ -136,31 +143,30 @@
         const tbody = document.getElementById('itemsBody');
         const rowId = `row-${itemCounter++}`;
         const tr = document.createElement('tr');
-        tr.id = rowId;
-
+        
+        // ADICIONADO O CAMPO 'item-product-url-input' NA COLUNA DE DESCRIÇÃO [Requisito Novo]
         tr.innerHTML = `
             <td>
-                <img src="${data?.imgUrl || ''}" style="width:50px; display:${data?.imgUrl ? 'block' : 'none'}">
-                <div class="image-inputs-wrapper">
-                    <input type="text" class="link-input" placeholder="Link da Imagem" value="${data?.imgUrl || ''}" onchange="updateRowImg(this)">
-                </div>
+                <img src="${data?.imgUrl || ''}" class="item-image-preview" style="width:50px; display:${data?.imgUrl ? 'block' : 'none'}">
+                <input type="text" class="item-image-url-input" placeholder="URL Imagem" value="${data?.imgUrl || ''}" oninput="updatePreviewImg(this)">
             </td>
             <td>
-                <textarea class="item-name" placeholder="Descrição do Produto">${data?.name || ''}</textarea>
-                <input type="text" class="link-input product-link" placeholder="Link do Produto (Só p/ JSON)" value="${data?.productUrl || ''}">
+                <textarea class="item-name-input" style="height:40px">${data?.name || ''}</textarea>
+                <input type="text" class="item-product-url-input" placeholder="Link do Produto (Salva no JSON)" value="${data?.productUrl || ''}">
             </td>
             <td><input type="number" class="item-qtd" value="${data?.qtd || 1}" oninput="updateTotals()"></td>
             <td><input type="text" class="item-cost" value="${data?.cost || '0,00'}" oninput="updateTotals()"></td>
             <td><input type="text" class="item-margin" value="${data?.margin || '30,00'}" oninput="updateTotals()"></td>
-            <td><input type="text" class="item-price-unit readonly" readonly></td>
-            <td class="item-total-cell">R$ 0,00</td>
-            <td><button class="btn-remove btn-base" style="background:#d32f2f; color:white" onclick="this.closest('tr').remove(); updateTotals();">X</button></td>
+            <td><input type="text" class="item-price-unit" readonly style="background:#eee"></td>
+            <td><input type="text" class="item-discount" value="${data?.discount || '0,00'}" oninput="updateTotals()"></td>
+            <td class="total-cell">R$ 0,00</td>
+            <td><button class="btn-remove" onclick="this.closest('tr').remove(); updateTotals();">X</button></td>
         `;
         tbody.appendChild(tr);
         updateTotals();
     }
 
-    function updateRowImg(input) {
+    function updatePreviewImg(input) {
         const img = input.closest('td').querySelector('img');
         img.src = input.value;
         img.style.display = input.value ? 'block' : 'none';
@@ -168,39 +174,45 @@
 
     function updateTotals() {
         const ae = parseFloat(document.getElementById('aliquota_efetiva_decimal').value);
-        let totalCusto = 0, totalVenda = 0;
+        let tCusto = 0, tReceita = 0;
 
         document.querySelectorAll('#itemsBody tr').forEach(row => {
             const cost = cleanCurrency(row.querySelector('.item-cost').value);
             const margin = cleanCurrency(row.querySelector('.item-margin').value) / 100;
             const qtd = parseFloat(row.querySelector('.item-qtd').value) || 0;
-            
-            // Fórmula: Preço = (Custo * (1 + Margem)) / (1 - Imposto)
+            const desc = cleanCurrency(row.querySelector('.item-discount').value) / 100;
+
+            // Sua lógica original: VU = (Custo * (1 + Margem)) / (1 - AE) [cite: 128]
             const unitPrice = (cost * (1 + margin)) / (1 - ae);
-            const totalItem = unitPrice * qtd;
+            const totalSemDesc = unitPrice * qtd;
+            const totalComDesc = totalSemDesc * (1 - desc);
 
             row.querySelector('.item-price-unit').value = unitPrice.toFixed(2).replace('.', ',');
-            row.querySelector('.item-total-cell').innerText = formatCurrency(totalItem);
+            row.querySelector('.total-cell').innerText = formatCurrency(totalComDesc);
 
-            totalCusto += (cost * qtd);
-            totalVenda += totalItem;
+            tCusto += (cost * qtd);
+            tReceita += totalComDesc;
         });
 
-        document.getElementById('resumo-custo').innerText = formatCurrency(totalCusto);
-        const impostoTotal = totalVenda * ae;
-        document.getElementById('resumo-lucro-liquido').innerText = formatCurrency(totalVenda - totalCusto - impostoTotal);
+        const imposto = tReceita * ae;
+        document.getElementById('resumo-custo').innerText = formatCurrency(tCusto);
+        document.getElementById('resumo-receita').innerText = formatCurrency(tReceita);
+        document.getElementById('resumo-imposto').innerText = formatCurrency(imposto);
+        document.getElementById('resumo-lucro-liquido').innerText = formatCurrency(tReceita - tCusto - imposto);
     }
 
+    // EXPORTAÇÃO COM O NOVO CAMPO 'productUrl' [cite: 412]
     function exportProposalAsJson() {
         const items = [];
         document.querySelectorAll('#itemsBody tr').forEach(row => {
             items.push({
-                imgUrl: row.querySelector('.link-input').value,
-                productUrl: row.querySelector('.product-link').value, // SALVANDO O LINK DO PRODUTO
-                name: row.querySelector('.item-name').value,
+                imgUrl: row.querySelector('.item-image-url-input').value,
+                productUrl: row.querySelector('.item-product-url-input').value, // SALVANDO LINK DO PRODUTO
+                name: row.querySelector('.item-name-input').value,
                 qtd: row.querySelector('.item-qtd').value,
                 cost: row.querySelector('.item-cost').value,
-                margin: row.querySelector('.item-margin').value
+                margin: row.querySelector('.item-margin').value,
+                discount: row.querySelector('.item-discount').value
             });
         });
 
@@ -217,30 +229,27 @@
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `orcamento_${data.header.numero || 'venda'}.json`;
+        a.download = `proposta_${data.header.numero || 'venda'}.json`;
         a.click();
     }
 
-    function handleJsonUpload(event) {
-        const file = event.target.files[0];
-        if (!file) return;
+    function handleJsonUpload(e) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-            const data = JSON.parse(e.target.result);
-            document.getElementById('orcamento_numero').value = data.header.numero;
-            document.getElementById('orcamento_data').value = data.header.data;
-            document.getElementById('cliente_nome').value = data.header.cliente;
-            document.getElementById('rbt12').value = data.header.rbt12;
+        reader.onload = (event) => {
+            const data = JSON.parse(event.target.result);
+            document.getElementById('orcamento_numero').value = data.header.numero || '';
+            document.getElementById('orcamento_data').value = data.header.data || '';
+            document.getElementById('cliente_nome').value = data.header.cliente || '';
+            document.getElementById('rbt12').value = data.header.rbt12 || '960.000,00';
             
             document.getElementById('itemsBody').innerHTML = '';
             data.items.forEach(item => addItemRow(item));
-            updateSimplesNacional();
+            updateSimplesNacional(false);
         };
-        reader.readAsText(file);
+        reader.readAsText(e.target.files[0]);
     }
 
-    // Inicializa com uma linha vazia
-    window.onload = updateSimplesNacional;
+    window.onload = () => updateSimplesNacional(false);
 </script>
 
 </body>
