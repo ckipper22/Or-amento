@@ -57,7 +57,8 @@
             outline: none;
             box-shadow: 0 0 5px rgba(30, 136, 229, 0.3);
         }
-        input[type="number"] { text-align: right; }
+        input[type="number"] { text-align: right;
+        }
         .two-cols {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -93,8 +94,10 @@
             font-weight: 700;
             border-bottom: 2px solid #1e88e5;
         }
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
+        .text-right { text-align: right;
+        }
+        .text-center { text-align: center;
+        }
 
         /* Estilo específico para o campo de Quantidade */
         .input-quantidade {
@@ -117,11 +120,16 @@
             transition: all 0.3s ease;
             font-weight: bold;
         }
-        .btn-add { background-color: #43a047; color: white; margin-top: 15px; }
-        .btn-remove { background-color: #d32f2f; color: white; margin: 0; padding: 6px 10px; }
-        .btn-add:hover { background-color: #388e3c; transform: translateY(-1px); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
-        .btn-remove:hover { background-color: #b71c1c; }
-        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
+        .btn-add { background-color: #43a047; color: white; margin-top: 15px;
+        }
+        .btn-remove { background-color: #d32f2f; color: white; margin: 0; padding: 6px 10px;
+        }
+        .btn-add:hover { background-color: #388e3c; transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }
+        .btn-remove:hover { background-color: #b71c1c;
+        }
+        .btn-group { display: flex; gap: 15px; margin-top: 30px;
+        }
         .btn-action {
             background-color: #1e88e5;
             color: white;
@@ -133,17 +141,26 @@
             flex-grow: 1;
             font-weight: bold;
         }
-        .btn-action:hover { background-color: #1565c0; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        .btn-txt:hover { background-color: #00acc1; }
-        .btn-json-export { background-color: #ff9800; }
-        .btn-json-export:hover { background-color: #fb8c00; }
-        .btn-json-import { background-color: #8bc34a; }
-        .btn-json-import:hover { background-color: #7cb342; }
+        .btn-action:hover { background-color: #1565c0; transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        .btn-txt:hover { background-color: #00acc1;
+        }
+        .btn-json-export { background-color: #ff9800;
+        }
+        .btn-json-export:hover { background-color: #fb8c00;
+        }
+        .btn-json-import { background-color: #8bc34a;
+        }
+        .btn-json-import:hover { background-color: #7cb342;
+        }
 
         /* Estilos de Campos Especiais */
-        .read-only-field { background-color: #eceff1; color: #666; font-size: 0.9em; border: 1px dashed #cfd8dc; }
-        .calculated-field { background-color: #e8f5e9; font-weight: bold; color: #388e3c; }
-        #observacoes { resize: vertical; }
+        .read-only-field { background-color: #eceff1;
+        color: #666; font-size: 0.9em; border: 1px dashed #cfd8dc; }
+        .calculated-field { background-color: #e8f5e9;
+        font-weight: bold; color: #388e3c; }
+        #observacoes { resize: vertical;
+        }
 
         /* Estilos para a célula de imagem */
         .image-container {
@@ -197,13 +214,16 @@
             font-size: 0.6em !important;
             color: #777 !important;
             text-align: center;
-            word-break: break-all; /* Garante que o texto longo não exceda a célula */
+            word-break: break-all;
+            /* Garante que o texto longo não exceda a célula */
             line-height: 1.2;
         }
 
         /* Estilos para Tabela do Simples Nacional - OCULTAR NO FORMULÁRIO */
-        #simplesTable { display: none; }
-        #simples-nacional-section h3 { display: none; }
+        #simplesTable { display: none;
+        }
+        #simples-nacional-section h3 { display: none;
+        }
 
         /* Estilos para o novo resumo financeiro */
         .finance-summary {
@@ -231,8 +251,10 @@
             padding: 5px 0;
             border-bottom: 1px dashed #c8e6c9;
         }
-        .summary-item strong { color: #333; }
-        .summary-item .value { font-weight: 700; }
+        .summary-item strong { color: #333;
+        }
+        .summary-item .value { font-weight: 700;
+        }
         .final-profit {
             font-size: 1.5em;
             font-weight: 700;
@@ -241,14 +263,19 @@
             padding-top: 10px;
             border-top: 2px solid #1e88e5;
         }
-        .imposto-value { color: #d32f2f; }
+        .imposto-value { color: #d32f2f;
+        }
 
         /* Estilos de impressão (Para PDF) */
         @media print {
-            body { background: none; margin: 0; padding: 0; }
-            .container { box-shadow: none; border: none; padding: 10mm; max-width: 100%; }
-            .form-section, .btn-group, h1, #message-box, .finance-summary { display: none !important; }
-            .orcamento-footer .info-fiscal { display: block !important; } /* Mostra info fiscal no PDF */
+            body { background: none;
+            margin: 0; padding: 0; }
+            .container { box-shadow: none;
+            border: none; padding: 10mm; max-width: 100%; }
+            .form-section, .btn-group, h1, #message-box, .finance-summary { display: none !important;
+            }
+            .orcamento-footer .info-fiscal { display: block !important;
+            } /* Mostra info fiscal no PDF */
             .preview-area {
                 display: block !important;
                 border: none !important;
@@ -256,17 +283,22 @@
                 margin: 0 !important;
                 width: 100%;
             }
-            .orcamento-header { border-bottom: 3px solid #1e88e5 !important; padding-bottom: 5px !important; }
-            .preview-area table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-            .preview-area th, .preview-area td { border: 1px solid #000; padding: 6px; font-size: 9pt; }
-            .preview-area th { background-color: #f0f0f0 !important; }
+            .orcamento-header { border-bottom: 3px solid #1e88e5 !important;
+            padding-bottom: 5px !important; }
+            .preview-area table { border-collapse: collapse;
+            width: 100%; margin: 10px 0; }
+            .preview-area th, .preview-area td { border: 1px solid #000;
+            padding: 6px; font-size: 9pt; }
+            .preview-area th { background-color: #f0f0f0 !important;
+            }
             .total-box {
                 width: 50%;
                 float: right;
                 margin-top: 10px;
                 clear: both;
             }
-            .total-box .total-final { border-top: 1px solid #000 !important; background-color: #f0f0f0 !important; }
+            .total-box .total-final { border-top: 1px solid #000 !important;
+            background-color: #f0f0f0 !important; }
             .orcamento-body img.item-image-print {
                 max-width: 50px;
                 max-height: 50px;
@@ -311,7 +343,7 @@
             <div><label for="empresa_afe">AFE:</label><input type="text" id="empresa_afe" value="7216566" class="read-only-field" readonly></div>
         </div>
         <label for="empresa_endereco">Endereço:</label><input type="text" id="empresa_endereco" value="Avenida Presidente Kennedy, 1754 Bairro: Arco Iris, Panambi - RS, CEP 98280-000" class="read-only-field" readonly>
-        <label for="empresa_contato">Contato:</label><input type="text" id="empresa_contato" value="Fone/WhatsApp: 55 98455 7096 | E-mail: ckipper22@gmail.com   Banrisul Ag:758 CC: 0609694500 - pix aga706panambi@gmail.com" class="read-only-field" readonly>
+         <label for="empresa_contato">Contato:</label><input type="text" id="empresa_contato" value="Fone/WhatsApp: 55 98455 7096 | E-mail: ckipper22@gmail.com   Banrisul Ag:758 CC: 0609694500 - pix aga706panambi@gmail.com" class="read-only-field" readonly>
     </div>
 
     <div class="form-section">
@@ -353,7 +385,7 @@
         <h2>Itens da Proposta (Custo, Margem, Venda e Lucro por Produto)</h2>
         <table id="itemsTable">
             <thead>
-                <tr>
+                 <tr>
                     <th style="width: 10%;">Img.</th>
                     <th style="width: 20%;">Produto/Descrição</th>
                     <th style="width: 7%;" class="text-right">Qtd.</th>
@@ -387,10 +419,10 @@
             <div class="summary-item"><strong>Custo Total (CPV):</strong><span class="value" id="resumo-custo">R$ 0,00</span></div>
             <div class="summary-item"><strong>Receita Total (Venda Líquida):</strong><span class="value" id="resumo-receita">R$ 0,00</span></div>
             <div class="summary-item"><strong>Lucro Bruto Total:</strong><span class="value" id="resumo-lucro-bruto">R$ 0,00</span></div>
-            <div class="summary-item"><strong>Imposto Total (AE):</strong><span class="value imposto-value" id="resumo-imposto">R$ 0,00</span></div>
+             <div class="summary-item"><strong>Imposto Total (AE):</strong><span class="value imposto-value" id="resumo-imposto">R$ 0,00</span></div>
         </div>
         <div class="final-profit summary-item"><strong>LUCRO LÍQUIDO FINAL:</strong><span class="value" id="resumo-lucro-liquido">R$ 0,00</span></div>
-        <p style="font-size: 0.75em; color: #43a047; text-align: right; margin-top: 5px;">*O Imposto (AE) é calculado com base na Faixa e na RBT12 informada acima.</p>
+        <p style="font-size: 0.75em; color: #43a047; text-align: right; margin-top: 5px;">*O Imposto (AE) é calculated com base na Faixa e na RBT12 informada acima.</p>
     </div>
 
     <div class="btn-group">
@@ -400,7 +432,8 @@
         <button class="btn-action btn-json-import" onclick="document.getElementById('json-upload').click()">Importar JSON</button>
         <input type="file" id="json-upload" accept="application/json" style="display:none;" onchange="handleJsonUpload(event)">
     </div>
-    <div class="preview-area" id="preview-area">
+    
+ <div class="preview-area" id="preview-area">
     </div>
 </div>
 
@@ -425,7 +458,6 @@
         cep: "98280-000",
         contato: document.getElementById('empresa_contato').value
     };
-
     let itemCounter = 0;
     let itemAttachments = {};
 
@@ -503,7 +535,6 @@
             effectiveTaxRate = ((rbt12 * ALIQ) - PD) / rbt12;
             if (effectiveTaxRate < 0) effectiveTaxRate = 0;
             if (effectiveTaxRate > 1) effectiveTaxRate = 1;
-
             if(showAlert) {
                 showMessage(`Faixa fiscal identificada: **${bracket.faixa}**. Alíquota Efetiva calculada.`, false);
             }
@@ -563,7 +594,6 @@
         let unitPrice = 0;
         const numerator = unitCost * (1 + markupOnCostDecimal);
         const denominator = (1 - AE);
-
         if (denominator <= 0) {
             priceOutput.value = "IMPOSSÍVEL";
             showMessage(`ERRO no Item (${row.cells[1].querySelector('.item-name-input').value}): A Alíquota Efetiva do Simples Nacional (${(AE*100).toFixed(2).replace('.', ',')}%) é muito alta (igual ou maior que 100%). Não é possível calcular um preço de venda que cubra os impostos. Ajuste a RBT12 ou revise a estrutura de custos.`, true);
@@ -610,7 +640,6 @@
             const lucroBrutoItem = totalReceitaItem - totalCustoItem;
             const impostoItem = totalReceitaItem * AE;
             const lucroLiquidoItem = lucroBrutoItem - impostoItem;
-
             custoTotalItemCell.value = totalCustoItem.toFixed(2).replace('.', ',');
             lucroBrutoItemCell.value = lucroBrutoItem.toFixed(2).replace('.', ',');
             lucroLiquidoItemCell.value = lucroLiquidoItem.toFixed(2).replace('.', ',');
@@ -626,13 +655,11 @@
 
         const totalLucroBruto = totalReceitaLiquida - totalCusto;
         const totalLucroLiquido = totalLucroBruto - totalImposto;
-
         document.getElementById('resumo-receita').textContent = formatCurrency(totalReceitaLiquida);
         document.getElementById('resumo-custo').textContent = formatCurrency(totalCusto);
         document.getElementById('resumo-lucro-bruto').textContent = formatCurrency(totalLucroBruto);
         document.getElementById('resumo-imposto').textContent = formatCurrency(totalImposto);
         document.getElementById('resumo-lucro-liquido').textContent = formatCurrency(totalLucroLiquido);
-
         return {
             totalGeral: totalReceitaLiquida,
             subtotal: subtotalBruto,
@@ -652,77 +679,38 @@
         fileInput.click();
     }
 
-    async function handleImageUrlChange(urlInput) {
-    const row = urlInput.closest('tr');
-    const rowId = row.id;
-    const fileInput = row.querySelector('.item-image-file-input');
-    const imagePreview = row.querySelector('.item-image-preview');
-    const imageFeedback = row.querySelector('.image-feedback');
-    const nameInput = row.querySelector('.item-name-input');
-    const costInput = row.cells[3].getElementsByTagName('input')[0];
-    
-    let url = urlInput.value.trim();
-    if (url === '') return;
+    // CORREÇÃO: Função para gerenciar arquivos carregados localmente do computador
+    function handleImageFileChange(fileInput) {
+        const row = fileInput.closest('tr');
+        const rowId = row.id;
+        const urlInput = row.querySelector('.item-image-url-input');
+        const imagePreview = row.querySelector('.item-image-preview');
+        const imageFeedback = row.querySelector('.image-feedback');
 
-    // LÓGICA MERCADO LIVRE
-    if (url.includes("mercadolivre.com.br")) {
-        try {
-            // 1. Extrai o ID do item (ex: MLB123456789)
-            const match = url.match(/MLB-?(\d+)/i);
-            if (match) {
-                const itemId = "MLB" + match[1];
-                imageFeedback.textContent = "Buscando dados no Mercado Livre...";
-                
-                // 2. Chama a API oficial do Mercado Livre
-                const response = await fetch(`https://api.mercadolibre.com/items/${itemId}`);
-                const data = await response.json();
-
-                if (data.title) {
-                    // 3. Preenche os campos automaticamente
-                    nameInput.value = data.title;
-                    costInput.value = data.price.toFixed(2).replace('.', ',');
-                    
-                    // 4. Atualiza a imagem (usa a versão de alta resolução)
-                    const imgUrl = data.pictures[0].url || data.thumbnail;
-                    itemAttachments[rowId] = { file: null, url: url, previewSrc: imgUrl };
-                    imagePreview.src = imgUrl;
-                    imagePreview.style.display = 'block';
-                    imageFeedback.textContent = `Dados importados de MLB: ${itemId}`;
-                    
-                    // 5. Dispara o cálculo de preço de venda baseado no novo custo
-                    calculateItemPrice(costInput);
-                    return; // Sai da função pois já resolveu
-                }
-            }
-        } catch (error) {
-            console.error("Erro ao buscar API ML:", error);
-            imageFeedback.textContent = "Link detectado, mas erro ao buscar dados.";
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            const objectUrl = URL.createObjectURL(file);
+            
+            itemAttachments[rowId] = { file: file.name, url: null, previewSrc: objectUrl };
+            imageFeedback.textContent = `Arquivo: ${file.name}`;
+            urlInput.value = ''; // Limpa o link para evitar conflito
+            imagePreview.src = objectUrl;
+            imagePreview.style.display = 'block';
         }
     }
 
-    // LÓGICA PADRÃO (Para outros links de imagem comuns)
-    itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
-    imageFeedback.textContent = `Link: ${url}`;
-    fileInput.value = '';
-    imagePreview.src = url;
-    imagePreview.style.display = 'block';
-}
-
-    function handleImageUrlChange(urlInput) {
+    // CORREÇÃO: Unificação das duas funções handleImageUrlChange em uma única estrutura robusta
+    async function handleImageUrlChange(urlInput) {
         const row = urlInput.closest('tr');
         const rowId = row.id;
         const fileInput = row.querySelector('.item-image-file-input');
         const imagePreview = row.querySelector('.item-image-preview');
         const imageFeedback = row.querySelector('.image-feedback');
-        const url = urlInput.value.trim();
-        
-        if (url !== '') {
-            itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
-            imageFeedback.textContent = `Link: ${url}`;
-            fileInput.value = '';
-            imagePreview.src = url;
-            imagePreview.style.display = 'block';
-        } else {
+        const nameInput = row.querySelector('.item-name-input');
+        const costInput = row.cells[3].getElementsByTagName('input')[0];
+        let url = urlInput.value.trim();
+
+        if (url === '') {
             if (itemAttachments[rowId]) {
                 itemAttachments[rowId].url = null;
                 if (itemAttachments[rowId].file) {
@@ -735,7 +723,46 @@
                     imagePreview.style.display = 'none';
                 }
             }
+            return;
         }
+
+        // INTEGRAÇÃO MERCADO LIVRE PRESERVADA
+        if (url.includes("mercadolivre.com.br")) {
+            try {
+                const match = url.match(/MLB-?(\d+)/i);
+                if (match) {
+                    const itemId = "MLB" + match[1];
+                    imageFeedback.textContent = "Buscando dados no Mercado Livre...";
+                    
+                    const response = await fetch(`https://api.mercadolibre.com/items/${itemId}`);
+                    const data = await response.json();
+
+                    if (data.title) {
+                        nameInput.value = data.title;
+                        costInput.value = data.price.toFixed(2).replace('.', ',');
+                        
+                        const imgUrl = (data.pictures && data.pictures.length > 0) ? data.pictures[0].url : data.thumbnail;
+                        itemAttachments[rowId] = { file: null, url: url, previewSrc: imgUrl };
+                        imagePreview.src = imgUrl;
+                        imagePreview.style.display = 'block';
+                        imageFeedback.textContent = `Dados importados de MLB: ${itemId}`;
+                        
+                        calculateItemPrice(costInput);
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error("Erro ao buscar API ML:", error);
+                imageFeedback.textContent = "Link detectado, mas erro ao buscar dados.";
+            }
+        }
+
+        // LOGICA DE LINK PADRÃO PARA OUTRAS IMAGENS
+        itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
+        imageFeedback.textContent = `Link: ${url}`;
+        fileInput.value = ''; // Limpa o arquivo local se o usuário colocou um link
+        imagePreview.src = url;
+        imagePreview.style.display = 'block';
     }
 
     function addItemRow(data = {}) {
@@ -744,24 +771,19 @@
         const newRow = tableBody.insertRow();
         const newRowId = 'row-' + itemCounter;
         newRow.id = newRowId;
-
         itemAttachments[newRowId] = {
             file: data.imageAttachment && data.imageAttachment.file ? data.imageAttachment.file : null,
             url: data.imageAttachment && data.imageAttachment.url ? data.imageAttachment.url : null,
             previewSrc: data.imageAttachment && data.imageAttachment.previewSrc ? data.imageAttachment.previewSrc : null
         };
-
         const initialImageFeedback = itemAttachments[newRowId].file
             ? `Arquivo: ${itemAttachments[newRowId].file}`
             : (itemAttachments[newRowId].url ? `Link: ${itemAttachments[newRowId].url}` : 'Nenhum anexo.');
-
         const initialImageUrlValue = itemAttachments[newRowId].url || '';
         const initialImageDisplay = itemAttachments[newRowId].previewSrc ? 'block' : 'none';
-
         const initialMarkupOnCostPercent = (data.markupOnCostPercent !== undefined)
             ? data.markupOnCostPercent
             : ((data.marginPercent !== undefined) ? data.marginPercent : 30.00);
-
         newRow.innerHTML = `
             <td class="image-container">
                 <div class="image-inputs-wrapper">
@@ -770,7 +792,7 @@
                     <input type="text" placeholder="Link da Imagem" class="item-image-url-input" value="${initialImageUrlValue}" oninput="handleImageUrlChange(this)">
                 </div>
                 <p class="image-feedback text-xs text-muted-text-color mt-1 italic">${initialImageFeedback}</p>
-                <img id="preview-${newRowId}" src="${itemAttachments[newRowId].previewSrc || ''}" alt="Preview" class="item-image-preview" style="display: ${initialImageDisplay};">
+                 <img id="preview-${newRowId}" src="${itemAttachments[newRowId].previewSrc || ''}" alt="Preview" class="item-image-preview" style="display: ${initialImageDisplay};">
             </td>
             <td>
                 <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" value="${data.name || ''}" oninput="updateTotals()">
@@ -779,7 +801,7 @@
             </td>
             <td><input type="number" value="${data.quantity || 1}" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td>
             <td><input type="text" value="${(data.unitCost !== undefined) ? data.unitCost.toFixed(2).replace('.', ',') : '0,00'}" class="text-right" onblur="formatCurrencyInput(this)"></td>
-            <td><input type="text" value="${initialMarkupOnCostPercent.toFixed(2).replace('.', ',')}" class="text-right" onblur="formatPercentInput(this)"></td>
+             <td><input type="text" value="${initialMarkupOnCostPercent.toFixed(2).replace('.', ',')}" class="text-right" onblur="formatPercentInput(this)"></td>
             <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
             <td><input type="text" value="${(data.discountPercent !== undefined) ? data.discountPercent.toFixed(2).replace('.', ',') : '0,00'}" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
             <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
@@ -788,7 +810,6 @@
             <td class="text-right total-item">${formatCurrency(0)}</td>
             <td class="text-center"><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRowId}')">X</button></td>
         `;
-
         calculateItemPrice(newRow.cells[3].getElementsByTagName('input')[0]);
     }
 
@@ -810,7 +831,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
-
     function sanitizeFilename(text) {
         if (!text) return 'Nao-Informado';
         let sanitized = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -826,7 +846,6 @@
         const dataEmissao = document.getElementById('orcamento_data').value;
         const clienteNome = document.getElementById('cliente_nome').value || 'CLIENTE-NAO-INFORMADO';
         const formattedDate = dataEmissao.replace(/-/g, '');
-
         let firstItemDescription = 'GERAL';
         if (rows.length > 0) {
             const firstItemInput = rows[0].cells[1].getElementsByTagName('input')[0].value.trim();
@@ -886,7 +905,6 @@
         dataValidade.setDate(dataValidade.getDate() + parseInt(validadeDias));
         const dataEmissaoFormatada = dataEmissaoObj.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
         const dataValidadeFormatada = dataValidade.toLocaleDateString('pt-BR');
-
         let itemsHtml = '';
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
@@ -912,11 +930,11 @@
                     <td style="width: 5%; border: 1px solid #000; text-align: center;">${imageHtml}</td>
                     <td style="width: 35%; border: 1px solid #000;">${descricaoCompleta}</td>
                     <td class="text-right" style="width: 8%; border: 1px solid #000;">${qtd}</td>
-                    <td class="text-right" style="width: 15%; border: 1px solid #000;">${formatCurrency(unitValue)}</td>
+                     <td class="text-right" style="width: 15%; border: 1px solid #000;">${formatCurrency(unitValue)}</td>
                     <td class="text-right" style="width: 12%; border: 1px solid #000;">${discountPercent.toFixed(2).replace('.',',')}%</td>
                     <td class="text-right" style="width: 18%; border: 1px solid #000;">${totalItemText}</td>
                 </tr>
-            `;
+             `;
         }
 
         const orcamentoHtml = `
@@ -931,25 +949,25 @@
 
             <div class="orcamento-body">
                 <h3 style="text-align: center; color: #333; margin-top: 15px;">PROPOSTA COMERCIAL (ORÇAMENTO)</h3>
-                <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 0.9em;">
+                 <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 0.9em;">
                     <tr>
                         <td style="width: 70%; padding: 8px; border: 1px solid #000; background-color: #f0f0f0;">
-                            <strong>CLIENTE:</strong> ${clienteNome}<br>
+                             <strong>CLIENTE:</strong> ${clienteNome}<br>
                             <strong>CPF/CNPJ:</strong> ${clienteDoc}<br>
                             ${contatoEmail ? `<strong>E-mail:</strong> ${contatoEmail}` : ''}
                         </td>
                         <td style="width: 30%; padding: 8px; border: 1px solid #000; background-color: #f0f0f0;">
                             <strong>ORÇAMENTO Nº:</strong> ${numOrcamento}<br>
-                            <strong>DATA:</strong> ${dataEmissaoFormatada}<br>
+                             <strong>DATA:</strong> ${dataEmissaoFormatada}<br>
                             <strong>VALIDADE:</strong> ${validadeDias} dias (até ${dataValidadeFormatada})
                         </td>
                     </tr>
-                </table>
+                 </table>
 
                 <table style="width: 100%; margin-top: 15px; font-size: 0.9em; border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th style="width: 5%; border: 1px solid #000; background-color: #e3f2fd; padding: 6px;">Img.</th>
+                             <th style="width: 5%; border: 1px solid #000; background-color: #e3f2fd; padding: 6px;">Img.</th>
                             <th style="width: 35%; border: 1px solid #000; background-color: #e3f2fd; padding: 6px;">Descrição do Produto/Serviço</th>
                             <th class="text-right" style="width: 8%; border: 1px solid #000; background-color: #e3f2fd; padding: 6px;">Qtd.</th>
                             <th class="text-right" style="width: 15%; border: 1px solid #000; background-color: #e3f2fd; padding: 6px;">Valor Unit.</th>
@@ -959,7 +977,7 @@
                     </thead>
                     <tbody>
                         ${itemsHtml}
-                    </tbody>
+                     </tbody>
                 </table>
 
                 <div class="clearfix">
@@ -974,7 +992,7 @@
             </div>
 
             <div class="orcamento-footer">
-                <p class="info-fiscal" style="font-size: 0.75em; margin: 15px 0 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px;">
+                 <p class="info-fiscal" style="font-size: 0.75em; margin: 15px 0 5px 0; color: #666; border-top: 1px solid #ccc; padding-top: 5px;">
                     **(Simples Nacional - Anexo I)
                 </p>
                 <p style="font-size: 0.9em; margin: 5px 0;"><strong>Forma de Pagamento Sugerida:</strong> ${formaPagamento}</p>
@@ -995,7 +1013,7 @@
         if (!proposalHtml) return;
 
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
-        const rows = tableBody.rows;
+         const rows = tableBody.rows;
 
         const { subtotal, desconto, totalGeral, custoTotal, impostoTotal, lucroLiquido } = calculateTotal();
         const filename = generateFilename('txt');
@@ -1121,7 +1139,8 @@
                 unitCost: cleanCurrency(row.cells[3].getElementsByTagName('input')[0].value),
                 markupOnCostPercent: cleanCurrency(row.cells[4].getElementsByTagName('input')[0].value),
                 discountPercent: cleanCurrency(row.cells[6].getElementsByTagName('input')[0].value),
-                imageAttachment: itemAttachments[rowId] ? {
+                imageAttachment: itemAttachments[rowId] ?
+                {
                     file: itemAttachments[rowId].file,
                     url: itemAttachments[rowId].url,
                     previewSrc: itemAttachments[rowId].previewSrc
@@ -1136,20 +1155,20 @@
                 generatedBy: "Gerador de Proposta Comercial v1.3",
                 timestamp: new Date().toISOString()
             },
-            proposalDetails: {
+             proposalDetails: {
                 orcamento_numero: document.getElementById('orcamento_numero').value,
                 orcamento_data: document.getElementById('orcamento_data').value,
                 cliente_nome: document.getElementById('cliente_nome').value,
                 cliente_doc: document.getElementById('cliente_doc').value,
                 orcamento_validade: document.getElementById('orcamento_validade').value,
-                contato_email: document.getElementById('contato_email').value,
+                 contato_email: document.getElementById('contato_email').value,
                 forma_pagamento: document.getElementById('forma_pagamento').value,
                 observacoes: document.getElementById('observacoes').value
             },
             taxDetails: {
                 rbt12: document.getElementById('rbt12').value
             },
-            items: itemsData
+             items: itemsData
         };
         const filename = generateFilename('json');
         const jsonString = JSON.stringify(proposalData, null, 2);
@@ -1160,7 +1179,7 @@
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        showMessage(`Proposta exportada como JSON! Nome do arquivo: **${filename}**`, false);
+        showMessage(`Proposta exported como JSON! Nome do arquivo: **${filename}**`, false);
     }
 
     function handleJsonUpload(event) {
@@ -1198,7 +1217,6 @@
                 importedData.items.forEach(item => addItemRow(item));
                 updateTotals();
                 showMessage('Proposta importada com sucesso!', false);
-
             } catch (error) {
                 showMessage('ERRO ao processar o arquivo JSON. Verifique se o arquivo está no formato correto. Detalhes: ' + error.message, true);
                 console.error('Erro ao importar JSON:', error);
