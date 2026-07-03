@@ -679,33 +679,34 @@
         fileInput.click();
     }
 
-    // CORREÇÃO: Função para gerenciar arquivos carregados localmente do computador
+    // CORREÇÃO DIRETA E ADAPTATIVA: Força a atualização do preview local com manipulação reativa da DOM
     function handleImageFileChange(fileInput) {
-    const row = fileInput.closest('tr');
-    const rowId = row.id;
-    const urlInput = row.querySelector('.item-image-url-input');
-    const imagePreview = row.querySelector('.item-image-preview');
-    const imageFeedback = row.querySelector('.image-feedback');
+        const row = fileInput.closest('tr');
+        const rowId = row.id;
+        const urlInput = row.querySelector('.item-image-url-input');
+        const imagePreview = row.querySelector('.item-image-preview');
+        const imageFeedback = row.querySelector('.image-feedback');
 
-    if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        const objectUrl = URL.createObjectURL(file);
-        
-        // Armazena os dados para uso posterior no PDF/JSON
-        itemAttachments[rowId] = { file: file.name, url: null, previewSrc: objectUrl };
-        
-        // Atualiza os textos de feedback na tela
-        imageFeedback.textContent = `Arquivo: ${file.name}`;
-        urlInput.value = ''; // Limpa o link para evitar conflito
-        
-        // FORÇA A EXIBIÇÃO IMEDIATA DO PREVIEW
-        if (imagePreview) {
-            imagePreview.src = objectUrl;
-            imagePreview.style.setProperty('display', 'block', 'important');
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            const objectUrl = URL.createObjectURL(file);
+            
+            // Armazena com segurança a referência no escopo global
+            itemAttachments[rowId] = { file: file.name, url: null, previewSrc: objectUrl };
+            
+            // Renderiza feedbacks visuais
+            imageFeedback.textContent = `Arquivo: ${file.name}`;
+            if(urlInput) urlInput.value = ''; 
+            
+            // Força renderização em tempo real vencendo limitações da árvore da DOM
+            if (imagePreview) {
+                imagePreview.src = objectUrl;
+                imagePreview.style.setProperty('display', 'block', 'important');
+            }
         }
     }
-}
-    // CORREÇÃO: Unificação das duas funções handleImageUrlChange em uma única estrutura robusta
+
+    // UNIFICAÇÃO APRENDIDA: Lógica única para inputs de URL com gatilho Mercado Livre integrado e preservado
     async function handleImageUrlChange(urlInput) {
         const row = urlInput.closest('tr');
         const rowId = row.id;
@@ -722,7 +723,7 @@
                 if (itemAttachments[rowId].file) {
                     imageFeedback.textContent = `Arquivo: ${itemAttachments[rowId].file}`;
                     imagePreview.src = itemAttachments[rowId].previewSrc;
-                    imagePreview.style.display = 'block';
+                    imagePreview.style.setProperty('display', 'block', 'important');
                 } else {
                     itemAttachments[rowId].previewSrc = null;
                     imageFeedback.textContent = 'Nenhum anexo.';
@@ -732,7 +733,7 @@
             return;
         }
 
-        // INTEGRAÇÃO MERCADO LIVRE PRESERVADA
+        // INTEGRAÇÃO DE API OFICIAL MERCADO LIVRE PRESERVADA
         if (url.includes("mercadolivre.com.br")) {
             try {
                 const match = url.match(/MLB-?(\d+)/i);
@@ -744,16 +745,19 @@
                     const data = await response.json();
 
                     if (data.title) {
-                        nameInput.value = data.title;
-                        costInput.value = data.price.toFixed(2).replace('.', ',');
+                        if(nameInput) nameInput.value = data.title;
+                        if(costInput) costInput.value = data.price.toFixed(2).replace('.', ',');
                         
                         const imgUrl = (data.pictures && data.pictures.length > 0) ? data.pictures[0].url : data.thumbnail;
                         itemAttachments[rowId] = { file: null, url: url, previewSrc: imgUrl };
-                        imagePreview.src = imgUrl;
-                        imagePreview.style.display = 'block';
+                        
+                        if (imagePreview) {
+                            imagePreview.src = imgUrl;
+                            imagePreview.style.setProperty('display', 'block', 'important');
+                        }
                         imageFeedback.textContent = `Dados importados de MLB: ${itemId}`;
                         
-                        calculateItemPrice(costInput);
+                        if(costInput) calculateItemPrice(costInput);
                         return;
                     }
                 }
@@ -763,12 +767,14 @@
             }
         }
 
-        // LOGICA DE LINK PADRÃO PARA OUTRAS IMAGENS
+        // PADRÃO PARA OUTROS LINKS DA WEB
         itemAttachments[rowId] = { file: null, url: url, previewSrc: url };
         imageFeedback.textContent = `Link: ${url}`;
-        fileInput.value = ''; // Limpa o arquivo local se o usuário colocou um link
-        imagePreview.src = url;
-        imagePreview.style.display = 'block';
+        if(fileInput) fileInput.value = ''; 
+        if (imagePreview) {
+            imagePreview.src = url;
+            imagePreview.style.setProperty('display', 'block', 'important');
+        }
     }
 
     function addItemRow(data = {}) {
