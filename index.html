@@ -681,24 +681,30 @@
 
     // CORREÇÃO: Função para gerenciar arquivos carregados localmente do computador
     function handleImageFileChange(fileInput) {
-        const row = fileInput.closest('tr');
-        const rowId = row.id;
-        const urlInput = row.querySelector('.item-image-url-input');
-        const imagePreview = row.querySelector('.item-image-preview');
-        const imageFeedback = row.querySelector('.image-feedback');
+    const row = fileInput.closest('tr');
+    const rowId = row.id;
+    const urlInput = row.querySelector('.item-image-url-input');
+    const imagePreview = row.querySelector('.item-image-preview');
+    const imageFeedback = row.querySelector('.image-feedback');
 
-        if (fileInput.files && fileInput.files[0]) {
-            const file = fileInput.files[0];
-            const objectUrl = URL.createObjectURL(file);
-            
-            itemAttachments[rowId] = { file: file.name, url: null, previewSrc: objectUrl };
-            imageFeedback.textContent = `Arquivo: ${file.name}`;
-            urlInput.value = ''; // Limpa o link para evitar conflito
+    if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const objectUrl = URL.createObjectURL(file);
+        
+        // Armazena os dados para uso posterior no PDF/JSON
+        itemAttachments[rowId] = { file: file.name, url: null, previewSrc: objectUrl };
+        
+        // Atualiza os textos de feedback na tela
+        imageFeedback.textContent = `Arquivo: ${file.name}`;
+        urlInput.value = ''; // Limpa o link para evitar conflito
+        
+        // FORÇA A EXIBIÇÃO IMEDIATA DO PREVIEW
+        if (imagePreview) {
             imagePreview.src = objectUrl;
-            imagePreview.style.display = 'block';
+            imagePreview.style.setProperty('display', 'block', 'important');
         }
     }
-
+}
     // CORREÇÃO: Unificação das duas funções handleImageUrlChange em uma única estrutura robusta
     async function handleImageUrlChange(urlInput) {
         const row = urlInput.closest('tr');
