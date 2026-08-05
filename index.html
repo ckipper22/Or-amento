@@ -814,7 +814,7 @@
             <td><input type="number" value="${data.quantity || 1}" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td>
             <td><input type="text" value="${(data.unitCost !== undefined) ? data.unitCost.toFixed(2).replace('.', ',') : '0,00'}" class="text-right" onblur="formatCurrencyInput(this)"></td>
              <td><input type="text" value="${initialMarkupOnCostPercent.toFixed(2).replace('.', ',')}" class="text-right" onblur="formatPercentInput(this)"></td>
-            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+            <td><input type="text" value="0,00" class="text-right" onblur="calculateItemMargin(this)"></td>
             <td><input type="text" value="${(data.discountPercent !== undefined) ? data.discountPercent.toFixed(2).replace('.', ',') : '0,00'}" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
             <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
             <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
@@ -1236,7 +1236,30 @@
         };
         reader.readAsText(file);
     }
+function calculateItemMargin(inputElement) {
+    const row = inputElement.closest('tr');
+    if (!row) return;
 
+    const costInput = row.cells[3].getElementsByTagName('input')[0];
+    const unitCost = cleanCurrency(costInput.value);
+
+    const priceInput = row.cells[5].getElementsByTagName('input')[0];
+    const unitPrice = cleanCurrency(priceInput.value);
+
+    const markupOutput = row.cells[4].getElementsByTagName('input')[0];
+    const AE = currentEffectiveTaxRate;
+
+    if (unitCost <= 0) {
+        markupOutput.value = "0,00";
+    } else {
+        // Fórmula reversa: Margem = ((ValorUnit * (1 - AE)) / CustoUnit) - 1
+        const markupDecimal = ((unitPrice * (1 - AE)) / unitCost) - 1;
+        const markupPercent = markupDecimal * 100;
+        markupOutput.value = markupPercent.toFixed(2).replace('.', ',');
+    }
+
+    updateTotals();
+}
 </script>
 </body>
 </html>
