@@ -778,56 +778,54 @@
     }
 
     function addItemRow(data = {}) {
-        itemCounter++;
-        const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
-        const newRow = tableBody.insertRow();
-        const newRowId = 'row-' + itemCounter;
-        newRow.id = newRowId;
-        itemAttachments[newRowId] = {
-            file: data.imageAttachment && data.imageAttachment.file ? data.imageAttachment.file : null,
-            url: data.imageAttachment && data.imageAttachment.url ? data.imageAttachment.url : null,
-            previewSrc: data.imageAttachment && data.imageAttachment.previewSrc ? data.imageAttachment.previewSrc : null
-        };
-        const initialImageFeedback = itemAttachments[newRowId].file
-            ? `Arquivo: ${itemAttachments[newRowId].file}`
-            : (itemAttachments[newRowId].url ? `Link: ${itemAttachments[newRowId].url}` : 'Nenhum anexo.');
-        const initialImageUrlValue = itemAttachments[newRowId].url || '';
-        const initialImageDisplay = itemAttachments[newRowId].previewSrc ? 'block' : 'none';
-        const initialMarkupOnCostPercent = (data.markupOnCostPercent !== undefined)
-            ? data.markupOnCostPercent
-            : ((data.marginPercent !== undefined) ? data.marginPercent : 30.00);
-        newRow.innerHTML = `
-            <td class="image-container">
+    itemCounter++;
+    const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+    const newRow = tableBody.insertRow();
+    const newRowId = 'row-' + itemCounter;
+    newRow.id = newRowId;
+
+    itemAttachments[newRowId] = {
+        file: data.imageAttachment && data.imageAttachment.file ? data.imageAttachment.file : null,
+        url: data.imageAttachment && data.imageAttachment.url ? data.imageAttachment.url : null,
+        previewSrc: data.imageAttachment && data.imageAttachment.previewSrc ? data.imageAttachment.previewSrc : null
+    };
+
+    const initialMarkupOnCostPercent = (data.markupOnCostPercent !== undefined)
+        ? data.markupOnCostPercent
+        : ((data.marginPercent !== undefined) ? data.marginPercent : 30.00);
+
+    // Estrutura EXATA de 12 colunas alinhada com o <thead> da tabela
+    newRow.innerHTML = `
+        <td class="image-container">
             <div class="image-inputs-wrapper">
-                <input type="file" class="item-image-file-input" accept="image/*" multiple style="display:none;" onchange="handleMultipleImageFilesChange(this)">
-                <span class="file-input-label" onclick="triggerFileInput(this)">+ Upload Fotos</span>
-                
+                <input type="file" class="item-image-file-input" accept="image/*" style="display:none;" onchange="handleImageFileChange(this)">
+                <span class="file-input-label" onclick="triggerFileInput(this)">+ Upload</span>
                 <div style="display: flex; gap: 2px; margin-top: 3px;">
-                    <input type="text" placeholder="Cole URL de imagem" class="item-image-url-input" style="flex-grow: 1;">
-                    <button type="button" class="btn-base" onclick="addUrlImageToRow(this)" style="padding: 2px 6px; font-size: 0.7em; background-color: #1e88e5; color: white; cursor: pointer;">+ Add</button>
+                    <input type="text" placeholder="Cole URL" class="item-image-url-input" style="flex-grow: 1;" onchange="handleImageUrlChange(this)">
                 </div>
             </div>
-            <div class="images-preview-list" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; justify-content: center;"></div>
+            <img class="item-image-preview" src="${itemAttachments[newRowId].previewSrc || ''}" style="display: ${itemAttachments[newRowId].previewSrc ? 'block' : 'none'}; max-width: 40px; max-height: 40px; margin: 2px auto;">
+            <div class="image-feedback"></div>
         </td>
-</td>
-            <td>
-                <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" value="${data.name || ''}" oninput="updateTotals()">
-                <textarea rows="2" placeholder="Descrição Detalhada do Item/Serviço" class="item-description-input" oninput="updateTotals()" style="margin-top: 5px; font-size: 0.9em;">${data.description || ''}</textarea>
-                <input type="text" placeholder="Link do Produto (Uso Interno)" class="item-product-link-input" value="${data.productLink || ''}" style="margin-top: 5px; font-size: 0.8em; background-color: #fcfcfc; border: 1px dashed #ccc;">
-            </td>
-            <td><input type="number" value="${data.quantity || 1}" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td>
-            <td><input type="text" value="${(data.unitCost !== undefined) ? data.unitCost.toFixed(2).replace('.', ',') : '0,00'}" class="text-right" onblur="formatCurrencyInput(this)"></td>
-             <td><input type="text" value="${initialMarkupOnCostPercent.toFixed(2).replace('.', ',')}" class="text-right" onblur="formatPercentInput(this)"></td>
-            <td><input type="text" value="0,00" class="text-right" onblur="calculateItemMargin(this)"></td>
-            <td><input type="text" value="${(data.discountPercent !== undefined) ? data.discountPercent.toFixed(2).replace('.', ',') : '0,00'}" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
-            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
-            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
-            <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
-            <td class="text-right total-item">${formatCurrency(0)}</td>
-            <td class="text-center"><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRowId}')">X</button></td>
-        `;
-        calculateItemPrice(newRow.cells[3].getElementsByTagName('input')[0]);
-    }
+        <td>
+            <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" value="${data.name || ''}" oninput="updateTotals()">
+            <textarea rows="2" placeholder="Descrição Detalhada do Item/Serviço" class="item-description-input" oninput="updateTotals()" style="margin-top: 5px; font-size: 0.9em;">${data.description || ''}</textarea>
+            <input type="text" placeholder="Link do Produto (Uso Interno)" class="item-product-link-input" value="${data.productLink || ''}" style="margin-top: 5px; font-size: 0.8em; background-color: #fcfcfc; border: 1px dashed #ccc;">
+        </td>
+        <td><input type="number" value="${data.quantity || 1}" min="1" class="text-right input-quantidade" oninput="calculateItemPrice(this)"></td>
+        <td><input type="text" value="${(data.unitCost !== undefined) ? data.unitCost.toFixed(2).replace('.', ',') : '0,00'}" class="text-right" onblur="formatCurrencyInput(this)"></td>
+        <td><input type="text" value="${initialMarkupOnCostPercent.toFixed(2).replace('.', ',')}" class="text-right" onblur="formatPercentInput(this)"></td>
+        <td><input type="text" value="0,00" class="text-right" onblur="calculateItemMargin(this)"></td>
+        <td><input type="text" value="${(data.discountPercent !== undefined) ? data.discountPercent.toFixed(2).replace('.', ',') : '0,00'}" min="0" max="100" class="text-right" onblur="formatPercentInput(this)"></td>
+        <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+        <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+        <td><input type="text" value="0,00" class="text-right calculated-field" readonly></td>
+        <td class="text-right total-item">${formatCurrency(0)}</td>
+        <td class="text-center"><button class="btn-remove btn-base" type="button" onclick="removeItemRow('${newRowId}')">X</button></td>
+    `;
+    
+    calculateItemPrice(newRow.cells[3].getElementsByTagName('input')[0]);
+}
 
     function removeItemRow(rowId) {
         document.getElementById(rowId).remove();
