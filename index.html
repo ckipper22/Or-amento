@@ -798,18 +798,17 @@
             : ((data.marginPercent !== undefined) ? data.marginPercent : 30.00);
         newRow.innerHTML = `
             <td class="image-container">
-    <div class="image-inputs-wrapper">
-        <input type="file" class="item-image-file-input" accept="image/*" multiple style="display:none;" onchange="handleMultipleImageFilesChange(this)">
-        <span class="file-input-label" onclick="triggerFileInput(this)">+ Upload Fotos</span>
-        
-        <div style="display: flex; gap: 2px; margin-top: 3px;">
-  <input type="text" placeholder="Cole URL de imagem" class="item-image-url-input" style="flex-grow: 1;">
-  <button type="button" class="btn-base" onclick="addUrlImageToRow(this)" style="padding: 2px 6px; font-size: 0.7em; background-color: #1e88e5; color: white; cursor: pointer;">+ Add</button>
-</div>
-    </div>
-    <div class="images-preview-list" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; justify-content: center;">
-        <!-- Previews das imagens renderizados aqui -->
-    </div>
+            <div class="image-inputs-wrapper">
+                <input type="file" class="item-image-file-input" accept="image/*" multiple style="display:none;" onchange="handleMultipleImageFilesChange(this)">
+                <span class="file-input-label" onclick="triggerFileInput(this)">+ Upload Fotos</span>
+                
+                <div style="display: flex; gap: 2px; margin-top: 3px;">
+                    <input type="text" placeholder="Cole URL de imagem" class="item-image-url-input" style="flex-grow: 1;">
+                    <button type="button" class="btn-base" onclick="addUrlImageToRow(this)" style="padding: 2px 6px; font-size: 0.7em; background-color: #1e88e5; color: white; cursor: pointer;">+ Add</button>
+                </div>
+            </div>
+            <div class="images-preview-list" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; justify-content: center;"></div>
+        </td>
 </td>
             <td>
                 <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" value="${data.name || ''}" oninput="updateTotals()">
