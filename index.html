@@ -798,14 +798,19 @@
             : ((data.marginPercent !== undefined) ? data.marginPercent : 30.00);
         newRow.innerHTML = `
             <td class="image-container">
-                <div class="image-inputs-wrapper">
-                    <input type="file" class="item-image-file-input" accept="image/*" style="display:none;" onchange="handleImageFileChange(this)">
-                    <span class="file-input-label" onclick="triggerFileInput(this)">Upload</span>
-                    <input type="text" placeholder="Link da Imagem" class="item-image-url-input" value="${initialImageUrlValue}" oninput="handleImageUrlChange(this)">
-                </div>
-                <p class="image-feedback text-xs text-muted-text-color mt-1 italic">${initialImageFeedback}</p>
-                 <img id="preview-${newRowId}" src="${itemAttachments[newRowId].previewSrc || ''}" alt="Preview" class="item-image-preview" style="display: ${initialImageDisplay};">
-            </td>
+    <div class="image-inputs-wrapper">
+        <input type="file" class="item-image-file-input" accept="image/*" multiple style="display:none;" onchange="handleMultipleImageFilesChange(this)">
+        <span class="file-input-label" onclick="triggerFileInput(this)">+ Upload Fotos</span>
+        
+        <div style="display: flex; gap: 2px; margin-top: 3px;">
+            <input type="text" placeholder="Cole URL de imagem" class="item-image-url-input" style="flex-grow: 1;">
+            <button type="button" class="btn-base" style="padding: 2px 6px; font-size: 0.7em; background-color: #1e88e5; color: white;" onclick="addUrlImageToRow(this)">Add</button>
+        </div>
+    </div>
+    <div class="images-preview-list" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; justify-content: center;">
+        <!-- Previews das imagens renderizados aqui -->
+    </div>
+</td>
             <td>
                 <input type="text" placeholder="Nome do Produto/Serviço" class="item-name-input" value="${data.name || ''}" oninput="updateTotals()">
                 <textarea rows="2" placeholder="Descrição Detalhada do Item/Serviço" class="item-description-input" oninput="updateTotals()" style="margin-top: 5px; font-size: 0.9em;">${data.description || ''}</textarea>
@@ -1120,18 +1125,34 @@
         showMessage(`Arquivo TXT gerado com sucesso! Nome do arquivo: **${filename}**`, false);
     }
 
-    function saveAsPDF() {
-        const proposalHtml = generateProposalHTML();
-        if (!proposalHtml) return;
+    async function saveAsPDF() {
+    const proposalHtml = generateProposalHTML();
+    if (!proposalHtml) return;
 
-        const filename = generateFilename('pdf');
-        document.getElementById('preview-area').style.display = 'block';
-        showMessage(`Proposta pronta! Ao salvar o PDF, sugerimos usar o nome: **${filename}**`, false);
-        window.print();
-        setTimeout(() => {
-            document.getElementById('preview-area').style.display = 'none';
-        }, 500);
-    }
+    const previewArea = document.getElementById('preview-area');
+    previewArea.style.display = 'block';
+
+    // Aguarda o carregamento de todas as imagens injetadas na DOM
+    const images = previewArea.querySelectorAll('img');
+    const promises = Array.from(images).map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve; // Avança mesmo se a imagem falhar
+        });
+    });
+
+    await Promise.all(promises);
+
+    const filename = generateFilename('pdf');
+    showMessage(`Proposta pronta! Ao salvar o PDF, sugerimos usar o nome: **${filename}**`, false);
+
+    window.print();
+
+    setTimeout(() => {
+        previewArea.style.display = 'none';
+    }, 500);
+}
 
     function exportProposalAsJson() {
         const tableBody = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
