@@ -803,9 +803,9 @@
         <span class="file-input-label" onclick="triggerFileInput(this)">+ Upload Fotos</span>
         
         <div style="display: flex; gap: 2px; margin-top: 3px;">
-            <input type="text" placeholder="Cole URL de imagem" class="item-image-url-input" style="flex-grow: 1;">
-            <button type="button" class="btn-base" style="padding: 2px 6px; font-size: 0.7em; background-color: #1e88e5; color: white;" onclick="addUrlImageToRow(this)">Add</button>
-        </div>
+  <input type="text" placeholder="Cole URL de imagem" class="item-image-url-input" style="flex-grow: 1;">
+  <button type="button" class="btn-base" onclick="addUrlImageToRow(this)" style="padding: 2px 6px; font-size: 0.7em; background-color: #1e88e5; color: white; cursor: pointer;">+ Add</button>
+</div>
     </div>
     <div class="images-preview-list" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; justify-content: center;">
         <!-- Previews das imagens renderizados aqui -->
@@ -1280,6 +1280,26 @@ function calculateItemMargin(inputElement) {
     }
 
     updateTotals();
+}
+    function addUrlImageToRow(button) {
+  const cell = button.closest('td');
+  const input = cell.querySelector('.item-image-url-input');
+  const previewList = cell.querySelector('.images-preview-list');
+  const url = input.value.trim();
+
+  if (!url) return;
+
+  const imgWrapper = document.createElement('div');
+  imgWrapper.style.position = 'relative';
+  imgWrapper.style.display = 'inline-block';
+
+  imgWrapper.innerHTML = `
+    <img src="${url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;">
+    <span onclick="this.parentElement.remove()" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold;">&times;</span>
+  `;
+
+  previewList.appendChild(imgWrapper);
+  input.value = '';
 }
 </script>
 </body>
