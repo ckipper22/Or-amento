@@ -1293,7 +1293,7 @@ function calculateItemMargin(inputElement) {
   imgWrapper.style.display = 'inline-block';
 
   imgWrapper.innerHTML = `
-    <img src="${url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;">
+    <img src="${url}" crossorigin="anonymous" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;">
     <span onclick="this.parentElement.remove()" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; width: 14px; height: 14px; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold;">&times;</span>
   `;
 
